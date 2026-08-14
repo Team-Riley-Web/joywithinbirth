@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FaqItem from '../components/FaqItem.astro';
+import { Check } from '@lucide/astro';
+
+const coreFeatures = [
+  'Full 9-module course, 10+ hours of training',
+  'Lifetime access & future updates',
+  'Private community on Skool',
+  'Monthly live group Q&A coaching',
+  'In-portal messaging with Hailey',
+  'Birth plan templates, guides & checklists',
+  'Dedicated birth partner training module',
+];
+
+const vipFeatures = [
+  'Everything included in Core Enrollment',
+  'Private 1:1 coaching, custom plan',
+  'Additional postpartum support session',
+  'Priority access to Hailey',
+];
+---
+
+<BaseLayout
+  title="Pricing & FAQ"
+  description="Enroll in Joy Within Birth for $350, one-time, lifetime access. See pricing details, the JWB VIP tier, and answers to common questions."
+>
+  <section class="mx-auto max-w-3xl px-6 pb-12 pt-14 text-center sm:pt-20">
+    <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Enroll</p>
+    <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
+      One enrollment. Lifetime access.
+    </h1>
+    <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-500">
+      No subscriptions, no recurring fees. Just one trusted place to prepare, for as long
+      as your journey takes.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-6 pb-20">
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="relative flex flex-col rounded-3xl border-2 border-blush-400 bg-cream-50 p-8 shadow-lift">
+        <span class="absolute -top-3 left-8 rounded-full bg-blush-500 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-cream-50">
+          Most Popular
+        </span>
+        <h2 class="text-2xl font-semibold text-ink-900">Core Enrollment</h2>
+        <p class="mt-2 text-sm text-ink-500">The complete Joy Within Birth experience.</p>
+        <p class="mt-6">
+          <span class="font-serif text-5xl text-ink-900">$350</span>
+          <span class="text-sm text-ink-500"> one-time / lifetime access</span>
+        </p>
+        <ul class="mt-8 flex-1 space-y-3">
+          {coreFeatures.map((feature) => (
+            <li class="flex items-start gap-3 text-sm text-ink-600">
+              <Check class="mt-0.5 h-4 w-4 flex-shrink-0 text-sage-600" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+        <a
+          href="https://www.skool.com/joywithinbirth/about"
+          target="_blank"
+          rel="noreferrer"
+          class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-6 py-3.5 text-sm font-semibold text-cream-50 shadow-soft transition-colors hover:bg-blush-600"
+        >
+          Enroll Now
+        </a>
+      </div>
+
+      <div class="flex flex-col rounded-3xl border border-ink-100 bg-cream-100 p-8">
+        <h2 class="text-2xl font-semibold text-ink-900">Joy Within Birth VIP</h2>
+        <p class="mt-2 text-sm text-ink-500">
+          For mamas who want deeper, personalized support, especially those navigating a
+          redemption birth or complex history.
+        </p>
+        <p class="mt-6">
+          <span class="font-serif text-3xl text-ink-900">Custom pricing</span>
+          <span class="block text-sm text-ink-500">via a discovery call with Hailey</span>
+        </p>
+        <ul class="mt-8 flex-1 space-y-3">
+          {vipFeatures.map((feature) => (
+            <li class="flex items-start gap-3 text-sm text-ink-600">
+              <Check class="mt-0.5 h-4 w-4 flex-shrink-0 text-sage-600" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+        <a
+          href="https://www.instagram.com/haileyaliff/"
+          target="_blank"
+          rel="noreferrer"
+          class="mt-8 inline-flex items-center justify-center rounded-full border-2 border-sage-600 px-6 py-3.5 text-sm font-semibold text-sage-800 transition-colors hover:bg-sage-100"
+        >
+          Message Hailey to Book a Call
+        </a>
+      </div>
+    </div>
+
+    <p class="mx-auto mt-8 max-w-xl text-center text-sm text-ink-400">
+      No guesswork, no pressure. Enrollment gives you immediate access to every module,
+      and you can move at whatever pace feels right for you.
+    </p>
+  </section>
+
+  <section class="bg-cream-100 py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <div class="text-center">
+        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Common Questions</p>
+        <h2 class="mt-3 text-balance text-3xl sm:text-4xl">Before you enroll</h2>
+      </div>
+
+      <div class="mt-10">
+        <FaqItem question="How do I access the community and course?">
+          Everything operates through Skool.com, on your laptop or the free Skool mobile
+          app. As soon as your enrollment is confirmed, you'll receive a link to join.
+        </FaqItem>
+        <FaqItem question="When should I start?">
+          Anytime, from preconception through pregnancy. Most mamas enroll between 20 and
+          32 weeks, and lifetime access means you can rewatch anything whenever you need
+          it, including for future pregnancies.
+        </FaqItem>
+        <FaqItem question="What if I'm close to my due date?">
+          Start with the quick-win modules and lean on the checklists. Even a few focused
+          hours can meaningfully shift how prepared and calm you feel walking into labor.
+        </FaqItem>
+        <FaqItem question="Is this the same as a free hospital class?">
+          No. Hospital classes are often built around paperwork and logistics. Joy Within
+          Birth is nine full modules covering nutrition, mindset, birth planning,
+          postpartum, lactation, the birth partner's role, and holistic fertility, led by
+          a second-generation midwife with real lived birth experience.
+        </FaqItem>
+        <FaqItem question="Will my partner actually use this too?">
+          Module 8 was built specifically for partners and support people, so they have a
+          clear, defined role rather than standing by unsure of what to do.
+        </FaqItem>
+        <FaqItem question="Is coaching required to benefit from the course?">
+          No. The self-paced course works as a complete, standalone experience. The
+          monthly group Q&A and optional VIP 1:1 coaching are there if and when you want
+          additional, personalized support.
+        </FaqItem>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 py-20 text-center">
+    <h2 class="text-balance text-3xl sm:text-4xl">
+      Ready to trade fear for peace?
+    </h2>
+    <p class="mx-auto mt-4 max-w-xl text-ink-500">
+      Enroll Now, and let's gently walk this season together.
+    </p>
+    <a
+      href="https://www.skool.com/joywithinbirth/about"
+      target="_blank"
+      rel="noreferrer"
+      class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-8 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-600"
+    >
+      Enroll Now &mdash; $350, Lifetime Access
+    </a>
+  </section>
+</BaseLayout>

@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { Image } from 'astro:assets';
+import { Heart, Leaf, Users } from '@lucide/astro';
+
+import portraitImage from '../assets/images/imgi_15_689d13e9d232a380bb17ff2c.jpg';
+import familyImage from '../assets/images/imgi_9_689ec57c5bdfcf6800cf5529.jpg';
+import birthImage from '../assets/images/imgi_11_689cede83b01e6b095436d26.jpg';
+
+const values = [
+  {
+    icon: Heart,
+    title: 'Faith-Centered',
+    description:
+      'Rooted in trust and gentle encouragement, never fear-mongering, never high-pressure.',
+  },
+  {
+    icon: Leaf,
+    title: 'Genuinely Holistic',
+    description:
+      'From holistic fertility through the fourth trimester, in one connected journey.',
+  },
+  {
+    icon: Users,
+    title: 'Community First',
+    description:
+      'You are never left to figure this out alone, in the course or in the community.',
+  },
+];
+---
+
+<BaseLayout
+  title="About Hailey"
+  description="Meet Hailey Aliff, a second-generation midwife and mother of four, and the story behind Joy Within Birth."
+>
+  <section class="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">About Hailey</p>
+        <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
+          Second-generation midwife. Mother of four. Your guide through this season.
+        </h1>
+        <p class="mt-5 max-w-lg text-lg leading-relaxed text-ink-500">
+          Hailey Aliff built Joy Within Birth to be the trusted, faith-centered guide she
+          wished every mama had beside her, one that honors both evidence and intuition,
+          both careful preparation and quiet peace.
+        </p>
+      </div>
+      <div class="relative overflow-hidden rounded-3xl shadow-lift">
+        <Image
+          src={portraitImage}
+          alt="A mother smiling warmly at her sleeping newborn in a cozy home setting"
+          class="h-full w-full object-cover"
+          style="transform: scale(1.04);"
+          data-scroll-scale-image
+          widths={[480, 768, 1024]}
+          sizes="(min-width: 768px) 45vw, 100vw"
+          priority
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-6 py-10">
+    <div class="space-y-6 text-lg leading-relaxed text-ink-600">
+      <p>
+        I still remember the first time I sat with a mama who was six months pregnant,
+        hands trembling, telling me she was terrified she'd &ldquo;freeze up&rdquo; when
+        it mattered most. She'd read everything. Watched every video. And still felt like
+        she was standing at the edge of the unknown, alone.
+      </p>
+      <p>
+        I understand that feeling deeply, because I've stood there myself. As a
+        second-generation midwife, I grew up watching my own mother hold space for
+        laboring women with a calm that felt almost supernatural. And still, when it was
+        my turn, fear tried to find me too. One of my own births was completely
+        pain-free, not because fear never knocked, but because I had learned how to
+        answer the door with peace instead of panic.
+      </p>
+      <p>That's the heart of Joy Within Birth.</p>
+      <p>
+        This isn't another generic hospital class that rushes through paperwork and
+        parking instructions. It's nine modules and over ten hours of training built to
+        walk with you, step by step, through nourishing your body, steadying your mind,
+        planning your birth with clarity, preparing your partner to truly support you,
+        and even holding space for the fourth trimester that follows.
+      </p>
+      <p>
+        You don't need previous experience. You don't need to have it all figured out.
+        You just need a trusted place to begin, and a community of women walking this
+        same sacred road beside you.
+      </p>
+      <p>
+        I believe birth was never meant to be walked alone, and it was never meant to be
+        ruled by fear. With the right preparation, you can move from anxious uncertainty
+        into calm, grounded confidence, the kind that stays with you long after your baby
+        arrives.
+      </p>
+      <p class="font-medium text-ink-800">
+        If you're ready to trade fear for peace, I'd be honored to walk this season with
+        you. &mdash; Hailey
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-cream-100 py-16">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-balance text-3xl sm:text-4xl">What Joy Within Birth stands on</h2>
+      </div>
+      <div class="mt-12 grid gap-8 sm:grid-cols-3">
+        {values.map(({ icon: Icon, title, description }) => (
+          <div class="rounded-2xl bg-cream-50 p-6 text-center shadow-soft ring-1 ring-ink-100/60">
+            <Icon class="mx-auto h-7 w-7 text-blush-500" />
+            <h3 class="mt-4 text-lg font-semibold text-ink-900">{title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-500">{description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div class="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-soft">
+        <Image
+          src={familyImage}
+          alt="A family sitting closely together, holding their newborn baby"
+          class="h-full w-full object-cover"
+          widths={[480, 640]}
+          sizes="(min-width: 640px) 45vw, 100vw"
+        />
+      </div>
+      <div class="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-soft">
+        <Image
+          src={birthImage}
+          alt="A partner gently supporting a laboring mother during a home water birth"
+          class="h-full w-full object-cover"
+          widths={[480, 640]}
+          sizes="(min-width: 640px) 45vw, 100vw"
+        />
+      </div>
+    </div>
+    <p class="mx-auto mt-8 max-w-2xl text-balance text-center text-ink-500">
+      Whether your birth happens in a hospital room or a birthing tub at home, Joy Within
+      Birth was built to walk with you, and the person beside you, through all of it.
+    </p>
+  </section>
+
+  <CtaBand
+    heading="I'd be honored to walk this season with you"
+    subheading="Enroll in Joy Within Birth and gain lifetime access to the course, the community, and Hailey herself."
+  />
+</BaseLayout>

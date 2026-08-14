@@ -1,0 +1,21 @@
+---
+import type { Module } from '../data/modules';
+
+interface Props {
+  module: Module;
+}
+
+const { module: mod } = Astro.props;
+---
+
+<div
+  class="flex translate-y-4 gap-5 rounded-2xl border-l-4 border-sage-300 bg-cream-50 p-6 opacity-0 shadow-soft ring-1 ring-ink-100/60 transition-all duration-700"
+  x-intersect.once="$el.classList.add('opacity-100', 'translate-y-0')"
+>
+  <span class="font-serif text-3xl text-blush-300">{String(mod.number).padStart(2, '0')}</span>
+  <div>
+    <p class="text-xs font-semibold uppercase tracking-wide text-sage-600">{mod.focus}</p>
+    <h3 class="mt-1 text-lg font-semibold text-ink-900">{mod.title}</h3>
+    <p class="mt-2 text-sm leading-relaxed text-ink-500">{mod.description}</p>
+  </div>
+</div>

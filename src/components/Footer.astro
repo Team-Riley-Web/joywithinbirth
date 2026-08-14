@@ -1,1 +1,84 @@
-<footer></footer>
+---
+import { Heart } from '@lucide/astro';
+import { Image } from 'astro:assets';
+import logo from '../assets/images/logo.png';
+
+const exploreLinks = [
+  { href: '/about', label: 'About Hailey' },
+  { href: '/course', label: 'The Course' },
+  { href: '/testimonials', label: 'Testimonials' },
+  { href: '/enroll', label: 'Pricing & FAQ' },
+];
+
+const socialLinks = [
+  { href: 'https://www.facebook.com/joywithinbirth/', label: 'Facebook' },
+  { href: 'https://www.instagram.com/haileyaliff/', label: 'Instagram' },
+  { href: 'https://www.youtube.com/@joywithinbirth', label: 'YouTube' },
+  { href: 'https://www.skool.com/joywithinbirth/about', label: 'Community' },
+];
+---
+
+<footer class="border-t border-ink-100 bg-cream-100">
+  <div class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <a href="/" class="flex items-center gap-3">
+          <Image src={logo} alt="Joy Within Birth" width={40} height={40} class="h-10 w-10" />
+          <span class="font-serif text-lg text-ink-900">Joy Within Birth</span>
+        </a>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-ink-500">
+          A faith-centered natural childbirth training and community, walking with you
+          from fertility through postpartum &mdash; so you never have to prepare alone.
+        </p>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold text-ink-800">Explore</p>
+        <ul class="mt-4 space-y-3">
+          {exploreLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-sm text-ink-500 hover:text-blush-600">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold text-ink-800">Connect</p>
+        <ul class="mt-4 space-y-3">
+          {socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                class="text-sm text-ink-500 hover:text-blush-600"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-12 flex flex-col gap-2 border-t border-ink-200/60 pt-6 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>&copy; {new Date().getFullYear()} Joy Within Birth LLC. All rights reserved.</p>
+      <span class="flex items-center gap-1 text-neutral-400">
+        Made with <Heart class="h-3 w-3 fill-blush-500 text-blush-500" /> by
+        <a
+          href="https://teamrileyweb.com"
+          target="_blank"
+          rel="noreferrer"
+          class="transition-colors hover:text-blush-600"
+        >
+          Team Riley
+        </a>
+      </span>
+    </div>
+  </div>
+</footer>

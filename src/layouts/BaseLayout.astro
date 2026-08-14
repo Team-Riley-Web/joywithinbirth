@@ -1,23 +1,61 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
 }
 
 const { title, description } = Astro.props;
+const siteTitle = `${title} | Joy Within Birth`;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    {description && <meta name="description" content={description} />}
-    {title && <title>{title}</title>}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{siteTitle}</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <slot />
+    <Header />
+    <main
+      x-data="{
+        updateScrollScaleImages() {
+          const viewportHeight = window.innerHeight;
+
+          document.querySelectorAll('[data-scroll-scale-image]').forEach((image) => {
+            const frame = image.parentElement;
+            const rect = frame.getBoundingClientRect();
+
+            if (rect.bottom < 0 || rect.top > viewportHeight) return;
+
+            const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+            const scale = 1.04 + progress * 0.16;
+
+            image.style.transform = `scale(${scale})`;
+          });
+        }
+      }"
+      x-init="
+        updateScrollScaleImages();
+        window.addEventListener('scroll', () => requestAnimationFrame(() => updateScrollScaleImages()), { passive: true });
+        window.addEventListener('resize', () => requestAnimationFrame(() => updateScrollScaleImages()), { passive: true });
+      "
+    >
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

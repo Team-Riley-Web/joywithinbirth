@@ -1,0 +1,28 @@
+---
+interface Props {
+  heading: string;
+  subheading: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  heading,
+  subheading,
+  ctaLabel = 'Enroll Now',
+  ctaHref = '/enroll',
+} = Astro.props;
+---
+
+<section class="bg-sage-800">
+  <div class="mx-auto max-w-3xl px-6 py-20 text-center">
+    <h2 class="text-balance text-3xl text-cream-50 sm:text-4xl">{heading}</h2>
+    <p class="mx-auto mt-4 max-w-xl text-balance text-cream-100/90">{subheading}</p>
+    <a
+      href={ctaHref}
+      class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-8 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-400"
+    >
+      {ctaLabel}
+    </a>
+  </div>
+</section>

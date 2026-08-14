@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ModuleCard from '../components/ModuleCard.astro';
+import { Image } from 'astro:assets';
+import { Video, NotebookPen, HandHeart, Users, MessageCircle, Infinity } from '@lucide/astro';
+
+import heroImage from '../assets/images/imgi_8_689ec538c6ba4e09e29cc249.jpg';
+
+import { modules } from '../data/modules';
+
+const included = [
+  {
+    icon: Video,
+    title: 'Bite-size, self-paced videos',
+    description: 'Watch anytime, on your laptop or phone, around your own schedule.',
+  },
+  {
+    icon: NotebookPen,
+    title: 'Birth plan templates & checklists',
+    description: 'Guides that turn what you learn into a plan you can hand your provider.',
+  },
+  {
+    icon: HandHeart,
+    title: 'Partner coaching',
+    description: 'A dedicated module built specifically for your partner or support person.',
+  },
+  {
+    icon: Users,
+    title: 'Private community',
+    description: 'Connect with other women walking the same road, at every stage.',
+  },
+  {
+    icon: MessageCircle,
+    title: 'Monthly live Q&A + in-portal messaging',
+    description: 'Ask Hailey directly. You are never left wondering alone.',
+  },
+  {
+    icon: Infinity,
+    title: 'Lifetime access',
+    description: 'Revisit any module, anytime, for as long as your journey continues.',
+  },
+];
+
+const howItWorks = [
+  {
+    step: '01',
+    title: 'Enroll once',
+    description: 'A single $350 payment gives you lifetime access, no subscriptions.',
+  },
+  {
+    step: '02',
+    title: 'Join the community',
+    description: 'Access everything through Skool, on desktop or the free mobile app.',
+  },
+  {
+    step: '03',
+    title: 'Move through the modules',
+    description: 'Work at your own pace, whenever you have twenty minutes to spare.',
+  },
+  {
+    step: '04',
+    title: 'Build your birth plan',
+    description: 'Use the templates and checklists to turn training into a real plan.',
+  },
+  {
+    step: '05',
+    title: 'Stay supported',
+    description: 'Bring your questions to the monthly live Q&A, before and after birth.',
+  },
+];
+---
+
+<BaseLayout
+  title="The Course"
+  description="Nine modules and over ten hours of self-paced natural childbirth training, covering nutrition, mindset, birth planning, the birth partner, postpartum, and holistic fertility."
+>
+  <section class="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">The Course</p>
+        <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
+          Nine modules. Ten-plus hours. One lifetime of access.
+        </h1>
+        <p class="mt-5 max-w-lg text-lg leading-relaxed text-ink-500">
+          A complete, self-paced natural childbirth training and community, built for
+          hospital-birthers and home-birthers alike, and for the partners who show up for
+          them.
+        </p>
+        <a
+          href="/enroll"
+          class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-7 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-600"
+        >
+          Enroll Now &mdash; $350, Lifetime Access
+        </a>
+      </div>
+      <div class="relative overflow-hidden rounded-3xl shadow-lift">
+        <Image
+          src={heroImage}
+          alt="A pregnant woman writing in a journal with a laptop nearby, building her birth plan"
+          class="h-full w-full object-cover"
+          style="transform: scale(1.04);"
+          data-scroll-scale-image
+          widths={[480, 768, 1024]}
+          sizes="(min-width: 768px) 45vw, 100vw"
+          priority
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream-100 py-16">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-balance text-3xl sm:text-4xl">What's included</h2>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {included.map(({ icon: Icon, title, description }) => (
+          <div class="rounded-2xl bg-cream-50 p-6 shadow-soft ring-1 ring-ink-100/60">
+            <Icon class="h-6 w-6 text-sage-600" />
+            <h3 class="mt-3 font-semibold text-ink-900">{title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-500">{description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <div class="text-center">
+      <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">The Curriculum</p>
+      <h2 class="mt-3 text-balance text-3xl sm:text-4xl">All nine modules</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-500">
+        Module 9 is a dedicated fertility track for anyone still trying to conceive, and
+        every module remains yours to revisit for future pregnancies.
+      </p>
+    </div>
+    <div class="mt-12 space-y-5">
+      {modules.map((mod) => (
+        <ModuleCard module={mod} />
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-sage-100 py-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">How It Works</p>
+        <h2 class="mt-3 text-balance text-3xl sm:text-4xl">Simple, self-paced, supported</h2>
+      </div>
+      <div class="mt-12 grid gap-8 sm:grid-cols-5">
+        {howItWorks.map((item) => (
+          <div>
+            <span class="font-serif text-3xl text-blush-500">{item.step}</span>
+            <h3 class="mt-3 font-semibold text-ink-900">{item.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Start wherever you are"
+    subheading="Trying to conceive, newly pregnant, or preparing for a redemption birth, Joy Within Birth meets you there."
+  />
+</BaseLayout>
