@@ -1,7 +1,7 @@
 ---
 import { Menu, X } from '@lucide/astro';
 import { Image } from 'astro:assets';
-import logo from '../assets/images/logo.png';
+import favicon from '../assets/images/favicon.png';
 
 const navLinks = [
   { href: '/about', label: 'About Hailey' },
@@ -18,9 +18,8 @@ const currentPath = Astro.url.pathname;
   x-data="{ open: false }"
 >
   <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-    <a href="/" class="flex items-center gap-3" aria-label="Joy Within Birth home">
-      <Image src={logo} alt="Joy Within Birth" width={44} height={44} class="h-11 w-11" />
-      <span class="font-serif text-lg text-ink-900">Joy Within Birth</span>
+    <a href="/" class="flex items-center" aria-label="Joy Within Birth home">
+      <Image src={favicon} alt="Joy Within Birth" width={96} height={96} class="h-12 w-12" />
     </a>
 
     <nav class="hidden items-center gap-8 md:flex">

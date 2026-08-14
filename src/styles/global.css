@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @config "../../tailwind.config.cjs";
 
+@font-face {
+  font-family: 'Lindsey Signature';
+  src: url('/fonts/lindsey-signature/LindseySignature.woff2') format('woff2'),
+    url('/fonts/lindsey-signature/LindseySignature.woff') format('woff'),
+    url('/fonts/lindsey-signature/LindseySignature.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   body {
     @apply bg-cream-50 text-ink-800 font-sans antialiased;

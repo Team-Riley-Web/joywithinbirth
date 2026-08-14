@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Lindsey Signature';
+    src: url('LindseySignature.eot');
+    src: local('Lindsey Signature'), local('LindseySignature'),
+        url('LindseySignature.eot?#iefix') format('embedded-opentype'),
+        url('LindseySignature.woff2') format('woff2'),
+        url('LindseySignature.woff') format('woff'),
+        url('LindseySignature.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
