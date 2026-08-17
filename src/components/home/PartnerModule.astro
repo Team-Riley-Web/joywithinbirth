@@ -1,0 +1,200 @@
+---
+/**
+ * Module 8 — the partner training feature panel.
+ *
+ * Was a padded rose card with an inset rounded photo floating inside it, which
+ * read as a generic two-column block. Now the photograph runs flush to the
+ * panel's own edge and the copy side carries the concrete curriculum points, so
+ * it reads as a feature rather than a caption.
+ *
+ * Its ground continues the gradient the section above ends on (near-white) and
+ * settles back to the page beige, so there is no seam on either side of it.
+ */
+import { Image } from 'astro:assets';
+import { reveal, stagger } from '../../lib/reveal';
+import partnerImage from '../../assets/images/imgi_22_689ec9b4c6ba4e06d49d48ed.jpg';
+
+const covers = [
+  'How to read labor and tell which stage she is in',
+  'Comfort measures that genuinely reduce pain',
+  'How to advocate for her birth plan in the room',
+];
+---
+
+<section class="partner">
+  <div class="panel" {...reveal()}>
+    <div class="media">
+      <Image
+        src={partnerImage}
+        alt="A father tenderly kissing his newborn's forehead while the mother holds the baby"
+        widths={[560, 780, 1040]}
+        sizes="(min-width: 880px) 46vw, 100vw"
+      />
+    </div>
+
+    <div class="body">
+      <p class="badge">
+        <span class="num">08</span>
+        <span>Partner module</span>
+      </p>
+
+      <h2>Your partner needs this too</h2>
+
+      <p class="lede">
+        Most childbirth education leaves your partner standing helplessly in the corner.
+        Module 8 trains dads and support persons to show up as active, capable teammates
+        when it matters most.
+      </p>
+
+      <ul class="covers">
+        {
+          covers.map((item, i) => (
+            <li {...reveal(stagger(i, 90))}>
+              <span class="tick" aria-hidden="true"></span>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+
+      <a class="link" href="/course">
+        See the full curriculum <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Picks up where the section above leaves off and settles back to the page
+     ground, so this sits between two gradients without a visible join. */
+  .partner {
+    background: linear-gradient(to bottom, var(--beige-50) 0%, var(--beige-100) 72%);
+    padding: 24px 0 104px;
+  }
+
+  .panel {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    align-items: stretch;
+    background: var(--beige-50);
+    border: 1px solid var(--rose-200);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(124, 76, 66, 0.06),
+      0 40px 80px -44px rgba(124, 76, 66, 0.42);
+  }
+
+  /* flush to the panel edge — no inner padding, no second radius */
+  .media {
+    position: relative;
+    min-height: 420px;
+  }
+  .media :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 52% 40%;
+  }
+  /* a whisper of rose over the photo so it belongs to the palette */
+  .media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.12;
+  }
+
+  .body { padding: 56px 56px 56px 52px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+  .badge .num {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--rose-50);
+    border: 1px solid var(--rose-200);
+    font-size: 13px;
+    letter-spacing: 0;
+    color: var(--rose-700);
+  }
+
+  h2 {
+    margin-top: 22px;
+    font-size: clamp(1.9rem, 3.1vw, 2.7rem);
+    line-height: 1.1;
+    max-width: 15ch;
+  }
+
+  .lede {
+    margin-top: 20px;
+    font-size: 16.5px;
+    line-height: 1.78;
+    color: var(--f-ink-soft);
+    max-width: 40em;
+  }
+
+  .covers {
+    margin-top: 28px;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 13px;
+  }
+  .covers li {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--f-ink);
+  }
+  .tick {
+    flex: none;
+    margin-top: 5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 2px solid var(--rose-400);
+    background: var(--rose-50);
+  }
+
+  .link {
+    margin-top: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rose-600);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rose-200);
+    padding-bottom: 5px;
+  }
+  .link .arrow { transition: transform 200ms ease; }
+  .link:hover .arrow { transform: translateX(4px); }
+
+  @media (max-width: 880px) {
+    .partner { padding: 16px 24px 72px; }
+    .panel { grid-template-columns: 1fr; border-radius: 28px; }
+    .media { min-height: 280px; }
+    .body { padding: 36px 28px 40px; }
+    h2 { max-width: none; }
+  }
+</style>

@@ -1,9 +1,28 @@
 ---
+/**
+ * The closing call to action, sat directly above the footer.
+ *
+ * This is the one dark moment on an otherwise pale page, and it is doing real
+ * work: a page of tints alone reads soft rather than expensive, so the deep
+ * rose here is the contrast anchor. Previously a flat sage-green rectangle with
+ * hard edges — the green is gone and the ground is now the darkest end of the
+ * rose scale, so it anchors without introducing a second hue.
+ *
+ * Domes up out of the section above via the shared arch cap, same as the rest of
+ * the home page, instead of butting against it as a rectangle.
+ */
+import SectionCurve from './SectionCurve.astro';
+import { reveal } from '../lib/reveal';
+
 interface Props {
   heading: string;
   subheading: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Small print under the buttons. Pass null to omit. */
+  meta?: string[] | null;
+  /** Ground colour of whatever sits directly above, for the arch cap. */
+  capFrom?: string;
 }
 
 const {
@@ -11,18 +30,179 @@ const {
   subheading,
   ctaLabel = 'Enroll Now',
   ctaHref = '/enroll',
+  meta = ['One payment of $350', 'Lifetime access', 'Monthly live Q&A'],
+  capFrom = 'var(--beige-100)',
 } = Astro.props;
 ---
 
-<section class="bg-sage-800">
-  <div class="mx-auto max-w-3xl px-6 py-20 text-center">
-    <h2 class="text-balance text-3xl text-cream-50 sm:text-4xl">{heading}</h2>
-    <p class="mx-auto mt-4 max-w-xl text-balance text-cream-100/90">{subheading}</p>
-    <a
-      href={ctaHref}
-      class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-8 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-400"
-    >
-      {ctaLabel}
-    </a>
+<section class="cta">
+  <SectionCurve from={capFrom} cap />
+  <div class="glow" aria-hidden="true"></div>
+
+  <div class="inner">
+    <p class="eyebrow" {...reveal()}>Enrollment open</p>
+    <h2 {...reveal(110)}>{heading}</h2>
+    <p class="sub" {...reveal(200)}>{subheading}</p>
+
+    <div class="actions" {...reveal(290)}>
+      <a class="btn-light" href={ctaHref}>{ctaLabel}</a>
+      <a class="btn-line" href="/course">See what's included</a>
+    </div>
+
+    {
+      meta && (
+        <ul class="meta" {...reveal(380)}>
+          {meta.map((item) => <li>{item}</li>)}
+        </ul>
+      )
+    }
   </div>
 </section>
+
+<style>
+  .cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: linear-gradient(
+      155deg,
+      var(--rose-700) 0%,
+      var(--rose-800) 52%,
+      var(--rose-900) 100%
+    );
+    color: #fff7f3;
+  }
+
+  /* Warm light falling from the top right, so the panel has some depth rather
+     than reading as one flat fill. */
+  .glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(64% 70% at 84% 4%, rgba(214, 167, 154, 0.34) 0%, rgba(214, 167, 154, 0) 62%),
+      radial-gradient(48% 58% at 10% 96%, rgba(124, 76, 66, 0.55) 0%, rgba(124, 76, 66, 0) 66%);
+  }
+
+  .inner {
+    position: relative;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 108px 32px 116px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rose-200);
+  }
+
+  h2 {
+    margin-top: 20px;
+    font-size: clamp(2.1rem, 4vw, 3.4rem);
+    line-height: 1.08;
+    color: #fff7f3;
+    text-wrap: balance;
+  }
+
+  .sub {
+    margin: 22px auto 0;
+    max-width: 34em;
+    font-size: 17px;
+    line-height: 1.78;
+    color: rgba(255, 247, 243, 0.78);
+    text-wrap: balance;
+  }
+
+  .actions {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  /* Light on dark: a rose gradient button would disappear into this ground, so
+     the primary action inverts instead. */
+  .btn-light {
+    display: inline-block;
+    text-decoration: none;
+    background: var(--beige-50);
+    color: var(--rose-800);
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 999px;
+    padding: 17px 36px;
+    /* two-part shadow: a tight dark contact edge plus a wide soft cast */
+    box-shadow:
+      0 2px 4px rgba(46, 18, 13, 0.28),
+      0 22px 46px -18px rgba(46, 18, 13, 0.6);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .btn-light:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px rgba(46, 18, 13, 0.3),
+      0 30px 56px -18px rgba(46, 18, 13, 0.66);
+  }
+
+  .btn-line {
+    text-decoration: none;
+    color: #fff7f3;
+    font-weight: 600;
+    font-size: 15px;
+    border: 1px solid rgba(255, 247, 243, 0.34);
+    border-radius: 999px;
+    padding: 16px 30px;
+    transition: border-color 220ms ease, background-color 220ms ease;
+  }
+  .btn-line:hover {
+    border-color: rgba(255, 247, 243, 0.72);
+    background: rgba(255, 247, 243, 0.07);
+  }
+
+  .meta {
+    margin: 42px auto 0;
+    padding: 22px 0 0;
+    border-top: 1px solid rgba(255, 247, 243, 0.16);
+    max-width: 34rem;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 247, 243, 0.66);
+  }
+  /* separators drawn between items rather than around them */
+  .meta li {
+    position: relative;
+  }
+  .meta li + li::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--rose-300);
+    transform: translateY(-50%);
+  }
+
+  @media (max-width: 640px) {
+    .inner { padding: 88px 24px 92px; }
+    .actions { flex-direction: column; align-items: stretch; }
+    .btn-light,
+    .btn-line { text-align: center; }
+    .meta { gap: 8px 20px; }
+    .meta li + li::before { left: -11px; }
+  }
+</style>

@@ -142,16 +142,16 @@ const howItWorks = [
     </div>
   </section>
 
-  <section class="bg-sage-100 py-20">
+  <section class="bg-rose-50 py-20">
     <div class="mx-auto max-w-5xl px-6">
       <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">How It Works</p>
+        <p class="text-sm font-semibold uppercase tracking-wide text-rose-600">How It Works</p>
         <h2 class="mt-3 text-balance text-3xl sm:text-4xl">Simple, self-paced, supported</h2>
       </div>
       <div class="mt-12 grid gap-8 sm:grid-cols-5">
         {howItWorks.map((item) => (
           <div>
-            <span class="font-serif text-3xl text-blush-500">{item.step}</span>
+            <span class="text-3xl font-extrabold tracking-[-0.03em] text-rose-500">{item.step}</span>
             <h3 class="mt-3 font-semibold text-ink-900">{item.title}</h3>
             <p class="mt-2 text-sm leading-relaxed text-ink-600">{item.description}</p>
           </div>
@@ -161,6 +161,7 @@ const howItWorks = [
   </section>
 
   <CtaBand
+    capFrom="var(--rose-50)"
     heading="Start wherever you are"
     subheading="Trying to conceive, newly pregnant, or preparing for a redemption birth, Joy Within Birth meets you there."
   />
