@@ -92,7 +92,8 @@ const proof = [
     position: relative;
     margin: 0;
     aspect-ratio: 883 / 1150;
-    border-radius: 300px 300px var(--f-r-lg) var(--f-r-lg);
+    --arch-vr: 50.3%;
+    border-radius: var(--arch-radius);
     overflow: hidden;
     box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
   }
@@ -130,19 +131,22 @@ const proof = [
     inset: 14px;
     z-index: 2;
     border: 1px solid rgba(255, 253, 250, 0.72);
-    border-radius: 288px 288px 20px 20px;
+    /* inset box keeps essentially the same aspect, so the same vr applies */
+    border-radius: 50% 50% 20px 20px / 50.3% 50.3% 20px 20px;
     pointer-events: none;
   }
 
   /* rose hairline tracing just outside the arch */
+  /* Same box as the arch, then scaled up — a differently-sized box would need
+     its own --arch-vr and the two curves would drift apart. */
   .halo {
     position: absolute;
-    left: -5.5%;
-    right: -5.5%;
-    top: -2.5%;
-    bottom: 4%;
+    inset: 0;
+    --arch-vr: 50.3%;
     border: 1px solid var(--rose-200);
-    border-radius: 320px 320px 26px 26px;
+    border-radius: var(--arch-radius);
+    transform: scale(1.055);
+    transform-origin: 50% 58%;
     z-index: -1;
   }
 

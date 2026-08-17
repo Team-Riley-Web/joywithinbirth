@@ -176,7 +176,7 @@ const hasVideo = fs.existsSync(path.join(process.cwd(), 'public', heroVideo));
     margin: 0;
     /* wider and less tall than the earlier pass, to give the video more area */
     aspect-ratio: 47 / 52;
-    border-radius: 300px 300px 32px 32px;
+    border-radius: var(--arch-radius);
     overflow: hidden;
   }
   /* Two mask layers intersected: the media fades out along the bottom AND along

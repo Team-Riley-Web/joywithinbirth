@@ -45,6 +45,33 @@
   --f-r-lg: 32px;
 
   --f-max: 1320px;
+
+  /**
+   * Arch radius, matched to the logo mark.
+   *
+   * The mark's dome is a semi-ellipse, not a semicircle: tracing favicon.png
+   * gives half-width a=172px and vertical semi-axis b=226px, so it stands 1.31x
+   * taller than a semicircle of the same span. (Fit check: predicted width at
+   * 30px depth = 171 vs 168 measured, at 71px = 250 vs 250.)
+   *
+   * A large px radius like `300px` cannot express that — the browser clamps
+   * paired radii to at most half the side, collapsing the top to a plain
+   * semicircle, which is what read as flattened. Percentages can, because the
+   * horizontal and vertical radii are set independently either side of the `/`.
+   *
+   * Horizontal radius is always 50% of width. The vertical radius wants to be
+   * 65.5% of WIDTH (= 0.5 x 1.31), but CSS resolves vertical radii against
+   * HEIGHT — so the correct percentage depends on the box's aspect ratio and
+   * each arch must set --arch-vr itself:
+   *
+   *     --arch-vr = 65.5% / (height / width)
+   *
+   * Hero (47/52, h/w 1.106) -> 59%.  Meet Hailey (883/1150, h/w 1.302) -> 50.3%.
+   * Using one shared value made the taller box render a 1.54 dome instead of
+   * 1.31, visibly more pointed than the logo.
+   */
+  --arch-vr: 59%;
+  --arch-radius: 50% 50% var(--f-r-lg) var(--f-r-lg) / var(--arch-vr) var(--arch-vr) var(--f-r-lg) var(--f-r-lg);
 }
 
 @layer base {
