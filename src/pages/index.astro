@@ -1,21 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
-import TestimonialCard from '../components/TestimonialCard.astro';
 import Hero from '../components/home/Hero.astro';
 import JourneySection from '../components/home/JourneySection.astro';
 import BirthWithoutFear from '../components/home/BirthWithoutFear.astro';
 import MeetHailey from '../components/home/MeetHailey.astro';
 import ProblemStatement from '../components/home/ProblemStatement.astro';
+import TestimonialCarousel from '../components/home/TestimonialCarousel.astro';
 import PartnerModule from '../components/home/PartnerModule.astro';
 import SectionCurve from '../components/SectionCurve.astro';
 import { reveal, stagger } from '../lib/reveal';
 import { Infinity, HandHeart, MessageCircle, NotebookPen, HeartHandshake, Sparkles } from '@lucide/astro';
 
 
-import { testimonials } from '../data/testimonials';
-
-const featuredTestimonials = testimonials.slice(0, 3);
 
 const usps = [
   {
@@ -99,24 +96,7 @@ const usps = [
 
   <PartnerModule />
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-wide text-rose-600" {...reveal()}>Real Stories</p>
-      <h2 class="mt-3 text-balance text-3xl sm:text-4xl" {...reveal(110)}>Mamas who walked this road before you</h2>
-    </div>
-    <div class="mt-12 grid gap-6 md:grid-cols-3">
-      {featuredTestimonials.map((testimonial, i) => (
-        <div {...reveal(stagger(i))}>
-          <TestimonialCard testimonial={testimonial} />
-        </div>
-      ))}
-    </div>
-    <div class="mt-10 text-center">
-      <a href="/testimonials" class="text-sm font-semibold text-rose-600 underline decoration-rose-200 decoration-2 underline-offset-4">
-        Read more stories
-      </a>
-    </div>
-  </section>
+  <TestimonialCarousel />
 
   <CtaBand
     heading="You are not meant to walk this alone"

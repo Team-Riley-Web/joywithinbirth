@@ -25,7 +25,7 @@ unchecked task unless you are starting it.
       erasing the arch's left shoulder. Removed it; radius left untouched.)
 - [X] Really make the you don't have to piece this together alone. Like, give it more spacing and more emphasis. Will I actually be ready when the moment comes? Let's bold that. Let's like maybe there's a button underneath that that takes us there. Like it needs to just feel a little bit stronger. Also, design-wise, the home hero, the bottom left corner has some like pink tint that isn't really like on the right corner, it looks it's not there because it fades into the background color. So, you know, it's this light FCF5F1 for the left side, let's have it either fade there or overflow if maybe that's just a radial gradient right there so that it you know feels like a nice transition.
 - [X] add parrallax scroll effect to this photo on homepage: (imgi_10_689cf0151f951ee0b182e811.jpg) in the Meet Hailey Taught by a midwife who has walked it herself section
-- [ ] more testimonials that auto-scroll and can be manually managed
+- [X] more testimonials that auto-scroll and can be manually managed
 - [ ] We need to style the outline button to match some of the styles on the nice gradient button. the outline button has no hover effect and then the hover effect for the gradient button should have like it should move really slowly and luxurious the background gradient should should shift around in a nice seamless loop. 
 - [ ] Lets try the "birth without fear why mothers choose us" section should have a flat top to break up the design a little bit 
 - [ ] Remove the paragraph in the footer of Faith-Centered Natural Childbirth. Use the proper social media icons as well instead of writing out Facebook, community that's fine. 

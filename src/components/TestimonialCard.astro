@@ -9,12 +9,14 @@ interface Props {
 const { testimonial } = Astro.props;
 ---
 
-<figure class="flex h-full flex-col rounded-2xl bg-cream-50 p-7 shadow-soft ring-1 ring-ink-100/60">
-  <Quote class="h-6 w-6 text-blush-300" />
+<figure
+  class="flex h-full flex-col rounded-3xl bg-beige-50 p-8 shadow-soft ring-1 ring-rose-200"
+>
+  <Quote class="h-6 w-6 shrink-0 text-rose-300" />
   <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-ink-600">
     &ldquo;{testimonial.quote}&rdquo;
   </blockquote>
-  <figcaption class="mt-5 text-sm font-semibold text-ink-800">
-    &mdash; {testimonial.name}
+  <figcaption class="mt-6 border-t border-rose-200 pt-4 text-sm font-bold text-ink-900">
+    {testimonial.name}
   </figcaption>
 </figure>

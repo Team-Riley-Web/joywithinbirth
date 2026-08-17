@@ -1,0 +1,273 @@
+---
+/**
+ * Testimonials that advance on their own and can be driven by hand.
+ *
+ * Built on a scroll-snap track rather than a transform carousel: touch swipe,
+ * keyboard scrolling and the dots all come from native scrolling, so manual
+ * control and autoplay share one source of truth (scrollLeft) and cannot
+ * disagree about which slide is current.
+ *
+ * Autoplay pauses on hover, on focus within, when the tab is hidden, and for
+ * the rest of the session once the visitor takes manual control — an advance
+ * fighting someone mid-read is worse than no autoplay at all.
+ */
+import { ChevronLeft, ChevronRight } from '@lucide/astro';
+import TestimonialCard from '../TestimonialCard.astro';
+import { reveal } from '../../lib/reveal';
+import { testimonials } from '../../data/testimonials';
+---
+
+<section class="stories">
+  <div class="wrap">
+    <div class="head" {...reveal()}>
+      <div>
+        <p class="eyebrow">Real stories</p>
+        <h2>Mamas who walked this road before you</h2>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="nav" data-prev aria-label="Previous testimonials">
+          <ChevronLeft class="h-5 w-5" aria-hidden="true" />
+        </button>
+        <button type="button" class="nav" data-next aria-label="Next testimonials">
+          <ChevronRight class="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="viewport" data-carousel {...reveal(120)}>
+    <ul class="track" data-track tabindex="0" aria-label="Testimonials">
+      {
+        testimonials.map((testimonial) => (
+          <li class="slide">
+            <TestimonialCard testimonial={testimonial} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="wrap">
+    <div class="footer">
+      <div class="dots" data-dots role="tablist" aria-label="Choose testimonial"></div>
+      <a class="more" href="/testimonials">Read more stories</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stories { background: var(--beige-100); padding: 96px 0 108px; }
+  .wrap { max-width: var(--f-max); margin: 0 auto; padding: 0 40px; }
+
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+  .head h2 {
+    margin-top: 14px;
+    font-size: clamp(1.9rem, 3.3vw, 2.9rem);
+    line-height: 1.1;
+    max-width: 18ch;
+  }
+
+  .controls { display: flex; gap: 10px; flex: none; }
+  .nav {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--beige-50);
+    border: 1px solid var(--rose-200);
+    color: var(--rose-600);
+    cursor: pointer;
+    transition: background-color 220ms ease, border-color 220ms ease, transform 220ms ease;
+  }
+  .nav:hover { background: var(--rose-50); border-color: var(--rose-300); transform: translateY(-1px); }
+  .nav:focus-visible { outline: 2px solid var(--rose-400); outline-offset: 3px; }
+  .nav[disabled] { opacity: 0.38; cursor: default; transform: none; }
+
+  /* Full-bleed so cards can run off both edges, with the padding that keeps the
+     first card aligned to the grid applied to the track itself. */
+  .viewport { margin-top: 44px; }
+  .track {
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 4px max(40px, calc((100vw - var(--f-max)) / 2 + 40px));
+    /* Without this, snap points sit at the padding edge and the browser snaps
+       the first card flush to the viewport on load, breaking the grid line. */
+    scroll-padding-inline: max(40px, calc((100vw - var(--f-max)) / 2 + 40px));
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .track:focus-visible { outline: 2px solid var(--rose-400); outline-offset: 4px; }
+
+  .slide {
+    flex: 0 0 auto;
+    width: min(390px, 82vw);
+    scroll-snap-align: start;
+  }
+
+  .footer {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .dots { display: flex; gap: 9px; }
+  .dots :global(.dot) {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--rose-200);
+    cursor: pointer;
+    transition: width 320ms ease, background-color 320ms ease;
+  }
+  .dots :global(.dot[aria-selected='true']) { width: 26px; border-radius: 999px; background: var(--rose-500); }
+  .dots :global(.dot:focus-visible) { outline: 2px solid var(--rose-400); outline-offset: 3px; }
+
+  .more {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rose-600);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rose-200);
+    padding-bottom: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .stories { padding: 68px 0 80px; }
+    .wrap { padding: 0 24px; }
+    .head { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .head h2 { max-width: none; }
+    .track { padding-inline: 24px; scroll-padding-inline: 24px; }
+  }
+</style>
+
+<script>
+  const ADVANCE_MS = 6000;
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const section = root.closest('section');
+    const dotsBox = section?.querySelector<HTMLElement>('[data-dots]');
+    const prev = section?.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = section?.querySelector<HTMLButtonElement>('[data-next]');
+    if (!track) return;
+
+    const slides = Array.from(track.children) as HTMLElement[];
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /** How many whole slides fit — the last page starts this many from the end. */
+    const perView = () => {
+      const w = slides[0]?.offsetWidth ?? 1;
+      const gap = parseFloat(getComputedStyle(track).gap || '0');
+      return Math.max(1, Math.round(track.clientWidth / (w + gap)));
+    };
+    const lastIndex = () => Math.max(0, slides.length - perView());
+
+    const current = () => {
+      const gap = parseFloat(getComputedStyle(track).gap || '0');
+      const step = (slides[0]?.offsetWidth ?? 1) + gap;
+      return Math.round(track.scrollLeft / step);
+    };
+
+    const goTo = (i: number, smooth = true) => {
+      const clamped = Math.max(0, Math.min(i, lastIndex()));
+      const gap = parseFloat(getComputedStyle(track).gap || '0');
+      const step = (slides[0]?.offsetWidth ?? 1) + gap;
+      track.scrollTo({ left: clamped * step, behavior: smooth && !prefersReduced ? 'smooth' : 'auto' });
+    };
+
+    // ---- dots ----
+    const dots: HTMLButtonElement[] = [];
+    if (dotsBox) {
+      for (let i = 0; i <= lastIndex(); i++) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'dot';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-label', `Testimonial ${i + 1}`);
+        b.addEventListener('click', () => { stopAuto(); goTo(i); });
+        dotsBox.appendChild(b);
+        dots.push(b);
+      }
+    }
+
+    const sync = () => {
+      const i = current();
+      dots.forEach((d, di) => d.setAttribute('aria-selected', String(di === i)));
+      if (prev) prev.disabled = i <= 0;
+      if (next) next.disabled = i >= lastIndex();
+    };
+
+    // ---- autoplay ----
+    let timer: number | undefined;
+    let stopped = prefersReduced;
+
+    const tick = () => {
+      if (document.hidden) return;
+      goTo(current() >= lastIndex() ? 0 : current() + 1);
+    };
+    const startAuto = () => {
+      if (stopped || timer) return;
+      timer = window.setInterval(tick, ADVANCE_MS);
+    };
+    const pauseAuto = () => {
+      window.clearInterval(timer);
+      timer = undefined;
+    };
+    /** Manual input wins for the rest of the session. */
+    const stopAuto = () => {
+      stopped = true;
+      pauseAuto();
+    };
+
+    prev?.addEventListener('click', () => { stopAuto(); goTo(current() - 1); });
+    next?.addEventListener('click', () => { stopAuto(); goTo(current() + 1); });
+    track.addEventListener('pointerdown', stopAuto);
+    track.addEventListener('wheel', stopAuto, { passive: true });
+    track.addEventListener('keydown', stopAuto);
+
+    root.addEventListener('pointerenter', pauseAuto);
+    root.addEventListener('pointerleave', startAuto);
+    root.addEventListener('focusin', pauseAuto);
+    root.addEventListener('focusout', startAuto);
+    document.addEventListener('visibilitychange', () => (document.hidden ? pauseAuto() : startAuto()));
+
+    let scrollTick = false;
+    track.addEventListener('scroll', () => {
+      if (scrollTick) return;
+      scrollTick = true;
+      requestAnimationFrame(() => { scrollTick = false; sync(); });
+    }, { passive: true });
+
+    window.addEventListener('resize', sync, { passive: true });
+
+    sync();
+    // Only run while on screen; a carousel advancing out of view is wasted work.
+    new IntersectionObserver(
+      ([e]) => (e.isIntersecting ? startAuto() : pauseAuto()),
+      { threshold: 0.2 },
+    ).observe(root);
+  });
+</script>
