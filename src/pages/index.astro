@@ -6,6 +6,7 @@ import Hero from '../components/home/Hero.astro';
 import JourneySection from '../components/home/JourneySection.astro';
 import BirthWithoutFear from '../components/home/BirthWithoutFear.astro';
 import MeetHailey from '../components/home/MeetHailey.astro';
+import ProblemStatement from '../components/home/ProblemStatement.astro';
 import PartnerModule from '../components/home/PartnerModule.astro';
 import SectionCurve from '../components/SectionCurve.astro';
 import { reveal, stagger } from '../lib/reveal';
@@ -63,19 +64,9 @@ const usps = [
 >
   <Hero />
 
-  <section class="mx-auto max-w-4xl px-6 py-16 text-center">
-    <h2 class="text-balance text-3xl sm:text-4xl" {...reveal()}>
-      You don't have to piece this together alone
-    </h2>
-    <p class="mx-auto mt-5 max-w-2xl text-balance text-lg leading-relaxed text-ink-500" {...reveal(140)}>
-      So many tabs open. So many conflicting opinions from hospital classes, social media,
-      and well-meaning family. And still, that quiet question: <em>will I actually be
-      ready when the moment comes?</em> Joy Within Birth gently gathers everything
-      scattered across the internet into one trusted, faith-centered place.
-    </p>
-  </section>
-
   <SectionCurve from="var(--beige-100)" to="var(--rose-50)" />
+
+  <ProblemStatement />
 
   <MeetHailey />
 

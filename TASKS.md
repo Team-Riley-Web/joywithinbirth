@@ -31,3 +31,4 @@ unchecked task unless you are starting it.
 - [ ] Remove the paragraph in the footer of Faith-Centered Natural Childbirth. Use the proper social media icons as well instead of writing out Facebook, community that's fine. 
 - [ ] In the header, let's just say pricing and we can remove FAQ 
 - [ ] use elements as ghosted absolutely positioned items in places on the homepage - i particualarly like 4,5,6 & 7 here (/Users/joshuariley/Sites/joywithinbirth/src/assets/images/elements)
+- [ ] make partner module background the dark color of pre-footer

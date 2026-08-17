@@ -1,0 +1,121 @@
+---
+/**
+ * The problem statement, immediately after the hero.
+ *
+ * Sits on the same rose ground as Meet Hailey below it, so the two read as one
+ * movement and the arch curve happens above this section rather than between
+ * them. The pivot line — the question a reader is actually carrying — is pulled
+ * out at its own size and weight rather than buried mid-paragraph, and there is
+ * now somewhere to go from here.
+ */
+import { reveal } from '../../lib/reveal';
+---
+
+<section class="problem">
+  <div class="wrap">
+    <h2 {...reveal()}>You don't have to piece this together alone</h2>
+
+    <p class="body" {...reveal(120)}>
+      So many tabs open. So many conflicting opinions from hospital classes, social
+      media, and well-meaning family.
+    </p>
+
+    <p class="question" {...reveal(240)}>
+      And still, that quiet question:<br />
+      <strong>Will I actually be ready when the moment comes?</strong>
+    </p>
+
+    <p class="answer" {...reveal(360)}>
+      Joy Within Birth gathers everything scattered across the internet into one
+      trusted, faith-centered place.
+    </p>
+
+    <a class="btn-grad" href="/course" {...reveal(460)}>See what's inside the course</a>
+  </div>
+</section>
+
+<style>
+  .problem {
+    background: var(--rose-50);
+    padding: 116px 0 124px;
+  }
+
+  .wrap {
+    max-width: 54rem;
+    margin: 0 auto;
+    padding: 0 32px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .body {
+    margin: 30px auto 0;
+    max-width: 34em;
+    font-size: 17.5px;
+    line-height: 1.8;
+    color: var(--f-ink-soft);
+    text-wrap: balance;
+  }
+
+  /* The pivot. Given its own size, colour and air so it lands as the thought the
+     reader is already having, instead of an aside inside a paragraph. */
+  .question {
+    margin: 46px auto 0;
+    max-width: 22em;
+    font-size: clamp(1.25rem, 2.1vw, 1.6rem);
+    line-height: 1.45;
+    color: var(--rose-600);
+    text-wrap: balance;
+  }
+  .question strong {
+    display: block;
+    margin-top: 6px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--rose-700);
+  }
+
+  .answer {
+    margin: 46px auto 0;
+    max-width: 32em;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--f-ink-soft);
+    text-wrap: balance;
+  }
+
+  .btn-grad {
+    display: inline-block;
+    margin-top: 40px;
+    text-decoration: none;
+    color: var(--beige-50);
+    font-weight: 700;
+    font-size: 15px;
+    background: linear-gradient(
+      96deg,
+      var(--rose-700) 0%,
+      var(--rose-500) 52%,
+      var(--rose-400) 100%
+    );
+    border-radius: 999px;
+    padding: 16px 34px;
+    box-shadow: 0 20px 40px -16px rgba(124, 76, 66, 0.62);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .btn-grad:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 26px 50px -16px rgba(124, 76, 66, 0.7);
+  }
+
+  @media (max-width: 720px) {
+    .problem { padding: 76px 0 84px; }
+    .wrap { padding: 0 24px; }
+    .body, .question, .answer { margin-top: 26px; }
+    .question { margin-top: 34px; }
+  }
+</style>
