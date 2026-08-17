@@ -1,0 +1,528 @@
+---
+/**
+ * Option F — synthesis of the design-shotgun feedback.
+ *
+ *   beige ground (A) + rose faded wash (E)
+ *   arch image shaping (A) with a soft fade instead of a hard edge (C)
+ *   generous border radius + gradient buttons + bold headline face (D)
+ *   floating standout card (A) + testimonial chip (E)
+ *   centered journey heading (C), rounded cards beneath the hero (D)
+ *
+ * Deliberately absent: terracotta/orange, black + gold, sage green text,
+ * the concentric arcs, the circular blob, and any italic script accent.
+ *
+ * Palette and type live in CSS custom properties on .f-root so this can be
+ * retuned without touching tailwind.config.cjs. To try the serif headline,
+ * change --font-display to Fraunces and reload — nothing else needs to move.
+ */
+import { Image } from 'astro:assets';
+import VideoBackdrop from '../VideoBackdrop.astro';
+import heroStill from '../../assets/images/hero-arch-crop.jpg';
+import fertility from '../../assets/images/imgi_19_689ec90324858a5600fb5a4e.jpg';
+import pregnancy from '../../assets/images/imgi_18_689ed7bac6ba4e55bc9fc953.png';
+import birth from '../../assets/images/imgi_23_68a207374fa1aa2b5b419aef.jpg';
+import postpartum from '../../assets/images/imgi_13_689e45cee0fe54b3a73e08c7.jpg';
+
+interface Props {
+  /** 'video' puts a looping clip in the hero arch; 'still' uses the photograph. */
+  media?: 'video' | 'still';
+}
+
+const { media = 'still' } = Astro.props;
+
+const thresholds = [
+  {
+    num: '01',
+    stage: 'Fertility',
+    title: 'Prepare before the positive test',
+    copy: 'Cycle literacy, nourishment, and a body ready to conceive.',
+    image: fertility,
+  },
+  {
+    num: '02',
+    stage: 'Pregnancy',
+    title: 'Nourish body, mind, and spirit',
+    copy: 'Movement, nutrition, and the mental work that calms labor.',
+    image: pregnancy,
+  },
+  {
+    num: '03',
+    stage: 'Birth',
+    title: 'Calm and confident, wherever you birth',
+    copy: 'For hospital and home, with your partner trained beside you.',
+    image: birth,
+  },
+  {
+    num: '04',
+    stage: 'Postpartum',
+    title: 'Held through the fourth trimester',
+    copy: 'Recovery, feeding, and a community that stays after the birth.',
+    image: postpartum,
+    /* the newborn footage is on-message here, unlike in the hero */
+    video: { src: '/videos/journey-postpartum.mp4', poster: '/videos/journey-postpartum.jpg' },
+  },
+];
+---
+
+<div class="f-root">
+  <header class="bar-wrap">
+    <div class="bar">
+      <a class="mark" href="/">
+        <img src="/favicon.png" alt="" width="40" height="40" />
+        <span>Joy Within Birth</span>
+      </a>
+      <nav>
+        <a href="#">Journey</a>
+        <a href="#">Course</a>
+        <a href="#">Stories</a>
+        <a href="#">Pricing</a>
+        <a class="btn-grad btn-sm" href="/enroll">Enroll</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-wash" aria-hidden="true"></div>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Faith-centered natural childbirth</p>
+
+        <h1>Birth prepared,<br />not afraid.</h1>
+
+        <p class="lede">
+          A self-paced training and private community led by Hailey Aliff, a
+          second-generation midwife, walking with you from fertility through postpartum.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn-grad" href="/enroll">Enroll once for $350</a>
+          <a class="btn-quiet" href="/course">View the course</a>
+        </div>
+      </div>
+
+      <div class="stage">
+        {/* arch silhouette, with the image dissolving toward the bottom into the beige */}
+        <figure class="arch">
+          {
+            media === 'video' ? (
+              <VideoBackdrop
+                src="/videos/hero-loop.mp4"
+                poster="/videos/hero-loop.jpg"
+                position="50% 42%"
+                class="media"
+              />
+            ) : (
+              <Image src={heroStill} alt="" class="media" widths={[520, 720, 1024]} sizes="42vw" />
+            )
+          }
+        </figure>
+
+        {/* E's testimonial chip */}
+        <div class="chip chip-proof">
+          <div class="avatars">
+            <Image src={postpartum} alt="" width={64} height={64} />
+            <Image src={birth} alt="" width={64} height={64} />
+            <Image src={fertility} alt="" width={64} height={64} />
+          </div>
+          <div>
+            <p class="chip-n">200+ mothers</p>
+            <p class="stars" aria-hidden="true">★★★★★</p>
+            <p class="chip-s">prepared with Hailey</p>
+          </div>
+        </div>
+
+        {/* A's floating standout card */}
+        <div class="chip chip-card">
+          <p class="chip-k">Nine modules</p>
+          <p class="chip-v">
+            Ten-plus hours of training, a partner module, and a birth plan you understand.
+          </p>
+          <p class="chip-sig">Lifetime access</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="journey">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow center">The journey</p>
+        <h2>A single calm system for every threshold.</h2>
+        <p class="sec-sub">
+          The program is organized around the thresholds mothers actually cross:
+          preconception, pregnancy, birth, and the first tender weeks after.
+        </p>
+      </div>
+
+      <div class="cards">
+        {
+          thresholds.map((t) => (
+            <article class="card">
+              <div class="card-media">
+                {
+                  media === 'video' && t.video ? (
+                    <VideoBackdrop src={t.video.src} poster={t.video.poster} position="50% 46%" />
+                  ) : (
+                    <Image src={t.image} alt="" widths={[320, 480]} sizes="24vw" />
+                  )
+                }
+              </div>
+              <p class="card-stage">{t.num} — {t.stage}</p>
+              <h3>{t.title}</h3>
+              <p class="card-copy">{t.copy}</p>
+              <a class="card-go" href="#">
+                Explore <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .f-root {
+    /* ---- ground: A's beige, warmed toward E's rose ---- */
+    --beige: #FBF6EE;
+    --beige-2: #F7F0E6;
+    --paper: #FFFDFA;
+    --rose-wash: #FBF2EE;
+    --blush: #E8CFC8;
+
+    /* ---- the only accent family: rose. no orange, no gold, no green ---- */
+    --rose: #C08D82;
+    --rose-mid: #A9756A;
+    --rose-deep: #9C6558;
+    --rose-ink: #7C4C42;
+
+    --ink: #322C28;
+    --ink-soft: #776B63;
+    --hair: #EAE0D6;
+
+    /* swap to Fraunces here to test the serif headline */
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+    /* D's generous radius, as one scale */
+    --r-sm: 16px;
+    --r-md: 24px;
+    --r-lg: 32px;
+
+    --max: 1240px;
+
+    background: var(--beige);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+  }
+  .eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--blush); }
+  .eyebrow.center { justify-content: center; }
+  .eyebrow.center::before { display: none; }
+
+  /* ---------- gradient buttons (D) ---------- */
+  .btn-grad {
+    display: inline-block;
+    text-decoration: none;
+    color: #FFFCFA;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.005em;
+    background: linear-gradient(96deg, var(--rose-ink) 0%, var(--rose-mid) 52%, var(--rose) 100%);
+    border-radius: 999px;
+    padding: 16px 32px;
+    box-shadow: 0 20px 40px -16px rgba(124, 76, 66, 0.62);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .btn-grad:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 26px 50px -16px rgba(124, 76, 66, 0.7);
+  }
+  .btn-sm { font-size: 13px; font-weight: 600; padding: 12px 24px; box-shadow: 0 12px 26px -12px rgba(124, 76, 66, 0.5); }
+  .btn-quiet {
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 15px;
+    border: 1px solid var(--blush);
+    border-radius: 999px;
+    padding: 16px 30px;
+    background: var(--paper);
+  }
+
+  /* ---------- header ---------- */
+  .bar-wrap { background: var(--beige); }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 22px 40px;
+  }
+  .mark { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .mark span { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; }
+  nav { display: flex; align-items: center; gap: 30px; }
+  nav a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  nav a:hover { color: var(--rose-deep); }
+  /* must out-specify `nav a`, or the gradient pill loses its light label */
+  nav a.btn-grad { color: #FFFCFA; }
+  nav a.btn-grad:hover { color: #FFFCFA; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; isolation: isolate; overflow: hidden; }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    /* E's rose faded background */
+    background:
+      radial-gradient(78% 68% at 86% 10%, var(--rose-wash) 0%, rgba(251, 242, 238, 0) 64%),
+      radial-gradient(46% 44% at 96% 62%, rgba(232, 207, 200, 0.5) 0%, rgba(232, 207, 200, 0) 70%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.82fr;
+    gap: 80px;
+    align-items: center;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 84px 40px 100px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(3rem, 5.4vw, 5.1rem);
+    line-height: 1.03;
+    letter-spacing: -0.025em;
+    margin-top: 26px;
+    color: var(--ink);
+  }
+  .lede {
+    margin-top: 26px;
+    max-width: 33em;
+    font-size: 17px;
+    line-height: 1.76;
+    color: var(--ink-soft);
+  }
+  .cta-row { margin-top: 36px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+  /* ---------- the arch, faded rather than hard-edged ---------- */
+  .stage { position: relative; }
+  .arch {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 43 / 56;
+    /* A's arch shaping, with D's softer bottom radius */
+    border-radius: 290px 290px var(--r-lg) var(--r-lg);
+    overflow: hidden;
+  }
+  /* C's fade: the photograph dissolves downward into the beige instead of
+     stopping at a hard frame edge. The arch silhouette still reads up top. */
+  .arch :global(.media),
+  .arch :global([data-video-backdrop]) {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 52%,
+      rgba(0, 0, 0, 0.72) 76%,
+      rgba(0, 0, 0, 0.28) 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 52%,
+      rgba(0, 0, 0, 0.72) 76%,
+      rgba(0, 0, 0, 0.28) 92%,
+      transparent 100%
+    );
+  }
+  .arch :global(.media) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 54% 50%;
+    /* the soft, slightly-lifted grade that made C feel expensive */
+    filter: saturate(0.88) contrast(1.02) brightness(1.03);
+  }
+
+  /* ---------- floating chips ---------- */
+  .chip {
+    position: absolute;
+    background: rgba(255, 253, 250, 0.86);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: var(--r-md);
+    box-shadow: 0 26px 54px -24px rgba(124, 76, 66, 0.4);
+  }
+  .chip-proof {
+    top: 9%;
+    left: -58px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 20px 14px 16px;
+  }
+  .avatars { display: flex; flex: none; }
+  .avatars :global(img) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--paper);
+    margin-left: -10px;
+  }
+  .avatars :global(img:first-child) { margin-left: 0; }
+  .chip-n { font-size: 14px; font-weight: 700; line-height: 1.2; }
+  .stars { color: #C9954E; font-size: 11px; letter-spacing: 1.5px; margin-top: 2px; }
+  .chip-s { font-size: 11.5px; color: var(--ink-soft); margin-top: 1px; }
+
+  .chip-card { bottom: 8%; right: -26px; width: 234px; padding: 20px 24px; }
+  .chip-k { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .chip-v { margin-top: 7px; font-size: 13px; line-height: 1.58; color: var(--ink-soft); }
+  .chip-sig {
+    margin-top: 13px;
+    padding-top: 11px;
+    border-top: 1px solid var(--hair);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+  }
+
+  /* ---------- journey (centered head, D's cards) ---------- */
+  .journey { background: var(--beige-2); padding: 104px 0 116px; }
+  .sec-head { max-width: 42em; margin: 0 auto; text-align: center; }
+  .sec-head h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.022em;
+    margin-top: 18px;
+  }
+  .sec-sub { margin-top: 20px; font-size: 16.5px; line-height: 1.8; color: var(--ink-soft); }
+
+  .cards {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  /* flex column so the Explore link bottom-aligns across cards whose titles
+     wrap to different line counts */
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    border: 1px solid var(--hair);
+    border-radius: var(--r-lg);
+    padding: 16px;
+    box-shadow: 0 24px 50px -30px rgba(124, 76, 66, 0.34);
+  }
+  .card-media {
+    position: relative;
+    height: 168px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  /* one rose grade so mixed source photography — and the video — read as a set */
+  .card-media :global(img),
+  .card-media :global(video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.74) contrast(1.04) brightness(1.02);
+  }
+  .card-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rose);
+    mix-blend-mode: color;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .card-stage {
+    margin-top: 16px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+  }
+  .card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16.5px;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+    margin-top: 6px;
+  }
+  .card-copy { margin-top: 8px; font-size: 13px; line-height: 1.65; color: var(--ink-soft); }
+  .card-go {
+    margin-top: auto;
+    padding-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--rose-deep);
+    text-decoration: none;
+  }
+  .card-go .arrow {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--rose-wash);
+    border: 1px solid var(--blush);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1080px) {
+    .cards { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; padding: 56px 24px 72px; }
+    .wrap, .bar { padding-left: 24px; padding-right: 24px; }
+    nav a:not(.btn-grad) { display: none; }
+    /* `margin: 0 auto` here would make this stretched grid item shrink-to-fit,
+       and the aspect-ratio arch inside has no intrinsic width — it collapses to
+       zero. Center with justify-self and keep an explicit width instead. */
+    .stage { width: 100%; max-width: 460px; justify-self: center; }
+    .chip-proof { left: -12px; }
+    .chip-card { right: -12px; }
+    .journey { padding: 72px 0 84px; }
+  }
+  @media (max-width: 560px) {
+    .cards { grid-template-columns: 1fr; }
+    .chip-card { display: none; }
+    .chip-proof { left: 0; top: auto; bottom: 4%; }
+  }
+</style>

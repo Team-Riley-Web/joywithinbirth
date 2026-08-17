@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import heroAltImage from '../assets/images/home-hero-alt.png';
+
+const imageAlt =
+  'A visibly pregnant woman standing peacefully in soft desert light, both hands resting beneath her belly';
+---
+
+<section class="relative isolate overflow-hidden bg-cream-50">
+  {/* Soft cream-to-blush wash behind everything */}
+  <div
+    class="pointer-events-none absolute inset-0 -z-40 bg-[radial-gradient(120%_90%_at_82%_18%,#FCF3F1_0%,#FFFDFB_46%,#FFFDFB_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  {/* Desktop image panel, anchored right and feathered into the page */}
+  <div
+    class="pointer-events-none absolute inset-y-0 right-0 -z-30 hidden overflow-hidden lg:block lg:w-[64%]"
+    aria-hidden="true"
+  >
+    <div
+      class="h-full w-full [mask-image:linear-gradient(to_right,transparent_0%,rgba(0,0,0,0.28)_16%,rgba(0,0,0,0.86)_44%,black_66%)]"
+    >
+      <Image
+        src={heroAltImage}
+        alt=""
+        class="h-full w-full object-cover object-[52%_30%] saturate-[1.1] contrast-[1.16]"
+        style="transform: scale(1.04);"
+        data-scroll-scale-image
+        widths={[768, 1024, 1280, 1600]}
+        sizes="64vw"
+        priority
+      />
+    </div>
+  </div>
+
+  {/* Concentric arcs, masked so they only whisper across the image */}
+  <svg
+    class="pointer-events-none absolute inset-y-0 right-0 -z-20 hidden h-full w-[64%] text-sage-300 [mask-image:linear-gradient(to_right,transparent_0%,black_46%,black_74%,transparent_96%)] lg:block"
+    viewBox="0 0 800 760"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <circle cx="400" cy="380" r="238" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35" />
+    <circle cx="400" cy="380" r="342" fill="none" stroke="currentColor" stroke-width="1" opacity="0.26" />
+    <circle cx="400" cy="380" r="452" fill="none" stroke="currentColor" stroke-width="1" opacity="0.16" />
+  </svg>
+
+  {/* Fade the image out on the left, into the copy, and along the bottom edge */}
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 hidden bg-gradient-to-r from-cream-50 from-40% via-cream-50/70 via-58% to-transparent to-82% lg:block"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 hidden h-24 bg-gradient-to-t from-cream-50 to-transparent lg:block"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="mx-auto flex max-w-6xl items-center px-6 pb-14 pt-16 sm:pt-24 lg:min-h-[36rem] lg:pb-24 lg:pt-24">
+    <div class="w-full max-w-2xl">
+      <p class="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-sage-600">
+        <span class="h-px w-10 bg-sage-300"></span>
+        Faith-Centered Childbirth Training
+      </p>
+
+      <h1 class="mt-6 text-balance font-serif text-[clamp(2.75rem,6vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.01em] text-ink-900">
+        Birth without fear,<br class="hidden sm:block" /> and with real
+        <span class="ml-2 font-signature text-blush-500 [font-size:1.22em] leading-[0.8]">joy</span>
+      </h1>
+
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink-500">
+        A self-paced training and private community led by Hailey Aliff, a second-generation
+        midwife, walking with you from fertility all the way through postpartum, so you never
+        have to prepare alone.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-5">
+        <a
+          href="/enroll"
+          class="rounded-full bg-blush-500 px-7 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-600"
+        >
+          Enroll Now &mdash; $350, Lifetime Access
+        </a>
+        <a
+          href="/course"
+          class="text-sm font-semibold text-ink-700 underline decoration-blush-300 decoration-2 underline-offset-4 transition-colors hover:text-blush-600"
+        >
+          See what's inside
+        </a>
+      </div>
+
+      <dl class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-ink-100 pt-7">
+        {[
+          ['200+', 'Moms supported'],
+          ['9', 'Modules of training'],
+          ['Lifetime', 'Access & updates'],
+        ].map(([stat, label]) => (
+          <div class="flex items-baseline gap-2">
+            <dt class="font-serif text-2xl text-blush-500">{stat}</dt>
+            <dd class="text-xs uppercase tracking-wide text-ink-500">{label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+
+  {/* Mobile / tablet: the same image, fading up into the copy */}
+  <div class="relative overflow-hidden lg:hidden">
+    <div
+      class="[mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.55)_18%,black_44%)]"
+    >
+      <Image
+        src={heroAltImage}
+        alt={imageAlt}
+        class="h-[20rem] w-full object-cover object-[58%_18%] saturate-[1.12] contrast-[1.12] sm:h-[24rem]"
+        widths={[640, 960, 1280]}
+        sizes="100vw"
+      />
+    </div>
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-cream-50 to-transparent"></div>
+  </div>
+</section>

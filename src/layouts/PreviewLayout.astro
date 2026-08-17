@@ -1,0 +1,34 @@
+---
+/**
+ * Bare shell for /preview/* design explorations.
+ *
+ * Deliberately does NOT use BaseLayout: each variant carries its own nav and
+ * its own palette, so the production Header/Footer would fight it. Delete this
+ * file along with src/pages/preview/ once a direction is chosen.
+ */
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  fonts: string;
+}
+
+const { title, fonts } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} — Joy Within Birth preview</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fonts} rel="stylesheet" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

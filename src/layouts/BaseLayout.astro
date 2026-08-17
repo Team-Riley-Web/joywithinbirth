@@ -21,10 +21,17 @@ const siteTitle = `${title} | Joy Within Birth`;
     <title>{siteTitle}</title>
     <link rel="icon" href="/favicon.png" type="image/png" />
 
+    {/* Marks that scripting is available, so the scroll-reveal styles in
+        global.css only hide content when something can reveal it again. Inline
+        and in <head> so it applies before first paint. */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&display=swap"
       rel="stylesheet"
     />
   </head>

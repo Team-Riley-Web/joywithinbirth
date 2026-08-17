@@ -2,14 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
+import Hero from '../components/home/Hero.astro';
+import JourneySection from '../components/home/JourneySection.astro';
+import BirthWithoutFear from '../components/home/BirthWithoutFear.astro';
+import MeetHailey from '../components/home/MeetHailey.astro';
+import SectionCurve from '../components/SectionCurve.astro';
+import { reveal, stagger } from '../lib/reveal';
 import { Image } from 'astro:assets';
 import { Infinity, HandHeart, MessageCircle, NotebookPen, HeartHandshake, Sparkles } from '@lucide/astro';
 
-import heroImage from '../assets/images/imgi_10_689cf0151f951ee0b182e811.jpg';
-import fertilityImage from '../assets/images/imgi_19_689ec90324858a5600fb5a4e.jpg';
-import pregnancyImage from '../assets/images/imgi_18_689ed7bac6ba4e55bc9fc953.png';
-import birthImage from '../assets/images/imgi_23_68a207374fa1aa2b5b419aef.jpg';
-import postpartumImage from '../assets/images/imgi_13_689e45cee0fe54b3a73e08c7.jpg';
 import partnerImage from '../assets/images/imgi_22_689ec9b4c6ba4e06d49d48ed.jpg';
 
 import { testimonials } from '../data/testimonials';
@@ -55,95 +56,19 @@ const usps = [
   },
 ];
 
-const journey = [
-  {
-    label: 'Fertility',
-    title: 'Preparing your body to conceive',
-    image: fertilityImage,
-  },
-  {
-    label: 'Pregnancy',
-    title: 'Nourishing your body and mind',
-    image: pregnancyImage,
-  },
-  {
-    label: 'Birth',
-    title: 'Calm, confident, wherever you birth',
-    image: birthImage,
-  },
-  {
-    label: 'Postpartum',
-    title: 'Held through the fourth trimester',
-    image: postpartumImage,
-  },
-];
 ---
 
 <BaseLayout
   title="Home"
   description="A faith-centered natural childbirth training and community, built by a second-generation midwife, walking you from fertility through postpartum."
 >
-  <section class="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
-    <div class="grid items-center gap-12 md:grid-cols-2">
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">
-          Natural Childbirth Education & Community
-        </p>
-        <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
-          Prepare your mind, body, and spirit for the birth you dream of
-        </h1>
-        <p class="mt-5 max-w-lg text-lg leading-relaxed text-ink-500">
-          Joy-filled, confident birth, without fear. A self-paced training and community
-          led by Hailey Aliff, walking with you from fertility through postpartum, so you
-          never have to prepare alone.
-        </p>
-        <div class="mt-8 flex flex-wrap items-center gap-4">
-          <a
-            href="/enroll"
-            class="rounded-full bg-blush-500 px-7 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-600"
-          >
-            Enroll Now &mdash; $350, Lifetime Access
-          </a>
-          <a href="/course" class="text-sm font-semibold text-ink-700 underline decoration-blush-300 decoration-2 underline-offset-4 hover:text-blush-600">
-            See what's inside
-          </a>
-        </div>
-      </div>
-
-      <div class="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-lift">
-        <Image
-          src={heroImage}
-          alt="A visibly pregnant woman standing peacefully outdoors, hand resting on her belly"
-          class="h-full w-full object-cover object-bottom"
-          style="transform: scale(1.04);"
-          data-scroll-scale-image
-          widths={[480, 768, 1024]}
-          sizes="(min-width: 768px) 45vw, 100vw"
-          priority
-        />
-      </div>
-    </div>
-
-    <dl class="mt-16 grid grid-cols-2 gap-6 border-y border-ink-100 py-8 sm:grid-cols-4">
-      {[
-        ['200+', 'Moms supported'],
-        ['9', 'Modules of training'],
-        ['10+', 'Hours self-paced'],
-        ['Lifetime', 'Access & updates'],
-      ].map(([stat, label]) => (
-        <div class="text-center">
-          <dt class="font-serif text-3xl text-blush-500">{stat}</dt>
-          <dd class="mt-1 text-xs uppercase tracking-wide text-ink-500">{label}</dd>
-        </div>
-      ))}
-    </dl>
-  </section>
+  <Hero />
 
   <section class="mx-auto max-w-4xl px-6 py-16 text-center">
-    <h2 class="text-balance text-3xl sm:text-4xl">
+    <h2 class="text-balance text-3xl sm:text-4xl" {...reveal()}>
       You don't have to piece this together alone
     </h2>
-    <p class="mx-auto mt-5 max-w-2xl text-balance text-lg leading-relaxed text-ink-500">
+    <p class="mx-auto mt-5 max-w-2xl text-balance text-lg leading-relaxed text-ink-500" {...reveal(140)}>
       So many tabs open. So many conflicting opinions from hospital classes, social media,
       and well-meaning family. And still, that quiet question: <em>will I actually be
       ready when the moment comes?</em> Joy Within Birth gently gathers everything
@@ -151,55 +76,30 @@ const journey = [
     </p>
   </section>
 
-  <section class="bg-cream-100 py-16">
-    <div class="mx-auto max-w-6xl px-6">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">One Journey</p>
-        <h2 class="mt-3 text-balance text-3xl sm:text-4xl">
-          From trying to conceive, all the way to thriving
-        </h2>
-        <p class="mt-4 text-ink-500">
-          One lifetime-access enrollment carries you through every stage, so you never
-          have to start over or buy something new.
-        </p>
-      </div>
+  <SectionCurve from="var(--beige-100)" to="var(--rose-50)" />
 
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {journey.map((stage) => (
-          <div class="overflow-hidden rounded-2xl bg-cream-50 shadow-soft ring-1 ring-ink-100/60">
-            <div class="relative aspect-[4/5] overflow-hidden">
-              <Image
-                src={stage.image}
-                alt={stage.title}
-                class="h-full w-full object-cover"
-                style="transform: scale(1.04);"
-                data-scroll-scale-image
-                widths={[320, 480, 640]}
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-              />
-            </div>
-            <div class="p-5">
-              <p class="text-xs font-semibold uppercase tracking-wide text-blush-500">{stage.label}</p>
-              <p class="mt-1 text-sm font-medium text-ink-800">{stage.title}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <MeetHailey />
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Why Joy Within Birth</p>
+  <SectionCurve from="var(--rose-50)" to="var(--rose-75)" />
+
+  <JourneySection />
+
+  <BirthWithoutFear />
+
+  <SectionCurve from="var(--beige-100)" to="var(--rose-50)" />
+
+  <section class="bg-rose-50 py-20">
+    <div class="mx-auto max-w-2xl px-6 text-center" {...reveal()}>
+      <p class="text-sm font-semibold uppercase tracking-wide text-rose-600">Why Joy Within Birth</p>
       <h2 class="mt-3 text-balance text-3xl sm:text-4xl">
         Built differently, on purpose
       </h2>
     </div>
 
-    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {usps.map(({ icon: Icon, title, description }) => (
-        <div class="rounded-2xl border-l-4 border-blush-300 bg-cream-50 p-6 shadow-soft ring-1 ring-ink-100/60">
-          <Icon class="h-7 w-7 text-sage-600" />
+    <div class="mx-auto mt-12 grid max-w-6xl gap-8 px-6 sm:grid-cols-2 lg:grid-cols-3">
+      {usps.map(({ icon: Icon, title, description }, i) => (
+        <div class="rounded-2xl border-l-4 border-rose-300 bg-beige-50 p-6 shadow-soft ring-1 ring-rose-200" {...reveal(stagger(i, 90))}>
+          <Icon class="h-7 w-7 text-rose-600" />
           <h3 class="mt-4 text-lg font-semibold text-ink-900">{title}</h3>
           <p class="mt-2 text-sm leading-relaxed text-ink-500">{description}</p>
         </div>
@@ -208,7 +108,7 @@ const journey = [
   </section>
 
   <section class="mx-auto max-w-6xl px-6 py-16">
-    <div class="grid items-center gap-10 rounded-3xl bg-sage-100 p-8 sm:grid-cols-2 sm:p-12">
+    <div class="grid items-center gap-10 rounded-3xl bg-rose-50 p-8 sm:grid-cols-2 sm:p-12" {...reveal()}>
       <div class="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-soft">
         <Image
           src={partnerImage}
@@ -219,7 +119,7 @@ const journey = [
         />
       </div>
       <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">Module 8</p>
+        <p class="text-sm font-semibold uppercase tracking-wide text-rose-600">Module 8</p>
         <h2 class="mt-3 text-balance text-3xl">Your partner needs this too</h2>
         <p class="mt-4 leading-relaxed text-ink-600">
           Most childbirth education leaves your partner standing helplessly in the
@@ -227,7 +127,7 @@ const journey = [
           dads and support persons to show up as active, capable teammates, not
           bystanders, when it matters most.
         </p>
-        <a href="/course" class="mt-6 inline-block text-sm font-semibold text-sage-800 underline decoration-sage-400 decoration-2 underline-offset-4">
+        <a href="/course" class="mt-6 inline-block text-sm font-semibold text-rose-700 underline decoration-rose-200 decoration-2 underline-offset-4">
           See the full curriculum
         </a>
       </div>
@@ -236,16 +136,18 @@ const journey = [
 
   <section class="mx-auto max-w-6xl px-6 py-20">
     <div class="mx-auto max-w-2xl text-center">
-      <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Real Stories</p>
-      <h2 class="mt-3 text-balance text-3xl sm:text-4xl">Mamas who walked this road before you</h2>
+      <p class="text-sm font-semibold uppercase tracking-wide text-rose-600" {...reveal()}>Real Stories</p>
+      <h2 class="mt-3 text-balance text-3xl sm:text-4xl" {...reveal(110)}>Mamas who walked this road before you</h2>
     </div>
     <div class="mt-12 grid gap-6 md:grid-cols-3">
-      {featuredTestimonials.map((testimonial) => (
-        <TestimonialCard testimonial={testimonial} />
+      {featuredTestimonials.map((testimonial, i) => (
+        <div {...reveal(stagger(i))}>
+          <TestimonialCard testimonial={testimonial} />
+        </div>
       ))}
     </div>
     <div class="mt-10 text-center">
-      <a href="/testimonials" class="text-sm font-semibold text-blush-600 underline decoration-blush-300 decoration-2 underline-offset-4">
+      <a href="/testimonials" class="text-sm font-semibold text-rose-600 underline decoration-rose-200 decoration-2 underline-offset-4">
         Read more stories
       </a>
     </div>

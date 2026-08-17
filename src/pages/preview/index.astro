@@ -1,0 +1,76 @@
+---
+import PreviewLayout from '../../layouts/PreviewLayout.astro';
+
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap';
+
+const previews = [
+  {
+    href: '/preview/option-f',
+    title: 'Option F — video hero',
+    note: 'Newborn-foot clip looping inside the faded arch, plus video in the postpartum card.',
+  },
+  {
+    href: '/preview/option-f-still',
+    title: 'Option F — still hero',
+    note: 'Identical layout with the desert photograph, so motion is the only variable.',
+  },
+  {
+    href: '/home-hero-alt',
+    title: 'Earlier: flipped misty hero',
+    note: 'The accessofla-inspired hero built before the design exploration.',
+  },
+];
+---
+
+<PreviewLayout title="Design previews" fonts={fonts}>
+  <main class="shell">
+    <p class="kicker">Joy Within Birth</p>
+    <h1>Design previews</h1>
+    <p class="intro">
+      Throwaway routes for design exploration. Not linked from the site and marked
+      <code>noindex</code>. Delete <code>src/pages/preview/</code> once a direction is chosen.
+    </p>
+
+    <ul>
+      {
+        previews.map((p) => (
+          <li>
+            <a href={p.href}>{p.title}</a>
+            <p>{p.note}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</PreviewLayout>
+
+<style>
+  .shell {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 88px 32px 120px;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #322c28;
+  }
+  .kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9c6558;
+  }
+  h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.035em; margin-top: 12px; }
+  .intro { margin-top: 16px; color: #776b63; line-height: 1.7; }
+  code { background: #f7f0e6; border-radius: 5px; padding: 1px 6px; font-size: 0.9em; }
+  ul { margin-top: 40px; list-style: none; padding: 0; display: grid; gap: 12px; }
+  li {
+    border: 1px solid #eae0d6;
+    border-radius: 20px;
+    padding: 22px 26px;
+    background: #fffdfa;
+  }
+  li a { font-size: 1.05rem; font-weight: 700; color: #322c28; text-decoration: none; }
+  li a:hover { color: #9c6558; }
+  li p { margin-top: 6px; font-size: 0.9rem; color: #776b63; line-height: 1.6; }
+</style>

@@ -1,0 +1,98 @@
+---
+/**
+ * A wide, shallow dome that separates two sections.
+ *
+ * The incoming section's ground rises out of the outgoing one in a single arc,
+ * echoing the arch motif that runs through the hero, the Meet Hailey photo and
+ * the logo. Used where two grounds meet and the colour change alone is too
+ * subtle to register — most of this palette is pale tints a few values apart.
+ *
+ * Sits *between* two sections rather than inside either, so neither needs a
+ * negative margin or a stacking context of its own.
+ *
+ * `from` is the colour above the curve, `to` is the colour below it. Pass the
+ * same CSS values the two sections use, or their boundary will show a seam.
+ */
+interface Props {
+  /** Colour above the curve — the outgoing section's ground */
+  from: string;
+  /** Colour below the curve — the incoming section's ground. Unused when cap. */
+  to?: string;
+  /** Flip the arc so the outgoing section domes down into the incoming one */
+  invert?: boolean;
+  /**
+   * Cap mode. Paints ONLY the sliver above the arc, in `from`, and leaves
+   * everything below transparent — so it can be absolutely positioned over the
+   * top of a section whose own content (a full-bleed photo, say) runs all the
+   * way up. The content then gets clipped along the arc instead of needing a
+   * fade of its own. The parent must position it and provide the stacking
+   * context.
+   */
+  cap?: boolean;
+}
+
+const { from, to, invert = false, cap = false } = Astro.props;
+
+// A single cubic that leaves both edges horizontal, so the curve meets the
+// section edges flush instead of arriving at an angle.
+const dome = 'M0,96 C420,-14 1020,-14 1440,96 Z';
+const valley = 'M0,0 C420,110 1020,110 1440,0 L1440,96 L0,96 Z';
+// The complement of `dome`: the two top corners the arc leaves behind.
+const capPath = 'M0,0 L1440,0 L1440,96 C1020,-14 420,-14 0,96 Z';
+
+const arc = invert
+  ? 'M0,0 C420,110 1020,110 1440,0'
+  : 'M0,96 C420,-14 1020,-14 1440,96';
+---
+
+<div
+  class:list={['curve', { cap }]}
+  style={`--from:${from}; --to:${to ?? 'transparent'};`}
+  aria-hidden="true"
+>
+  <svg viewBox="0 0 1440 96" preserveAspectRatio="none" focusable="false">
+    <path class={cap ? 'cap-fill' : 'fill'} d={cap ? capPath : invert ? valley : dome} />
+    <!-- Hairline along the arc. The grounds either side are pale tints only a
+         few values apart, so the fill alone can read as a smudge rather than an
+         edge; the rule is what makes the transition legible. -->
+    <path class="rule" d={arc} />
+  </svg>
+</div>
+
+<style>
+  .curve {
+    background: var(--from);
+    /* svg is inline by default, which would leave a text-baseline gap under it */
+    line-height: 0;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: clamp(34px, 4.6vw, 96px);
+  }
+  /* Cap mode is an overlay, so it must not paint its own ground — only the
+     sliver above the arc. The parent positions it. */
+  .curve.cap {
+    background: none;
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    pointer-events: none;
+  }
+
+  .fill {
+    fill: var(--to);
+  }
+  .cap-fill {
+    fill: var(--from);
+  }
+  .rule {
+    fill: none;
+    stroke: var(--rose-200);
+    /* preserveAspectRatio: none stretches the viewBox, which would stretch the
+       stroke with it; this keeps it a true hairline at any width */
+    vector-effect: non-scaling-stroke;
+    stroke-width: 1;
+    opacity: 0.85;
+  }
+</style>

@@ -1,0 +1,244 @@
+---
+/**
+ * The four thresholds. Every card plays a looping clip on hover.
+ *
+ * Videos are resolved by convention from /public/videos:
+ *   journey-fertility.mp4   + journey-fertility.jpg
+ *   journey-pregnancy.mp4   + journey-pregnancy.jpg
+ *   journey-birth.mp4       + journey-birth.jpg
+ *   journey-postpartum.mp4  + journey-postpartum.jpg
+ *
+ * Drop a file in with the matching name and that card gains hover video on the
+ * next build. No code change needed. Cards with no clip yet keep their
+ * photograph and simply do not animate, so the section is never broken
+ * mid-migration.
+ *
+ * Poster is optional: without one, the still photograph shows until hover.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { Image } from 'astro:assets';
+import VideoBackdrop from '../VideoBackdrop.astro';
+import { reveal, stagger } from '../../lib/reveal';
+import fertility from '../../assets/images/imgi_19_689ec90324858a5600fb5a4e.jpg';
+import pregnancy from '../../assets/images/imgi_18_689ed7bac6ba4e55bc9fc953.png';
+import birth from '../../assets/images/imgi_23_68a207374fa1aa2b5b419aef.jpg';
+import postpartum from '../../assets/images/imgi_13_689e45cee0fe54b3a73e08c7.jpg';
+
+const publicDir = path.join(process.cwd(), 'public');
+const exists = (p: string) => fs.existsSync(path.join(publicDir, p));
+
+/** Returns the clip for a slot, or null if the file has not been added yet. */
+function clipFor(slug: string) {
+  const src = `/videos/journey-${slug}.mp4`;
+  if (!exists(src)) return null;
+  const poster = `/videos/journey-${slug}.jpg`;
+  return { src, poster: exists(poster) ? poster : undefined };
+}
+
+const thresholds = [
+  {
+    slug: 'fertility',
+    num: '01',
+    stage: 'Fertility',
+    title: 'Prepare before the positive test',
+    copy: 'Cycle literacy, nourishment, and a body ready to conceive.',
+    image: fertility,
+  },
+  {
+    slug: 'pregnancy',
+    num: '02',
+    stage: 'Pregnancy',
+    title: 'Nourish body, mind, and spirit',
+    copy: 'Movement, nutrition, and the mental work that calms labor.',
+    image: pregnancy,
+  },
+  {
+    slug: 'birth',
+    num: '03',
+    stage: 'Birth',
+    title: 'Calm and confident, wherever you birth',
+    copy: 'For hospital and home, with your partner trained beside you.',
+    image: birth,
+  },
+  {
+    slug: 'postpartum',
+    num: '04',
+    stage: 'Postpartum',
+    title: 'Held through the fourth trimester',
+    copy: 'Recovery, feeding, and a community that stays after the birth.',
+    image: postpartum,
+  },
+].map((t) => ({ ...t, clip: clipFor(t.slug) }));
+---
+
+<section class="journey">
+  <div class="wrap">
+    <div class="sec-head" {...reveal()}>
+      <p class="eyebrow">The journey</p>
+      <h2>A single calm system for every threshold</h2>
+      <p class="sec-sub">
+        The program is organized around the thresholds mothers actually cross:
+        preconception, pregnancy, birth, and the first tender weeks after.
+      </p>
+    </div>
+
+    <div class="cards">
+      {
+        thresholds.map((t, i) => (
+          <article class="card" data-hover-play {...reveal(stagger(i))}>
+            <div class="card-media">
+              <Image src={t.image} alt="" widths={[340, 520]} sizes="24vw" />
+              {
+                t.clip && (
+                  <VideoBackdrop
+                    src={t.clip.src}
+                    poster={t.clip.poster ?? ''}
+                    position="50% 46%"
+                    trigger="hover"
+                  />
+                )
+              }
+            </div>
+            <p class="card-stage">{t.num} — {t.stage}</p>
+            <h3>{t.title}</h3>
+            <p class="card-copy">{t.copy}</p>
+            <a class="card-go" href="/course">
+              Explore <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .journey { background: var(--rose-75); padding: 100px 0 112px; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+
+  .sec-head { max-width: 42em; margin: 0 auto; text-align: center; }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+  .sec-head h2 {
+    font-size: clamp(2rem, 3.5vw, 3.1rem);
+    line-height: 1.1;
+    margin-top: 16px;
+  }
+  .sec-sub {
+    margin-top: 18px;
+    font-size: 16.5px;
+    line-height: 1.8;
+    color: var(--f-ink-soft);
+  }
+
+  .cards {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  /* flex column so Explore bottom-aligns across cards whose titles wrap to a
+     different number of lines */
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--beige-50);
+    border: 1px solid var(--rose-200);
+    border-radius: 32px;
+    padding: 16px;
+    box-shadow: 0 24px 50px -30px rgba(124, 76, 66, 0.34);
+    transition: transform 260ms ease, box-shadow 260ms ease;
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 64px -30px rgba(124, 76, 66, 0.44);
+  }
+
+  .card-media {
+    position: relative;
+    height: 172px;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  /* One rose grade over both the still and the clip, so the four cards read as
+     a single set even though the source footage is unrelated. */
+  .card-media :global(img),
+  .card-media :global(video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.74) contrast(1.04) brightness(1.02);
+  }
+  .card-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  /* Scale the still slightly on hover so cards without a clip yet still
+     respond to the pointer. */
+  .card:hover .card-media > :global(img) { transform: scale(1.04); }
+  .card-media > :global(img) { transition: transform 600ms ease; }
+
+  .card-stage {
+    margin-top: 16px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+  .card h3 {
+    font-size: 16.5px;
+    line-height: 1.3;
+    margin-top: 6px;
+    font-weight: 700;
+  }
+  .card-copy { margin-top: 8px; font-size: 13px; line-height: 1.65; color: var(--f-ink-soft); }
+  .card-go {
+    margin-top: auto;
+    padding-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--rose-600);
+    text-decoration: none;
+  }
+  .card-go .arrow {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--rose-50);
+    border: 1px solid var(--rose-200);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    transition: transform 200ms ease;
+  }
+  .card:hover .card-go .arrow { transform: translateX(3px); }
+
+  @media (max-width: 1080px) {
+    .cards { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+  @media (max-width: 900px) {
+    .journey { padding: 68px 0 80px; }
+    .wrap { padding: 0 24px; }
+  }
+  @media (max-width: 560px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>

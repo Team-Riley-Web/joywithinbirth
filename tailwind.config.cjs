@@ -3,6 +3,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Option F palette: beige ground, rose as the single accent family.
+        // `rose` intentionally runs darker than `blush` so there is something on
+        // the page capable of anchoring it (blush alone reads soft, not premium).
+        rose: {
+          50: '#FAEDE6',
+          75: '#F4E0D6',
+          100: '#F6E3DA',
+          200: '#E8CFC8',
+          300: '#D6A79A',
+          400: '#C08D82',
+          500: '#A9756A',
+          600: '#9C6558',
+          700: '#7C4C42',
+          800: '#5E3931',
+          900: '#3F2620',
+        },
+        beige: {
+          50: '#FFFCFA',
+          100: '#FCF6F1',
+          200: '#F8F0EA',
+          300: '#EDE1DA',
+        },
         cream: {
           50: '#FFFDFB',
           100: '#FBF5EC',
@@ -47,8 +69,12 @@ module.exports = {
         },
       },
       fontFamily: {
+        // Option F: one geometric sans across display and body.
+        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Kept for the pages not yet moved onto Option F, and for the
+        // signature accent in the Birth Without Fear section.
         serif: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         signature: ['"Lindsey Signature"', 'cursive'],
       },
       boxShadow: {

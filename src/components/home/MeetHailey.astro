@@ -1,0 +1,224 @@
+---
+/**
+ * Meet Hailey — the arch photo treatment, mirrored to the left.
+ *
+ * The arch carries the hairline white rule set inside its edge (the detail from
+ * the earlier Chapel Arch pass), plus a rose halo tracing just outside it. Media
+ * sits on the LEFT here, since the hero and Birth Without Fear both place theirs
+ * on the right.
+ *
+ * The crop (hailey-arch.jpg) is framed so her head sits at 44% of the frame
+ * height. A tighter crop would put her head at the very top edge, and a crop
+ * that centres it exactly has to include the blown-out sky, which erases the
+ * arch silhouette against the beige page.
+ */
+import { Image } from 'astro:assets';
+import haileyArch from '../../assets/images/hailey-arch.jpg';
+import { reveal } from '../../lib/reveal';
+
+const proof = [
+  'Second-generation midwife, trained beside her own mother',
+  'Three natural births of her own, one completely pain-free',
+  'Supports hospital and home birth alike, without judgement',
+];
+---
+
+<section class="meet">
+  <div class="grid">
+    <div class="stage" {...reveal()}>
+      <div class="halo" aria-hidden="true"></div>
+
+      <figure class="arch">
+        <Image
+          src={haileyArch}
+          alt="Hailey Aliff standing in soft evening light among desert ridges, hands resting on her pregnant belly"
+          class="photo"
+          style="transform: scale(1.04);"
+          data-scroll-scale-image
+          widths={[480, 720, 883]}
+          sizes="(min-width: 900px) 42vw, 90vw"
+        />
+      </figure>
+    </div>
+
+    <div class="copy" {...reveal(160)}>
+      <p class="eyebrow">Meet Hailey</p>
+
+      <h2>Taught by a midwife who has walked it herself</h2>
+
+      <p class="lede">
+        Hailey Aliff is a second-generation midwife. She learned birth at her mother's
+        side long before she trained formally, and she has carried three of her own
+        babies to term naturally. What she teaches is not theory she read once.
+      </p>
+
+      <ul class="proof">
+        {
+          proof.map((item) => (
+            <li>
+              <span class="tick" aria-hidden="true"></span>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+
+      <a class="link" href="/about">
+        Read Hailey's story <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .meet { background: var(--rose-50); padding: 104px 0 112px; }
+
+  .grid {
+    max-width: var(--f-max);
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 84px;
+    align-items: center;
+  }
+
+  /* ---------- the arch ---------- */
+  /* capped so the tall arch does not overshoot the copy column and leave a
+     block of dead air beside it */
+  .stage { position: relative; width: 100%; max-width: 490px; }
+
+  .arch {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 883 / 1150;
+    border-radius: 300px 300px var(--f-r-lg) var(--f-r-lg);
+    overflow: hidden;
+    box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
+  }
+  .arch :global(.photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 44%;
+    filter: saturate(0.92) contrast(1.03);
+  }
+  /* The sky in this frame is blown out almost to white, which would make the top
+     of the arch vanish against the beige page. Tinting it turns that into an
+     asset: light falling from above, and a readable arch silhouette. */
+  .arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      var(--rose-300) 0%,
+      var(--rose-200) 14%,
+      rgba(232, 207, 200, 0.55) 26%,
+      rgba(232, 207, 200, 0.16) 38%,
+      rgba(232, 207, 200, 0) 48%
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  /* the hairline white rule set inside the arch edge */
+  .arch::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    z-index: 2;
+    border: 1px solid rgba(255, 253, 250, 0.72);
+    border-radius: 288px 288px 20px 20px;
+    pointer-events: none;
+  }
+
+  /* rose hairline tracing just outside the arch */
+  .halo {
+    position: absolute;
+    left: -5.5%;
+    right: -5.5%;
+    top: -2.5%;
+    bottom: 4%;
+    border: 1px solid var(--rose-200);
+    border-radius: 320px 320px 26px 26px;
+    z-index: -1;
+  }
+
+  /* ---------- copy ---------- */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--rose-200);
+  }
+
+  .copy h2 {
+    margin-top: 22px;
+    font-size: clamp(2rem, 3.4vw, 3rem);
+    line-height: 1.09;
+    max-width: 20ch;
+  }
+  .lede {
+    margin-top: 24px;
+    max-width: 36em;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--f-ink-soft);
+  }
+
+  .proof { margin-top: 30px; list-style: none; padding: 0; display: grid; gap: 14px; }
+  .proof li {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--f-ink);
+  }
+  /* a rose ring rather than a bullet */
+  .tick {
+    flex: none;
+    margin-top: 5px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 2px solid var(--rose-400);
+    background: var(--rose-50);
+  }
+
+  .link {
+    margin-top: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rose-600);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rose-200);
+    padding-bottom: 5px;
+  }
+  .link .arrow { transition: transform 200ms ease; }
+  .link:hover .arrow { transform: translateX(4px); }
+
+  @media (max-width: 900px) {
+    .meet { padding: 72px 0 80px; }
+    .grid { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
+    /* explicit width, or this stretched grid item shrink-to-fits and the
+       aspect-ratio arch collapses */
+    .stage { width: 100%; max-width: 420px; justify-self: center; }
+    .copy h2 { max-width: none; }
+  }
+</style>

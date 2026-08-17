@@ -1,0 +1,284 @@
+---
+/**
+ * Home hero — Option F.
+ *
+ * Beige ground with a rose wash, arch-shaped media that fades down into the
+ * page rather than stopping at a hard frame, one geometric sans, gradient CTA.
+ *
+ * Media is the looping clip (`/videos/hero-loop.mp4`). Falls back to the
+ * still photograph automatically if that file is missing.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { Image } from 'astro:assets';
+import VideoBackdrop from '../VideoBackdrop.astro';
+import heroStill from '../../assets/images/hero-arch-crop.jpg';
+import fertility from '../../assets/images/imgi_19_689ec90324858a5600fb5a4e.jpg';
+import birth from '../../assets/images/imgi_23_68a207374fa1aa2b5b419aef.jpg';
+import postpartum from '../../assets/images/imgi_13_689e45cee0fe54b3a73e08c7.jpg';
+
+const heroVideo = '/videos/hero-loop.mp4';
+const heroPoster = '/videos/hero-loop.jpg';
+const hasVideo = fs.existsSync(path.join(process.cwd(), 'public', heroVideo));
+---
+
+<section class="hero">
+  <div class="hero-wash" aria-hidden="true"></div>
+
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">Faith-centered natural childbirth</p>
+
+      <h1>Birth prepared,<br />not afraid</h1>
+
+      <p class="lede">
+        A self-paced training and private community led by Hailey Aliff, a
+        second-generation midwife, walking with you from fertility through postpartum.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn-grad" href="/enroll">Enroll once for $350</a>
+        <a class="btn-quiet" href="/course">View the course</a>
+      </div>
+    </div>
+
+    <div class="stage">
+      <figure class="arch">
+        {
+          hasVideo ? (
+            <VideoBackdrop src={heroVideo} poster={heroPoster} position="50% 44%" class="media" />
+          ) : (
+            <Image src={heroStill} alt="" class="media" widths={[640, 900, 1280]} sizes="50vw" />
+          )
+        }
+      </figure>
+
+      {/* Nine modules moved up to the small slot... */}
+      <div class="chip chip-modules">
+        <p class="chip-k">Nine modules</p>
+        <p class="chip-v">Ten-plus hours, self-paced</p>
+      </div>
+
+      {/* ...so the testimonial takes the prominent lower-right card slot. */}
+      <div class="chip chip-proof">
+        <div class="avatars">
+          <Image src={postpartum} alt="" width={64} height={64} />
+          <Image src={birth} alt="" width={64} height={64} />
+          <Image src={fertility} alt="" width={64} height={64} />
+        </div>
+        <p class="chip-n">200+ mothers prepared</p>
+        <p class="stars" aria-hidden="true">★★★★★</p>
+        <blockquote class="chip-q">
+          &ldquo;I went in calm instead of terrified. That changed everything.&rdquo;
+        </blockquote>
+        <p class="chip-sig">Lifetime access</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--beige-100);
+  }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(86% 78% at 82% 4%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
+      radial-gradient(58% 54% at 98% 58%, rgba(232, 207, 200, 0.8) 0%, rgba(232, 207, 200, 0) 68%),
+      radial-gradient(70% 50% at 6% 96%, var(--rose-50) 0%, rgba(252, 243, 239, 0) 60%);
+  }
+
+  /* Wider media column than the earlier pass: the video now gets more room
+     than the copy at desktop widths. */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 76px 40px 96px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--rose-200);
+  }
+
+  h1 {
+    font-size: clamp(2.9rem, 5vw, 4.9rem);
+    line-height: 1.03;
+    margin-top: 24px;
+  }
+  .lede {
+    margin-top: 24px;
+    max-width: 32em;
+    font-size: 17px;
+    line-height: 1.76;
+    color: var(--f-ink-soft);
+  }
+  .cta-row { margin-top: 34px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+  .btn-grad {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--beige-50);
+    font-weight: 700;
+    font-size: 15px;
+    background: linear-gradient(
+      96deg,
+      var(--rose-700) 0%,
+      var(--rose-500) 52%,
+      var(--rose-400) 100%
+    );
+    border-radius: 999px;
+    padding: 16px 32px;
+    box-shadow: 0 20px 40px -16px rgba(124, 76, 66, 0.62);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .btn-grad:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 26px 50px -16px rgba(124, 76, 66, 0.7);
+  }
+  .btn-quiet {
+    text-decoration: none;
+    color: var(--f-ink);
+    font-weight: 600;
+    font-size: 15px;
+    border: 1px solid var(--rose-200);
+    border-radius: 999px;
+    padding: 16px 30px;
+    background: var(--beige-50);
+  }
+
+  /* ---------- arch, faded rather than hard-edged ---------- */
+  .stage { position: relative; }
+  .arch {
+    position: relative;
+    margin: 0;
+    /* wider and less tall than the earlier pass, to give the video more area */
+    aspect-ratio: 47 / 52;
+    border-radius: 300px 300px 32px 32px;
+    overflow: hidden;
+  }
+  /* Two mask layers intersected: the media fades out along the bottom AND along
+     its inner edge, so it dissolves into the page on both axes instead of
+     meeting the beige at a hard line. The horizontal layer matters most with
+     video, whose frames are darker than the desert still ever was. */
+  .arch :global(.media),
+  .arch :global([data-video-backdrop]) {
+    -webkit-mask-image:
+      linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 54%,
+        rgba(0, 0, 0, 0.72) 78%,
+        rgba(0, 0, 0, 0.26) 93%,
+        transparent 100%
+      ),
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 9%, #000 24%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 54%,
+        rgba(0, 0, 0, 0.72) 78%,
+        rgba(0, 0, 0, 0.26) 93%,
+        transparent 100%
+      ),
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 9%, #000 24%);
+    mask-composite: intersect;
+  }
+  .arch :global(.media) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 54% 50%;
+    filter: saturate(0.9) contrast(1.02) brightness(1.03);
+  }
+
+  /* ---------- floating chips ---------- */
+  .chip {
+    position: absolute;
+    background: rgba(255, 253, 250, 0.87);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    box-shadow: 0 26px 54px -24px rgba(124, 76, 66, 0.4);
+  }
+
+  .chip-modules {
+    top: 8%;
+    left: -44px;
+    padding: 14px 22px;
+  }
+  .chip-k { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+  .chip-v { margin-top: 3px; font-size: 12px; color: var(--f-ink-soft); }
+
+  .chip-proof {
+    bottom: 7%;
+    right: -30px;
+    width: 268px;
+    padding: 20px 24px;
+  }
+  .avatars { display: flex; }
+  .avatars :global(img) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--beige-50);
+    margin-left: -10px;
+  }
+  .avatars :global(img:first-child) { margin-left: 0; }
+  .chip-n { margin-top: 12px; font-size: 14px; font-weight: 700; letter-spacing: -0.015em; }
+  .stars { color: #c9954e; font-size: 11px; letter-spacing: 1.5px; margin-top: 3px; }
+  .chip-q {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--f-ink-soft);
+  }
+  .chip-sig {
+    margin-top: 13px;
+    padding-top: 11px;
+    border-top: 1px solid var(--rose-200);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; padding: 48px 24px 68px; }
+    /* `margin: 0 auto` here would switch this stretched grid item to
+       shrink-to-fit, collapsing the aspect-ratio arch to zero width. */
+    .stage { width: 100%; max-width: 480px; justify-self: center; }
+    .chip-modules { left: -8px; }
+    .chip-proof { right: -8px; width: 250px; }
+  }
+  @media (max-width: 560px) {
+    .chip-modules { display: none; }
+    .chip-proof { position: static; width: auto; margin-top: 20px; backdrop-filter: none; }
+  }
+</style>
