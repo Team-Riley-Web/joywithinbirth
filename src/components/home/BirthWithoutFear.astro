@@ -10,6 +10,7 @@
  */
 import { Image } from 'astro:assets';
 import { reveal } from '../../lib/reveal';
+import SectionCurve from '../SectionCurve.astro';
 import heroAlt from '../../assets/images/home-hero-alt.png';
 ---
 
@@ -33,10 +34,12 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
       what your options are, and who is beside you.
     </p>
 
+    <a class="btn-grad btn-bwf" href="/enroll" {...reveal(280)}>Enroll Now</a>
+
     <dl class="stats" {...reveal(330)}>
       <div>
         <dt>200+</dt>
-        <dd>Mothers supported</dd>
+        <dd>Mothers <span>supported</span></dd>
       </div>
       <div>
         <dt>9</dt>
@@ -44,14 +47,16 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
       </div>
       <div>
         <dt>10+</dt>
-        <dd>Hours self-paced</dd>
+        <dd>Hours <span>self-paced</span></dd>
       </div>
       <div>
-        <dt>Lifetime</dt>
+        <dt class="stat-lifetime">Lifetime</dt>
         <dd>Access</dd>
       </div>
     </dl>
   </div>
+
+  <SectionCurve from="transparent" to="var(--rose-50)" overlay />
 </section>
 
 <style>
@@ -156,8 +161,13 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     color: var(--f-ink-soft);
   }
 
+  .btn-bwf {
+    margin-top: 42px;
+    padding: 16px 34px;
+  }
+
   .stats {
-    margin-top: 56px;
+    margin-top: 36px;
     display: flex;
     flex-wrap: wrap;
     gap: 56px;
@@ -191,5 +201,33 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     }
     .inner { padding: 64px 24px 300px; }
     .stats { gap: 32px; margin-top: 40px; }
+    .photo :global(img) {
+      object-position: 68% 68%;
+      transform: scale(1.18);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .eyebrow::before { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .inner { text-align: center; }
+    .eyebrow { justify-content: center; }
+    .lede { margin-inline: auto; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .stats > div { min-width: 0; }
+    .stats dt { font-size: clamp(1.35rem, 7vw, 1.875rem); }
+    .stats .stat-lifetime { font-size: clamp(1rem, 5.2vw, 1.35rem); }
+    .stats dd {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+    }
+    .stats dd span { display: block; }
   }
 </style>

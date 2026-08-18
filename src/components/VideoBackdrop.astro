@@ -9,8 +9,8 @@
  * Two triggers:
  *   'auto'  — plays whenever it is on screen, pauses when scrolled away.
  *   'hover' — stays on its poster until the user hovers (or keyboard-focuses)
- *             the nearest [data-hover-play] ancestor. Nothing downloads until
- *             then, so a grid of these costs no bandwidth on page load.
+ *             the nearest [data-hover-play] ancestor. On touch devices, where
+ *             hover does not exist, it plays while visible instead.
  *
  * Users with `prefers-reduced-motion: reduce` never load or play the video —
  * they get the poster still. The poster also paints immediately, so there is no
@@ -106,7 +106,11 @@ const {
       });
     };
 
-    if (wrap.dataset.trigger === 'hover') {
+    const supportsHover =
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !window.matchMedia('(max-width: 560px)').matches;
+
+    if (wrap.dataset.trigger === 'hover' && supportsHover) {
       // Bind to the card, not the video, so hovering anywhere on it counts.
       const target = wrap.closest<HTMLElement>('[data-hover-play]') ?? wrap;
       let leaveTimer: number | undefined;
@@ -134,8 +138,8 @@ const {
       return;
     }
 
-    // trigger: 'auto' — play while on screen, pause when it is not, so a hero
-    // video stops decoding once the user has scrolled past it.
+    // trigger: 'auto', plus hover-triggered media on touch devices — play while
+    // on screen and pause when it is not, so off-screen video stops decoding.
     video.addEventListener('canplay', reveal, { once: true });
 
     new IntersectionObserver(

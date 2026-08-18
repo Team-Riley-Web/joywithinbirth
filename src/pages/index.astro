@@ -11,47 +11,43 @@ import TestimonialCarousel from '../components/home/TestimonialCarousel.astro';
 import PartnerModule from '../components/home/PartnerModule.astro';
 import SectionCurve from '../components/SectionCurve.astro';
 import { reveal, stagger } from '../lib/reveal';
-import { Infinity, HandHeart, MessageCircle, NotebookPen, HeartHandshake, Sparkles } from '@lucide/astro';
 import element6 from '../assets/images/elements/6.png';
+import dreamBirthImage from '../assets/images/imgi_26_689ec9cc5dc21c83efcd4588.jpg';
+import laborFlowImage from '../assets/images/imgi_11_689cede83b01e6b095436d26.jpg';
+import ebookImage from '../assets/images/imgi_8_689ec538c6ba4e09e29cc249.jpg';
 
 
 
-const usps = [
+const freebies = [
   {
-    icon: HeartHandshake,
-    title: 'Real, lived credibility',
+    image: dreamBirthImage,
+    imageAlt: 'Sunset over mountains and water, representing a peaceful dream birth visualization.',
+    title: 'How to Visualize Your Dream Birth',
     description:
-      'A second-generation midwife who has personally walked three natural births, one completely pain-free, not just a certificate.',
+      'A free class to help you map your dream birth and start preparing with confidence.',
+    type: 'Free class',
+    cta: 'Watch free class',
+    href: 'https://joywithinbirth.myflodesk.com/',
   },
   {
-    icon: Sparkles,
-    title: 'For hospital & home birthers',
+    image: laborFlowImage,
+    imageAlt: 'A mother laboring in water with steady birth support nearby.',
+    title: 'Flow for Each Stage of Labor',
     description:
-      'Built for the full spectrum of natural birth, whether you are planning a hospital delivery or a birth at home.',
+      'Movement & mindset flow to reduce fear and build joy as you prepare for birth.',
+    type: 'Free class',
+    cta: 'Watch free class',
+    href: 'https://joywithinbirth.myflodesk.com/',
   },
   {
-    icon: HandHeart,
-    title: 'A dedicated partner module',
+    image: ebookImage,
+    imageAlt: 'A pregnant mother journaling with a laptop while preparing for birth.',
+    title: '5 Keys to Joy Within Birth (Ebook)',
     description:
-      'Most childbirth education leaves your partner out entirely. Module 8 trains them to be a true teammate.',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Community, not just video',
-    description:
-      'A private community, monthly live Q&A, and in-portal messaging with Hailey directly, so you are never left wondering alone.',
-  },
-  {
-    icon: NotebookPen,
-    title: 'A birth plan you understand',
-    description:
-      'Templates, guides, and checklists that turn 10+ hours of training into a concrete plan you can actually use.',
-  },
-  {
-    icon: Infinity,
-    title: 'One price, lifetime access',
-    description:
-      'A single $350 enrollment, however long your journey takes, from trying to conceive through the fourth trimester.',
+      'A simple, hope-filled guide to prepare your heart and mind for a peaceful birth.',
+    type: 'Ebook',
+    cta: 'Get the free ebook',
+    href: 'https://joywithinbirth.myflodesk.com/',
   },
 ];
 
@@ -73,27 +69,68 @@ const usps = [
 
   <BirthWithoutFear />
 
-  <SectionCurve from="var(--beige-100)" to="var(--rose-50)" />
+  <section
+    class="freebies-section"
+    x-data="{
+      updateScrollScaleImages() {
+        const viewportHeight = window.innerHeight;
 
-  <section class="relative isolate overflow-hidden bg-gradient-to-b from-rose-50 via-rose-50 via-45% to-beige-50 pb-24 pt-20">
-    <Image src={element6} alt="" aria-hidden="true" class="pointer-events-none absolute bottom-2 right-10 -z-10 hidden w-44 rotate-[12deg] opacity-[0.06] mix-blend-multiply lg:block xl:w-60" />
+        document.querySelectorAll('[data-scroll-scale-image]').forEach((image) => {
+          const frame = image.parentElement;
+          const rect = frame.getBoundingClientRect();
 
-    <div class="relative mx-auto max-w-2xl px-6 text-center" {...reveal()}>
-      <p class="text-sm font-semibold uppercase tracking-wide text-rose-600">Why Joy Within Birth</p>
-      <h2 class="mt-3 text-balance text-3xl sm:text-4xl">
-        Built differently, on purpose
-      </h2>
+          if (rect.bottom < 0 || rect.top > viewportHeight) return;
+
+          const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
+          const scale = 1.04 + progress * 0.16;
+
+          image.style.transform = `scale(${scale})`;
+        });
+      }
+    }"
+    x-init="
+      updateScrollScaleImages();
+      window.addEventListener('scroll', () => requestAnimationFrame(() => updateScrollScaleImages()), { passive: true });
+      window.addEventListener('resize', () => requestAnimationFrame(() => updateScrollScaleImages()), { passive: true });
+    "
+  >
+    <Image src={element6} alt="" aria-hidden="true" class="freebies-flower" />
+
+    <div class="freebies-head" {...reveal()}>
+      <p class="freebies-eyebrow">Free resources</p>
+      <h2>Start learning for free</h2>
+      <p class="freebies-intro">
+        Begin with practical, hope-filled guidance created to help you prepare for birth
+        with more calm, clarity, and confidence.
+      </p>
     </div>
 
-    <div class="relative mx-auto mt-12 grid max-w-6xl gap-8 px-6 sm:grid-cols-2 lg:grid-cols-3">
-      {usps.map(({ icon: Icon, title, description }, i) => (
-        <div class="rounded-2xl border-l-4 border-rose-300 bg-beige-50 p-6 shadow-soft ring-1 ring-rose-200" {...reveal(stagger(i, 90))}>
-          <Icon class="h-7 w-7 text-rose-600" />
-          <h3 class="mt-4 text-lg font-semibold text-ink-900">{title}</h3>
-          <p class="mt-2 text-sm leading-relaxed text-ink-500">{description}</p>
-        </div>
+    <div class="freebies-grid">
+      {freebies.map((item, i) => (
+        <article class="freebie-card" {...reveal(stagger(i, 90))}>
+          <div class="freebie-image">
+            <Image
+              src={item.image}
+              alt={item.imageAlt}
+              widths={[640, 960, 1280]}
+              sizes="(min-width: 1024px) 29vw, (min-width: 640px) 44vw, 100vw"
+              style="transform: scale(1.04);"
+              data-scroll-scale-image
+            />
+          </div>
+          <div class="freebie-copy">
+            <p class="freebie-type">{item.type}</p>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <a class="freebie-link" href={item.href} target="_blank" rel="noreferrer">
+              <span>{item.cta}</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
       ))}
     </div>
+
   </section>
 
   <PartnerModule />
@@ -105,3 +142,225 @@ const usps = [
     subheading="Enroll once, gain lifetime access, and join a community of women walking this same sacred road beside you."
   />
 </BaseLayout>
+
+<style>
+  .freebies-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 80px 0 48px;
+    background: linear-gradient(180deg, var(--rose-50) 0%, var(--rose-50) 45%, var(--beige-50) 100%);
+  }
+
+  .freebies-flower {
+    pointer-events: none;
+    position: absolute;
+    right: 2.5rem;
+    bottom: 0.5rem;
+    z-index: -1;
+    display: none;
+    width: 11rem;
+    rotate: 12deg;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+  }
+
+  .freebies-head {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .freebies-eyebrow {
+    color: var(--rose-600);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+
+  .freebies-head h2 {
+    margin-top: 12px;
+    color: var(--f-ink);
+    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .freebies-intro {
+    max-width: 38rem;
+    margin: 18px auto 0;
+    color: var(--f-ink-soft);
+    font-size: 16.5px;
+    line-height: 1.8;
+    text-wrap: balance;
+  }
+
+  .freebies-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 1320px;
+    margin: 52px auto 0;
+    padding: 0 40px;
+  }
+
+  .freebie-card {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    border: 1px solid var(--rose-200);
+    border-radius: 32px;
+    background: var(--beige-50);
+    padding: 16px;
+    box-shadow: 0 24px 50px -30px rgba(124, 76, 66, 0.34);
+    transition:
+      transform 260ms ease,
+      box-shadow 260ms ease;
+  }
+
+  .freebie-card:hover,
+  .freebie-card:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 64px -30px rgba(124, 76, 66, 0.44);
+  }
+
+  .freebie-image {
+    aspect-ratio: 1.78 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--beige-100);
+  }
+
+  .freebie-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.32;
+    pointer-events: none;
+  }
+
+  .freebie-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.78) contrast(1.04) brightness(1.02);
+    transition: transform 600ms ease;
+  }
+
+  .freebie-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px 0 0;
+  }
+
+  .freebie-type {
+    margin: 0;
+    color: var(--rose-600);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .freebie-copy h3 {
+    margin-top: 6px;
+    max-width: 18em;
+    color: var(--f-ink);
+    font-size: clamp(1.08rem, 1.45vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .freebie-copy > p:not(.freebie-type) {
+    margin-top: 8px;
+    max-width: 24em;
+    color: var(--f-ink-soft);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .freebie-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 14px;
+    gap: 8px;
+    color: var(--rose-600);
+    font-size: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .freebie-link .arrow {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border: 1px solid var(--rose-200);
+    border-radius: 50%;
+    background: var(--rose-50);
+    font-size: 11px;
+    transition: transform 200ms ease;
+  }
+
+  .freebie-card:hover .freebie-link .arrow,
+  .freebie-card:focus-within .freebie-link .arrow {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 980px) {
+    .freebies-grid {
+      grid-template-columns: 1fr;
+      max-width: 640px;
+    }
+
+    .freebie-copy h3,
+    .freebie-copy p {
+      max-width: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .freebies-flower {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .freebies-flower {
+      width: 15rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .freebies-section {
+      padding: 64px 0 40px;
+    }
+
+    .freebies-grid {
+      gap: 20px;
+      padding-inline: 18px;
+    }
+
+    .freebies-head {
+      padding-inline: 18px;
+    }
+
+    .freebie-card {
+      border-radius: 28px;
+    }
+
+    .freebie-copy {
+      padding-top: 16px;
+    }
+  }
+</style>

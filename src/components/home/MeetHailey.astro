@@ -240,6 +240,17 @@ const proof = [
     .stage { width: 100%; max-width: 420px; justify-self: center; }
     .copy h2 { max-width: none; }
   }
+
+  @media (max-width: 767px) {
+    .eyebrow::before { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    .copy { text-align: center; }
+    .eyebrow { justify-content: center; }
+    .lede { margin-inline: auto; }
+    .proof { text-align: left; }
+  }
 </style>
 
 <script>

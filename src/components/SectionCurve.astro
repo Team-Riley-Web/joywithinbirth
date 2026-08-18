@@ -29,9 +29,11 @@ interface Props {
    * context.
    */
   cap?: boolean;
+  /** Overlay the incoming-color dome across the bottom of its parent. */
+  overlay?: boolean;
 }
 
-const { from, to, invert = false, cap = false } = Astro.props;
+const { from, to, invert = false, cap = false, overlay = false } = Astro.props;
 
 // A single cubic that leaves both edges horizontal, so the curve meets the
 // section edges flush instead of arriving at an angle.
@@ -46,7 +48,7 @@ const arc = invert
 ---
 
 <div
-  class:list={['curve', { cap }]}
+  class:list={['curve', { cap, overlay }]}
   style={`--from:${from}; --to:${to ?? 'transparent'};`}
   aria-hidden="true"
 >
@@ -77,6 +79,14 @@ const arc = invert
     position: absolute;
     inset-inline: 0;
     top: 0;
+    pointer-events: none;
+  }
+  .curve.overlay {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 2;
+    background: none;
     pointer-events: none;
   }
 

@@ -36,3 +36,22 @@ unchecked task unless you are starting it.
 - [X] change home hero headline to "Birth with real joy"
 - [X] put "real joy" on its own line in the home hero headline
 - [X] add a few words to the home hero headline
+- [X] add Enroll Now button after the Fear paragraph in the Why Mothers Choose section
+- [X] rebalance spacing around the Enroll Now button in the Why Mothers Choose section
+- [X] add a subtle shadow to the home hero joy text so it stands out more
+- [X] make "Will I actually be ready when the moment comes?" larger
+- [X] make "And still, that quiet question:" match the body text color above it
+- [X] reduce line height of "Will I actually be ready when the moment comes?"
+- [X] replace the Why Joy Within Birth Built differently, on purpose cards with free content calls
+- [X] restore the original section styling around the free content cards
+- [X] reduce the space between the free content cards and the partner module
+- [X] add the Joy Within Birth name beside the header logo
+- [X] make the mobile menu overlay the page without shifting content
+- [X] keep "real joy" inline in the mobile hero headline
+- [X] autoplay available Journey card videos on mobile and increase mobile card media height
+- [X] improve the Birth Without Fear mobile stats layout and line wrapping
+- [X] improve the Birth Without Fear mobile image crop and curved separator coverage
+- [X] prevent the Partner Module shadow from clipping before the testimonials section
+- [X] reorganize the mobile footer links and center the footer content with tighter spacing
+- [X] on mobile center home hero heading, all headings + eyebrow, and buttons
+- [X] show decorative eyebrow rules only on desktop

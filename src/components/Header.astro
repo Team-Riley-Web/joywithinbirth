@@ -18,8 +18,11 @@ const currentPath = Astro.url.pathname;
   x-data="{ open: false }"
 >
   <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-    <a href="/" class="flex items-center" aria-label="Joy Within Birth home">
-      <Image src={favicon} alt="Joy Within Birth" width={96} height={96} class="h-12 w-12" />
+    <a href="/" class="flex items-center gap-3" aria-label="Joy Within Birth home">
+      <span class="whitespace-nowrap text-sm font-extrabold text-ink-800 sm:text-base">
+        Joy Within Birth
+      </span>
+      <Image src={favicon} alt="" width={96} height={96} class="h-12 w-12" />
     </a>
 
     <nav class="hidden items-center gap-8 md:flex">
@@ -54,7 +57,7 @@ const currentPath = Astro.url.pathname;
   </div>
 
   <nav
-    class="flex flex-col gap-1 border-t border-beige-300 bg-beige-100 px-6 py-4 md:hidden"
+    class="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-beige-300 bg-beige-100 px-6 py-4 shadow-soft md:hidden"
     x-show="open"
     x-cloak
     x-transition

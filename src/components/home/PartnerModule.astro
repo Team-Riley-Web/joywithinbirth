@@ -66,8 +66,11 @@ const covers = [
 
 <style>
   .partner {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
     background: linear-gradient(to bottom, var(--beige-50) 0%, var(--beige-100) 72%);
-    padding: 24px 0 104px;
+    padding: 16px 0 104px;
   }
 
   .panel {
@@ -192,10 +195,16 @@ const covers = [
   .link:hover .arrow { transform: translateX(4px); }
 
   @media (max-width: 880px) {
-    .partner { padding: 16px 24px 72px; }
+    .partner { padding: 12px 24px 72px; }
     .panel { grid-template-columns: 1fr; border-radius: 28px; }
     .media { min-height: 280px; }
     .body { padding: 36px 28px 40px; }
     h2 { max-width: none; }
+  }
+
+  @media (max-width: 640px) {
+    .body { text-align: center; }
+    .lede { margin-inline: auto; }
+    .covers { text-align: left; }
   }
 </style>
