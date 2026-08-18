@@ -232,24 +232,18 @@ const proof = [
   .link .arrow { transition: transform 200ms ease; }
   .link:hover .arrow { transform: translateX(4px); }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     .meet { padding: 72px 0 80px; }
     .grid { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
+    .copy { text-align: center; }
+    .eyebrow { justify-content: center; }
+    .eyebrow::before { display: none; }
+    .lede { margin-inline: auto; }
+    .proof { text-align: left; }
     /* explicit width, or this stretched grid item shrink-to-fits and the
        aspect-ratio arch collapses */
     .stage { width: 100%; max-width: 420px; justify-self: center; }
     .copy h2 { max-width: none; }
-  }
-
-  @media (max-width: 767px) {
-    .eyebrow::before { display: none; }
-  }
-
-  @media (max-width: 640px) {
-    .copy { text-align: center; }
-    .eyebrow { justify-content: center; }
-    .lede { margin-inline: auto; }
-    .proof { text-align: left; }
   }
 </style>
 

@@ -2,6 +2,7 @@
 import { Menu, X } from '@lucide/astro';
 import { Image } from 'astro:assets';
 import favicon from '../assets/images/favicon.png';
+import wordmark from '../assets/images/wordmark.png';
 
 const navLinks = [
   { href: '/about', label: 'About Hailey' },
@@ -17,15 +18,19 @@ const currentPath = Astro.url.pathname;
   class="sticky top-0 z-50 border-b border-beige-300 bg-beige-100/90 backdrop-blur"
   x-data="{ open: false }"
 >
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-    <a href="/" class="flex items-center gap-3" aria-label="Joy Within Birth home">
-      <span class="whitespace-nowrap text-sm font-extrabold text-ink-800 sm:text-base">
-        Joy Within Birth
-      </span>
-      <Image src={favicon} alt="" width={96} height={96} class="h-12 w-12" />
+  <div class="mx-auto flex max-w-[1320px] items-center justify-between px-6 py-4 lg:px-10">
+    <a href="/" class="flex items-center gap-2.5" aria-label="Joy Within Birth home">
+      <Image src={favicon} alt="" width={96} height={96} class="h-11 w-11 sm:h-12 sm:w-12" />
+      <Image
+        src={wordmark}
+        alt=""
+        class="h-auto w-40 lg:w-[170px]"
+        widths={[160, 170, 320, 340]}
+        sizes="(min-width: 1024px) 170px, 160px"
+      />
     </a>
 
-    <nav class="hidden items-center gap-8 md:flex">
+    <nav class="hidden items-center gap-8 lg:flex">
       {navLinks.map((link) => (
         <a
           href={link.href}
@@ -47,7 +52,7 @@ const currentPath = Astro.url.pathname;
 
     <button
       type="button"
-      class="text-ink-700 md:hidden"
+      class="text-ink-700 lg:hidden"
       aria-label="Toggle menu"
       @click="open = !open"
     >
@@ -57,7 +62,7 @@ const currentPath = Astro.url.pathname;
   </div>
 
   <nav
-    class="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-beige-300 bg-beige-100 px-6 py-4 shadow-soft md:hidden"
+    class="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-beige-300 bg-beige-100 px-6 py-4 shadow-soft lg:hidden"
     x-show="open"
     x-cloak
     x-transition

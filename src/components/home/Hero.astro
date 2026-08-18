@@ -239,22 +239,20 @@ const hasVideo = fs.existsSync(path.join(process.cwd(), 'public', heroVideo));
     color: var(--rose-600);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     .hero-grid { grid-template-columns: 1fr; gap: 44px; padding: 48px 24px 68px; }
+    .hero-grid > div:first-child { text-align: center; }
+    .eyebrow { justify-content: center; }
+    .eyebrow::before { display: none; }
+    .lede { margin-inline: auto; }
+    .cta-row { justify-content: center; }
     /* `margin: 0 auto` here would switch this stretched grid item to
        shrink-to-fit, collapsing the aspect-ratio arch to zero width. */
     .stage { width: 100%; max-width: 480px; justify-self: center; }
     .chip-modules { left: -8px; }
     .chip-proof { right: -8px; width: 250px; }
   }
-  @media (max-width: 767px) {
-    .eyebrow::before { display: none; }
-  }
   @media (max-width: 560px) {
-    .hero-grid > div:first-child { text-align: center; }
-    .eyebrow { justify-content: center; }
-    .lede { margin-inline: auto; }
-    .cta-row { justify-content: center; }
     .hero-closing { white-space: nowrap; }
     .hero-break { display: none; }
     .chip-modules { display: none; }

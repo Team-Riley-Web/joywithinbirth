@@ -191,7 +191,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     color: var(--f-ink-soft);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023px) {
     .photo {
       inset-block: auto 0;
       width: 100%;
@@ -199,22 +199,18 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 30%, #000 62%);
       mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 30%, #000 62%);
     }
-    .inner { padding: 64px 24px 300px; }
-    .stats { gap: 32px; margin-top: 40px; }
+    .inner { padding: 64px 24px 300px; text-align: center; }
+    .eyebrow { justify-content: center; }
+    .eyebrow::before { display: none; }
+    .lede { margin-inline: auto; }
+    .stats { justify-content: center; gap: 32px; margin: 40px auto 0; }
     .photo :global(img) {
       object-position: 68% 68%;
       transform: scale(1.18);
     }
   }
 
-  @media (max-width: 767px) {
-    .eyebrow::before { display: none; }
-  }
-
   @media (max-width: 600px) {
-    .inner { text-align: center; }
-    .eyebrow { justify-content: center; }
-    .lede { margin-inline: auto; }
     .stats {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -194,17 +194,13 @@ const covers = [
   .link .arrow { transition: transform 200ms ease; }
   .link:hover .arrow { transform: translateX(4px); }
 
-  @media (max-width: 880px) {
+  @media (max-width: 1023px) {
     .partner { padding: 12px 24px 72px; }
     .panel { grid-template-columns: 1fr; border-radius: 28px; }
     .media { min-height: 280px; }
-    .body { padding: 36px 28px 40px; }
-    h2 { max-width: none; }
-  }
-
-  @media (max-width: 640px) {
-    .body { text-align: center; }
+    .body { padding: 36px 28px 40px; text-align: center; }
     .lede { margin-inline: auto; }
     .covers { text-align: left; }
+    h2 { max-width: none; }
   }
 </style>

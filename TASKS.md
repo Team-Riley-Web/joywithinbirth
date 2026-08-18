@@ -13,45 +13,7 @@ unchecked task unless you are starting it.
 - Do not combine unrelated tasks into one implementation.
 
 ## Queue
-- [X] add parrallax scroll effect to this photo on homepage: (imgi_10_689cf0151f951ee0b182e811.jpg) in the Meet Hailey Taught by a midwife who has walked it herself section
-- [X] make testimonials infintely auto-scroll - no arrows needed our dots at bottom left
-- [X] We need to style the hover effect for the gradient button - the gradient colors should move really slowly and luxurious the background gradient should should shift around in a nice seamless loop.
-- [X] may testimonials scroll way slower
-- [X] make partner background the same light color as sections below it - but the rounded content should stay dark
-- [X] leave only the flower ghost element in "Why Joy Within Birth Built differently, on purpose"
-- [X] swap image and content sides in the Meet Hailey section
-- [X] reduce space around "And still, that quiet question: Will I actually be ready when the moment comes?" currently around 46px - reduce to around 26px
-- [X] add foot 7.png as ghost element to testimonials section
-- [X] in home prefooter change "One payment of $350 Lifetime access Monthly live Q&A" to "One payment Lifetime access Monthly live Q&A"
-- [X] UNDO this change: make partner background the same light color as sections below it - but the rounded content should stay dark
-- [X] move foot 7.png as ghost element closer to title and make it smaller
-- [X] move testimonials foot ghost to right max 26px calc f-max plus 190px and top 18px
-- [X] make problem section use a lighter white-to-rose gradient while staying seamless with sections above and below
-- [X] make "And still, that quiet question:" text a bit smaller
-- [X] make "joy" bigger in "Birth without fear, and with real joy"
-- [X] make "joy" in Birth without fear headline even bigger
-- [X] swap home hero headline with Birth without fear headline
-- [X] ensure the accent styling is in the home hero text
-- [X] fix home hero joy script font flashing then disappearing
-- [X] change home hero headline to "Birth with real joy"
-- [X] put "real joy" on its own line in the home hero headline
-- [X] add a few words to the home hero headline
-- [X] add Enroll Now button after the Fear paragraph in the Why Mothers Choose section
-- [X] rebalance spacing around the Enroll Now button in the Why Mothers Choose section
-- [X] add a subtle shadow to the home hero joy text so it stands out more
-- [X] make "Will I actually be ready when the moment comes?" larger
-- [X] make "And still, that quiet question:" match the body text color above it
-- [X] reduce line height of "Will I actually be ready when the moment comes?"
-- [X] replace the Why Joy Within Birth Built differently, on purpose cards with free content calls
-- [X] restore the original section styling around the free content cards
-- [X] reduce the space between the free content cards and the partner module
-- [X] add the Joy Within Birth name beside the header logo
-- [X] make the mobile menu overlay the page without shifting content
-- [X] keep "real joy" inline in the mobile hero headline
-- [X] autoplay available Journey card videos on mobile and increase mobile card media height
-- [X] improve the Birth Without Fear mobile stats layout and line wrapping
-- [X] improve the Birth Without Fear mobile image crop and curved separator coverage
-- [X] prevent the Partner Module shadow from clipping before the testimonials section
-- [X] reorganize the mobile footer links and center the footer content with tighter spacing
-- [X] on mobile center home hero heading, all headings + eyebrow, and buttons
-- [X] show decorative eyebrow rules only on desktop
+- [x] at 920px should look more like mobile. centered headings etc. look at /Users/joshuariley/Downloads/FireShot/joy.png to see issues
+- [x] Swap the header logo word order and preview it in the brand's script font.
+- [x] Replace the header's text wordmark with the uploaded wordmark.png asset.
+- [x] Set the desktop wordmark to about 170px and match the header width to the home hero.
