@@ -22,5 +22,7 @@ unchecked task unless you are starting it.
 - [X] swap image and content sides in the Meet Hailey section
 - [X] reduce space around "And still, that quiet question: Will I actually be ready when the moment comes?" currently around 46px - reduce to around 26px
 - [X] add foot 7.png as ghost element to testimonials section
-- [ ] in home prefooter change "One payment of $350 Lifetime access Monthly live Q&A" to "One payment Lifetime access Monthly live Q&A"
-- [ ] UNDO this change: make partner background the same light color as sections below it - but the rounded content should stay dark
+- [X] in home prefooter change "One payment of $350 Lifetime access Monthly live Q&A" to "One payment Lifetime access Monthly live Q&A"
+- [X] UNDO this change: make partner background the same light color as sections below it - but the rounded content should stay dark
+- [X] move foot 7.png as ghost element closer to title and make it smaller
+- [X] move testimonials foot ghost to right max 26px calc f-max plus 190px and top 18px

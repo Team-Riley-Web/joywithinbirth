@@ -58,10 +58,10 @@ import footElement from '../../assets/images/elements/7.png';
   }
   .stories :global(.foot-ghost) {
     position: absolute;
-    right: max(-70px, calc((100vw - var(--f-max)) / 2 - 44px));
-    bottom: 24px;
+    right: max(26px, calc((100vw - var(--f-max)) / 2 + 190px));
+    top: 18px;
     z-index: -1;
-    width: clamp(210px, 25vw, 360px);
+    width: clamp(130px, 14vw, 205px);
     opacity: 0.045;
     mix-blend-mode: multiply;
     pointer-events: none;
@@ -145,6 +145,11 @@ import footElement from '../../assets/images/elements/7.png';
 
   @media (max-width: 900px) {
     .stories { padding: 68px 0 80px; }
+    .stories :global(.foot-ghost) {
+      right: 14px;
+      top: 40px;
+      width: 112px;
+    }
     .wrap { padding: 0 24px; }
     .head { flex-direction: column; align-items: flex-start; gap: 20px; }
     .head h2 { max-width: none; }
