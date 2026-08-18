@@ -150,6 +150,17 @@
       0 2px 4px rgba(63, 38, 32, 0.08),
       0 24px 46px -20px rgba(124, 76, 66, 0.5);
   }
+
+  .signature-accent {
+    font-family: "Lindsey Signature", cursive !important;
+    font-weight: 400;
+    font-size: 1.58em;
+    line-height: 0.8;
+    letter-spacing: 0;
+    color: var(--rose-500);
+    margin-left: 8px;
+    font-synthesis: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

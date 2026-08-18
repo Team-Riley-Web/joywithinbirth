@@ -3,13 +3,10 @@
  * "Birth without fear" — the misty, feathered section.
  *
  * Carried over from the earlier HomeHeroAlt exploration, restyled onto Option F:
- * geometric sans headline, rose accent, beige ground. The photograph still has
+ * geometric sans headline and beige ground. The photograph still has
  * no hard frame at all — it is masked on both axes so it dissolves into the
  * page, which is the thing that made this one work.
  *
- * The one script accent on the site is the word "joy" in Lindsey Signature.
- * It survives because it is the signature of this section rather than a
- * decorative italic. To drop it, remove .accent and the <span>.
  */
 import { Image } from 'astro:assets';
 import { reveal } from '../../lib/reveal';
@@ -27,7 +24,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     <p class="eyebrow" {...reveal()}>Why mothers choose this</p>
 
     <h2 {...reveal(110)}>
-      Birth without fear,<br />and with real <span class="accent">joy</span>
+      Birth prepared,<br />not afraid
     </h2>
 
     <p class="lede" {...reveal(220)}>
@@ -151,16 +148,6 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     line-height: 1.04;
     max-width: 18em;
   }
-  .accent {
-    font-family: "Lindsey Signature", cursive;
-    font-weight: 400;
-    font-size: 1.16em;
-    line-height: 0.8;
-    letter-spacing: 0;
-    color: var(--rose-500);
-    margin-left: 8px;
-  }
-
   .lede {
     margin-top: 28px;
     max-width: 34em;

@@ -26,3 +26,13 @@ unchecked task unless you are starting it.
 - [X] UNDO this change: make partner background the same light color as sections below it - but the rounded content should stay dark
 - [X] move foot 7.png as ghost element closer to title and make it smaller
 - [X] move testimonials foot ghost to right max 26px calc f-max plus 190px and top 18px
+- [X] make problem section use a lighter white-to-rose gradient while staying seamless with sections above and below
+- [X] make "And still, that quiet question:" text a bit smaller
+- [X] make "joy" bigger in "Birth without fear, and with real joy"
+- [X] make "joy" in Birth without fear headline even bigger
+- [X] swap home hero headline with Birth without fear headline
+- [X] ensure the accent styling is in the home hero text
+- [X] fix home hero joy script font flashing then disappearing
+- [X] change home hero headline to "Birth with real joy"
+- [X] put "real joy" on its own line in the home hero headline
+- [X] add a few words to the home hero headline
