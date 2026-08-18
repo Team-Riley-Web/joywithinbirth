@@ -65,9 +65,10 @@ const {
     isolation: isolate;
     overflow: hidden;
     background: linear-gradient(
-      155deg,
+      to bottom,
       var(--rose-700) 0%,
-      var(--rose-800) 52%,
+      var(--rose-800) 42%,
+      var(--rose-900) 74%,
       var(--rose-900) 100%
     );
     color: #fff7f3;
@@ -81,7 +82,10 @@ const {
     z-index: -1;
     background:
       radial-gradient(64% 70% at 84% 4%, rgba(214, 167, 154, 0.34) 0%, rgba(214, 167, 154, 0) 62%),
-      radial-gradient(48% 58% at 10% 96%, rgba(124, 76, 66, 0.55) 0%, rgba(124, 76, 66, 0) 66%);
+      radial-gradient(44% 46% at 10% 56%, rgba(124, 76, 66, 0.32) 0%, rgba(124, 76, 66, 0) 68%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 88%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 88%);
+    pointer-events: none;
   }
 
   .inner {

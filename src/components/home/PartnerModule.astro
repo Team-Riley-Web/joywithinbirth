@@ -7,8 +7,8 @@
  * panel's own edge and the copy side carries the concrete curriculum points, so
  * it reads as a feature rather than a caption.
  *
- * Its ground continues the gradient the section above ends on (near-white) and
- * settles back to the page beige, so there is no seam on either side of it.
+ * The rounded panel carries the deep rose treatment while the surrounding
+ * section stays on the pale page ground.
  */
 import { Image } from 'astro:assets';
 import { reveal, stagger } from '../../lib/reveal';
@@ -65,8 +65,6 @@ const covers = [
 </section>
 
 <style>
-  /* Picks up where the section above leaves off and settles back to the page
-     ground, so this sits between two gradients without a visible join. */
   .partner {
     background: linear-gradient(to bottom, var(--beige-50) 0%, var(--beige-100) 72%);
     padding: 24px 0 104px;
@@ -78,13 +76,15 @@ const covers = [
     display: grid;
     grid-template-columns: 0.92fr 1.08fr;
     align-items: stretch;
-    background: var(--beige-50);
-    border: 1px solid var(--rose-200);
+    background:
+      radial-gradient(88% 82% at 96% 0%, rgba(169, 117, 106, 0.34) 0%, rgba(169, 117, 106, 0) 64%),
+      linear-gradient(145deg, var(--rose-800) 0%, var(--rose-900) 68%, #2f1c18 100%);
+    border: 1px solid rgba(255, 247, 243, 0.16);
     border-radius: 36px;
     overflow: hidden;
     box-shadow:
-      0 1px 2px rgba(124, 76, 66, 0.06),
-      0 40px 80px -44px rgba(124, 76, 66, 0.42);
+      0 1px 2px rgba(46, 18, 13, 0.18),
+      0 42px 90px -42px rgba(46, 18, 13, 0.72);
   }
 
   /* flush to the panel edge — no inner padding, no second radius */
@@ -107,7 +107,7 @@ const covers = [
     inset: 0;
     background: var(--rose-400);
     mix-blend-mode: color;
-    opacity: 0.12;
+    opacity: 0.2;
   }
 
   .body { padding: 56px 56px 56px 52px; }
@@ -120,7 +120,7 @@ const covers = [
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--rose-600);
+    color: var(--rose-200);
   }
   .badge .num {
     display: grid;
@@ -128,11 +128,11 @@ const covers = [
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: var(--rose-50);
-    border: 1px solid var(--rose-200);
+    background: rgba(255, 247, 243, 0.12);
+    border: 1px solid rgba(255, 247, 243, 0.22);
     font-size: 13px;
     letter-spacing: 0;
-    color: var(--rose-700);
+    color: #fff7f3;
   }
 
   h2 {
@@ -140,13 +140,14 @@ const covers = [
     font-size: clamp(1.9rem, 3.1vw, 2.7rem);
     line-height: 1.1;
     max-width: 15ch;
+    color: #fff7f3;
   }
 
   .lede {
     margin-top: 20px;
     font-size: 16.5px;
     line-height: 1.78;
-    color: var(--f-ink-soft);
+    color: rgba(255, 247, 243, 0.74);
     max-width: 40em;
   }
 
@@ -163,7 +164,7 @@ const covers = [
     gap: 13px;
     font-size: 15px;
     line-height: 1.6;
-    color: var(--f-ink);
+    color: rgba(255, 247, 243, 0.86);
   }
   .tick {
     flex: none;
@@ -171,8 +172,8 @@ const covers = [
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    border: 2px solid var(--rose-400);
-    background: var(--rose-50);
+    border: 2px solid var(--rose-300);
+    background: rgba(255, 247, 243, 0.12);
   }
 
   .link {
@@ -182,9 +183,9 @@ const covers = [
     gap: 10px;
     font-size: 14px;
     font-weight: 700;
-    color: var(--rose-600);
+    color: var(--rose-200);
     text-decoration: none;
-    border-bottom: 1px solid var(--rose-200);
+    border-bottom: 1px solid rgba(255, 247, 243, 0.24);
     padding-bottom: 5px;
   }
   .link .arrow { transition: transform 200ms ease; }

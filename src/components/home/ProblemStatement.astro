@@ -2,11 +2,8 @@
 /**
  * The problem statement, immediately after the hero.
  *
- * Sits on the same rose ground as Meet Hailey below it, so the two read as one
- * movement and the arch curve happens above this section rather than between
- * them. The pivot line — the question a reader is actually carrying — is pulled
- * out at its own size and weight rather than buried mid-paragraph, and there is
- * now somewhere to go from here.
+ * Begins on the hero's beige ground and fades into the rose ground below, so
+ * the section arrives as a gradual movement rather than a hard curve.
  */
 import { reveal } from '../../lib/reveal';
 ---
@@ -30,13 +27,18 @@ import { reveal } from '../../lib/reveal';
       trusted, faith-centered place.
     </p>
 
-    <a class="btn-grad" href="/course" {...reveal(460)}>See what's inside the course</a>
+    <a class="btn-grad btn-problem" href="/course" {...reveal(460)}>See what's inside the course</a>
   </div>
 </section>
 
 <style>
   .problem {
-    background: var(--rose-50);
+    background: linear-gradient(
+      to bottom,
+      #fcf5f1 0%,
+      var(--rose-50) 34%,
+      var(--rose-50) 100%
+    );
     padding: 116px 0 124px;
   }
 
@@ -89,27 +91,9 @@ import { reveal } from '../../lib/reveal';
     text-wrap: balance;
   }
 
-  .btn-grad {
-    display: inline-block;
+  .btn-problem {
     margin-top: 40px;
-    text-decoration: none;
-    color: var(--beige-50);
-    font-weight: 700;
-    font-size: 15px;
-    background: linear-gradient(
-      96deg,
-      var(--rose-700) 0%,
-      var(--rose-500) 52%,
-      var(--rose-400) 100%
-    );
-    border-radius: 999px;
     padding: 16px 34px;
-    box-shadow: 0 20px 40px -16px rgba(124, 76, 66, 0.62);
-    transition: transform 200ms ease, box-shadow 200ms ease;
-  }
-  .btn-grad:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 26px 50px -16px rgba(124, 76, 66, 0.7);
   }
 
   @media (max-width: 720px) {
