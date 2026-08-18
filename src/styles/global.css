@@ -98,15 +98,16 @@
       linear-gradient(
         112deg,
         var(--rose-800) 0%,
-        var(--rose-600) 28%,
-        var(--rose-400) 54%,
-        var(--rose-500) 74%,
-        var(--rose-700) 100%
+        var(--rose-600) 20%,
+        var(--rose-400) 40%,
+        var(--rose-500) 60%,
+        var(--rose-700) 80%,
+        var(--rose-800) 100%
       );
-    background-size: 240% 240%;
+    background-size: 320% 320%;
+    background-position: 0% 50%;
     opacity: 0;
-    transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1);
-    animation: luxe-gradient-drift 12s ease-in-out infinite;
+    transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-grad:hover {
@@ -118,6 +119,7 @@
 
   .btn-grad:hover::before {
     opacity: 1;
+    animation: luxe-gradient-drift 18s linear infinite;
   }
 
   .btn-quiet {
@@ -157,12 +159,17 @@
 }
 
 @keyframes luxe-gradient-drift {
-  0%,
-  100% {
+  0% {
     background-position: 0% 50%;
   }
-  50% {
-    background-position: 100% 50%;
+  33% {
+    background-position: 72% 36%;
+  }
+  66% {
+    background-position: 100% 68%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 

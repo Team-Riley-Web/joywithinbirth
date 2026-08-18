@@ -1,19 +1,16 @@
 ---
 /**
- * Meet Hailey — the arch photo treatment, mirrored to the left.
+ * Meet Hailey — the arch photo treatment paired with the founder copy.
  *
  * The arch carries the hairline white rule set inside its edge (the detail from
  * the earlier Chapel Arch pass), plus a rose halo tracing just outside it. Media
- * sits on the LEFT here, since the hero and Birth Without Fear both place theirs
- * on the right.
+ * sits on the RIGHT here, balancing the founder copy on the left.
  *
- * The crop (hailey-arch.jpg) is framed so her head sits at 44% of the frame
- * height. A tighter crop would put her head at the very top edge, and a crop
- * that centres it exactly has to include the blown-out sky, which erases the
- * arch silhouette against the beige page.
+ * The image uses the requested client photo while the frame keeps the arch,
+ * inner white rule and parallax drift.
  */
 import { Image } from 'astro:assets';
-import haileyArch from '../../assets/images/hailey-arch.jpg';
+import haileyPortrait from '../../assets/images/imgi_10_689cf0151f951ee0b182e811.jpg';
 import { reveal } from '../../lib/reveal';
 
 const proof = [
@@ -30,7 +27,7 @@ const proof = [
 
       <figure class="arch">
         <Image
-          src={haileyArch}
+          src={haileyPortrait}
           alt="Hailey Aliff standing in soft evening light among desert ridges, hands resting on her pregnant belly"
           class="photo"
           data-parallax
@@ -85,7 +82,13 @@ const proof = [
   /* ---------- the arch ---------- */
   /* capped so the tall arch does not overshoot the copy column and leave a
      block of dead air beside it */
-  .stage { position: relative; width: 100%; max-width: 490px; }
+  .stage {
+    position: relative;
+    order: 2;
+    width: 100%;
+    max-width: 490px;
+    justify-self: end;
+  }
 
   .arch {
     position: relative;
@@ -161,6 +164,8 @@ const proof = [
   }
 
   /* ---------- copy ---------- */
+  .copy { order: 1; }
+
   .eyebrow {
     display: flex;
     align-items: center;

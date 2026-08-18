@@ -5,10 +5,16 @@
  * Begins on the hero's beige ground and fades into the rose ground below, so
  * the section arrives as a gradual movement rather than a hard curve.
  */
+import { Image } from 'astro:assets';
 import { reveal } from '../../lib/reveal';
+import element1 from '../../assets/images/elements/1.png';
 ---
 
 <section class="problem">
+  <div class="ghost ghost-left" aria-hidden="true">
+    <Image src={element1} alt="" widths={[360, 560, 720]} sizes="24vw" />
+  </div>
+
   <div class="wrap">
     <h2 {...reveal()}>You don't have to piece this together alone</h2>
 
@@ -33,6 +39,9 @@ import { reveal } from '../../lib/reveal';
 
 <style>
   .problem {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     background: linear-gradient(
       to bottom,
       #fcf5f1 0%,
@@ -42,7 +51,27 @@ import { reveal } from '../../lib/reveal';
     padding: 116px 0 124px;
   }
 
+  .ghost {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+  .ghost-left {
+    //top: 38px;
+    left: max(24px, calc((100vw - 1320px) / 2 + 10px));
+    width: clamp(165px, 16vw, 335px);
+    opacity: 0.4;
+  }
+  .ghost :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .wrap {
+    position: relative;
+    z-index: 1;
     max-width: 54rem;
     margin: 0 auto;
     padding: 0 32px;
@@ -67,7 +96,7 @@ import { reveal } from '../../lib/reveal';
   /* The pivot. Given its own size, colour and air so it lands as the thought the
      reader is already having, instead of an aside inside a paragraph. */
   .question {
-    margin: 46px auto 0;
+    margin: 26px auto 0;
     max-width: 22em;
     font-size: clamp(1.25rem, 2.1vw, 1.6rem);
     line-height: 1.45;
@@ -83,7 +112,7 @@ import { reveal } from '../../lib/reveal';
   }
 
   .answer {
-    margin: 46px auto 0;
+    margin: 26px auto 0;
     max-width: 32em;
     font-size: 17px;
     line-height: 1.8;
@@ -98,8 +127,9 @@ import { reveal } from '../../lib/reveal';
 
   @media (max-width: 720px) {
     .problem { padding: 76px 0 84px; }
+    .ghost { display: none; }
     .wrap { padding: 0 24px; }
     .body, .question, .answer { margin-top: 26px; }
-    .question { margin-top: 34px; }
+    .question { margin-top: 26px; }
   }
 </style>

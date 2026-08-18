@@ -13,32 +13,14 @@ unchecked task unless you are starting it.
 - Do not combine unrelated tasks into one implementation.
 
 ## Queue
-- [X] pull appropriate videos from pexels or unsplash to complete the home hero build
-- [X]  In one of these options, you had the The photo with Hailey, and it had a nice white line on the inside, and it had the arch. I want you to include that in the photo, you know, on the homepage in a separate section. Put it on the left side since we have the other one on the right. (image mentioned imgi_10_689cf0151f951ee0b182e811.jpg). You actually cropped this image but did a poor job by placing the subject's head at the top. You can redo it but put her head in the middle and that would look much better. 
-- [X] Implement more of the rose color, a bit less beige
-- [X] Transitions between some sections on homepage can feel more distinct 
-- [X] Add scroll fade-in animations - should feel luxury, smooth, and relaxed (NOT fast)
-- [X] Remove green color - pre footer - improve this design
-- [X] Improve design of your partner needs this too. The built differently on purpose section, let's give it a gradient from top to bottom from that rose color and then fade into the white color so that the partner module, you know just, has a smoothness to it.
-- [X] The top curve of home hero isn't quite right, it gets flattened out - if this arch could match the shape of the logo even closer that would be ideal
-      (Cause was the hero mask, not the radius: a horizontal fade layer was
-      erasing the arch's left shoulder. Removed it; radius left untouched.)
-- [X] Really make the you don't have to piece this together alone. Like, give it more spacing and more emphasis. Will I actually be ready when the moment comes? Let's bold that. Let's like maybe there's a button underneath that that takes us there. Like it needs to just feel a little bit stronger. Also, design-wise, the home hero, the bottom left corner has some like pink tint that isn't really like on the right corner, it looks it's not there because it fades into the background color. So, you know, it's this light FCF5F1 for the left side, let's have it either fade there or overflow if maybe that's just a radial gradient right there so that it you know feels like a nice transition.
 - [X] add parrallax scroll effect to this photo on homepage: (imgi_10_689cf0151f951ee0b182e811.jpg) in the Meet Hailey Taught by a midwife who has walked it herself section
-- [X] more testimonials that auto-scroll and can be manually managed
-- [X] We need to style the outline button to match some of the styles on the nice gradient button. the outline button has no hover effect and then the hover effect for the gradient button should have like it should move really slowly and luxurious the background gradient should should shift around in a nice seamless loop. 
-- [X] Lets try the "birth without fear why mothers choose us" section should have a flat top to break up the design a little bit 
-- [X] Remove the paragraph in the footer of Faith-Centered Natural Childbirth. Use the proper social media icons as well instead of writing out Facebook, community that's fine. 
-- [X] In the header, let's just say pricing and we can remove FAQ 
-- [X] use elements as ghosted absolutely positioned items in places on the homepage - i particualarly like 4,5,6 & 7 here (/Users/joshuariley/Sites/joywithinbirth/src/assets/images/elements)
-- [X] make partner module background the dark color of pre-footer
-- [X] make footer all dark merging seamlessly with pre-footer
-- [X] make prefooter bg color fade into footer
-- [X] make partner bg color a dark rose color
-- [X] make prefooter bg color fade into footer seamless with a linear gradient top to bottom
-- [X] make partner rounded section dark rose and make prefooter fade seamlessly into footer
-- [X] make footer logo white inverted with no white background
-- [X] make bottom of footer fade into an even darker color
-- [X] make You don't have to piece this together alone fade seamless from home hero with a linear gradient top to bottom
-- [X] smooth home hero bottom-left pink tint into the light section transition
-- [X] remove remaining home hero bottom-left pink patch so lower edge is seamless
+- [X] make testimonials infintely auto-scroll - no arrows needed our dots at bottom left
+- [X] We need to style the hover effect for the gradient button - the gradient colors should move really slowly and luxurious the background gradient should should shift around in a nice seamless loop.
+- [X] may testimonials scroll way slower
+- [X] make partner background the same light color as sections below it - but the rounded content should stay dark
+- [X] leave only the flower ghost element in "Why Joy Within Birth Built differently, on purpose"
+- [X] swap image and content sides in the Meet Hailey section
+- [X] reduce space around "And still, that quiet question: Will I actually be ready when the moment comes?" currently around 46px - reduce to around 26px
+- [X] add foot 7.png as ghost element to testimonials section
+- [ ] in home prefooter change "One payment of $350 Lifetime access Monthly live Q&A" to "One payment Lifetime access Monthly live Q&A"
+- [ ] UNDO this change: make partner background the same light color as sections below it - but the rounded content should stay dark
