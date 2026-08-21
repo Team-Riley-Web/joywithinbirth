@@ -1,8 +1,18 @@
 ---
+/**
+ * The Course.
+ *
+ * Same system as the home page and /about: arch-shaped hero media, rose/beige
+ * grounds stepping soft → strong → page, the semantic tokens from global.css,
+ * and the shared control primitives. Four movements — hero, what's included,
+ * the curriculum, how it works — closing on the shared CtaBand.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import ModuleCard from '../components/ModuleCard.astro';
+import SectionCurve from '../components/SectionCurve.astro';
 import { Image } from 'astro:assets';
+import { reveal, stagger } from '../lib/reveal';
 import { Video, NotebookPen, HandHeart, Users, MessageCircle, Infinity } from '@lucide/astro';
 
 import heroImage from '../assets/images/imgi_8_689ec538c6ba4e09e29cc249.jpg';
@@ -75,94 +85,477 @@ const howItWorks = [
   title="The Course"
   description="Nine modules and over ten hours of self-paced natural childbirth training, covering nutrition, mindset, birth planning, the birth partner, postpartum, and holistic fertility."
 >
-  <section class="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
-    <div class="grid items-center gap-12 md:grid-cols-2">
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">The Course</p>
-        <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
-          Nine modules. Ten-plus hours. One lifetime of access.
-        </h1>
-        <p class="mt-5 max-w-lg text-lg leading-relaxed text-ink-500">
+  <!-- ───────────────────────── hero ───────────────────────── -->
+  <section class="hero">
+    <div class="hero-wash" aria-hidden="true"></div>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">The course</p>
+
+        <h1>Nine modules. Ten-plus hours. One lifetime of access.</h1>
+
+        <p class="lede">
           A complete, self-paced natural childbirth training and community, built for
           hospital-birthers and home-birthers alike, and for the partners who show up for
           them.
         </p>
-        <a
-          href="/enroll"
-          class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-7 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-600"
-        >
-          Enroll Now &mdash; $350, Lifetime Access
-        </a>
+
+        <div class="cta-row">
+          <a class="btn-grad btn-lg" href="/enroll">Enroll once for $350</a>
+          <a class="btn-quiet btn-lg" href="#curriculum">See the curriculum</a>
+        </div>
       </div>
-      <div class="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-lift">
-        <Image
-          src={heroImage}
-          alt="A pregnant woman writing in a journal with a laptop nearby, building her birth plan"
-          class="h-full w-full object-cover"
-          style="transform: scale(1.04);"
-          data-scroll-scale-image
-          widths={[480, 768, 1024]}
-          sizes="(min-width: 768px) 45vw, 100vw"
-          priority
-        />
+
+      <div class="stage">
+        <div class="halo" aria-hidden="true"></div>
+
+        <figure class="arch">
+          <span class="grade" aria-hidden="true"></span>
+          <Image
+            src={heroImage}
+            alt="A pregnant woman writing in a journal with a laptop nearby, building her birth plan"
+            class="photo"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 1024px) 44vw, 90vw"
+            priority
+          />
+        </figure>
       </div>
     </div>
   </section>
 
-  <section class="bg-cream-100 py-16">
-    <div class="mx-auto max-w-6xl px-6">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-balance text-3xl sm:text-4xl">What's included</h2>
+  <SectionCurve from="#fcf5f1" to="var(--bg-soft)" />
+
+  <!-- ─────────────────────── what's included ─────────────────────── -->
+  <section class="included">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">What's included</p>
+        <h2>Everything you need, in one trusted place</h2>
+        <p class="sec-sub">
+          Not a folder of PDFs. A structured training, the templates to act on it, and
+          people to ask when you get stuck.
+        </p>
       </div>
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {included.map(({ icon: Icon, title, description }) => (
-          <div class="rounded-2xl bg-cream-50 p-6 shadow-soft ring-1 ring-ink-100/60">
-            <Icon class="h-6 w-6 text-sage-600" />
-            <h3 class="mt-3 font-semibold text-ink-900">{title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-ink-500">{description}</p>
+
+      <div class="inc-grid">
+        {
+          included.map(({ icon: Icon, title, description }, i) => (
+            <article class="inc-card" {...reveal(stagger(i, 80))}>
+              <span class="inc-icon" aria-hidden="true"><Icon /></span>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── curriculum ───────────────────────── -->
+  <section class="curriculum" id="curriculum">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">The curriculum</p>
+        <h2>All nine modules</h2>
+        <p class="sec-sub">
+          Module 9 is a dedicated fertility track for anyone still trying to conceive, and
+          every module remains yours to revisit for future pregnancies.
+        </p>
+      </div>
+
+      <div class="mod-list">
+        {modules.map((mod, i) => (
+          <div {...reveal(stagger(i, 70))}>
+            <ModuleCard module={mod} />
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-4xl px-6 py-20">
-    <div class="text-center">
-      <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">The Curriculum</p>
-      <h2 class="mt-3 text-balance text-3xl sm:text-4xl">All nine modules</h2>
-      <p class="mx-auto mt-4 max-w-xl text-ink-500">
-        Module 9 is a dedicated fertility track for anyone still trying to conceive, and
-        every module remains yours to revisit for future pregnancies.
-      </p>
-    </div>
-    <div class="mt-12 space-y-5">
-      {modules.map((mod) => (
-        <ModuleCard module={mod} />
-      ))}
-    </div>
-  </section>
+  <!-- ───────────────────────── how it works ───────────────────────── -->
+  <section class="how">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">How it works</p>
+        <h2>Simple, self-paced, supported</h2>
+      </div>
 
-  <section class="bg-rose-50 py-20">
-    <div class="mx-auto max-w-5xl px-6">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-wide text-rose-600">How It Works</p>
-        <h2 class="mt-3 text-balance text-3xl sm:text-4xl">Simple, self-paced, supported</h2>
-      </div>
-      <div class="mt-12 grid gap-8 sm:grid-cols-5">
-        {howItWorks.map((item) => (
-          <div>
-            <span class="text-3xl font-extrabold tracking-[-0.03em] text-rose-500">{item.step}</span>
-            <h3 class="mt-3 font-semibold text-ink-900">{item.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-ink-600">{item.description}</p>
-          </div>
-        ))}
-      </div>
+      <ol class="steps">
+        {
+          howItWorks.map((item, i) => (
+            <li class="step" {...reveal(stagger(i, 90))}>
+              <span class="step-num" aria-hidden="true">{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
   <CtaBand
-    capFrom="var(--rose-50)"
+    capFrom="var(--bg-strong)"
     heading="Start wherever you are"
     subheading="Trying to conceive, newly pregnant, or preparing for a redemption birth, Joy Within Birth meets you there."
   />
 </BaseLayout>
+
+<style>
+  /* ═══════════════════════════ hero ═══════════════════════════ */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fcf5f1;
+  }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(86% 78% at 82% 4%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
+      radial-gradient(58% 54% at 98% 58%, rgba(232, 207, 200, 0.8) 0%, rgba(232, 207, 200, 0) 68%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 72px;
+    align-items: center;
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: var(--space-section-md) var(--layout-gutter) var(--space-section-lg);
+  }
+
+  h1 {
+    margin-top: 24px;
+    font-size: var(--type-display);
+    line-height: 1.05;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin-top: 26px;
+    max-width: 32em;
+    font-size: var(--type-lead);
+    line-height: 1.78;
+    color: var(--text-muted);
+  }
+
+  .cta-row {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* ══════════════════ shared eyebrow / section head ══════════════════ */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .sec-head {
+    max-width: 40em;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sec-head .eyebrow {
+    justify-content: center;
+  }
+  .sec-head .eyebrow::before {
+    display: none;
+  }
+  .sec-head h2 {
+    margin-top: 16px;
+    font-size: var(--type-section);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .sec-sub {
+    margin-top: 18px;
+    font-size: var(--type-lead);
+    line-height: 1.8;
+    color: var(--text-muted);
+    text-wrap: balance;
+  }
+
+  .wrap {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+
+  /* ══════════════════ the arch (shared treatment) ══════════════════ */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    justify-self: end;
+  }
+
+  .arch {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: 300px 300px var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
+  }
+  .arch :global(.photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 34%;
+    /* The dress in this frame is a saturated mustard, the one hue on the site
+       outside the rose/beige family. Pulled down and graded (below) the same way
+       the journey and resource cards grade their stills, so the hero belongs to
+       the palette instead of introducing a second accent. */
+    filter: saturate(0.6) contrast(1.04) brightness(1.02);
+  }
+  /* A real element rather than a pseudo: ::before carries the top tint and
+     ::after the hairline rule, so both are already taken. */
+  .arch .grade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      var(--rose-300) 0%,
+      var(--rose-200) 14%,
+      rgba(232, 207, 200, 0.5) 28%,
+      rgba(232, 207, 200, 0) 46%
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .arch::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    z-index: 2;
+    border: 1px solid rgba(255, 253, 250, 0.72);
+    border-radius: 288px 288px 20px 20px;
+    pointer-events: none;
+  }
+  .halo {
+    position: absolute;
+    left: -5.5%;
+    right: -5.5%;
+    top: -2.5%;
+    bottom: 4%;
+    border: 1px solid var(--border-subtle);
+    border-radius: 320px 320px 26px 26px;
+    z-index: -1;
+  }
+
+  /* ═══════════════════════ what's included ═══════════════════════ */
+  .included {
+    background: var(--bg-soft);
+    padding: var(--space-section-lg) 0;
+  }
+
+  .inc-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+
+  .inc-card {
+    padding: 30px 28px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 260ms ease,
+      box-shadow 260ms ease;
+  }
+  .inc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .inc-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 50%;
+    background: var(--bg-soft);
+    color: var(--accent-strong);
+  }
+  .inc-icon :global(svg) {
+    width: 21px;
+    height: 21px;
+  }
+
+  .inc-card h3 {
+    margin-top: 20px;
+    font-size: var(--type-card);
+    font-weight: 800;
+    line-height: 1.3;
+  }
+  .inc-card p {
+    margin-top: 10px;
+    font-size: var(--type-small);
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  /* ═══════════════════════ the curriculum ═══════════════════════ */
+  .curriculum {
+    background: var(--bg-page);
+    padding: var(--space-section-lg) 0;
+  }
+  .curriculum .wrap {
+    max-width: 60rem;
+  }
+
+  .mod-list {
+    margin-top: 52px;
+    display: grid;
+    gap: 16px;
+  }
+
+  /* ═══════════════════════ how it works ═══════════════════════ */
+  .how {
+    background: var(--bg-strong);
+    padding: var(--space-section-lg) 0;
+  }
+
+  .steps {
+    margin: 56px auto 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 26px;
+    max-width: 1120px;
+  }
+
+  .step {
+    position: relative;
+    padding-top: 26px;
+    border-top: 2px solid var(--rose-300);
+  }
+  /* A dot on the rule, so the five steps read as a sequence along a line rather
+     than five unrelated columns. */
+  .step::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-strong);
+  }
+
+  .step-num {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--accent-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .step h3 {
+    margin-top: 10px;
+    font-size: var(--type-card);
+    font-weight: 800;
+    line-height: 1.28;
+  }
+  .step p {
+    margin-top: 9px;
+    font-size: var(--type-small);
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  /* ═══════════════════════ responsive ═══════════════════════ */
+  @media (max-width: 1080px) {
+    .inc-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px 26px;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-copy {
+      text-align: center;
+    }
+    .eyebrow {
+      justify-content: center;
+    }
+    .eyebrow::before {
+      display: none;
+    }
+    h1 {
+      max-width: none;
+      margin-inline: auto;
+    }
+    .lede {
+      margin-inline: auto;
+    }
+    .cta-row {
+      justify-content: center;
+    }
+    /* Explicit width, or this stretched grid item shrink-to-fits and the
+       aspect-ratio arch collapses. */
+    .stage {
+      width: 100%;
+      max-width: 400px;
+      justify-self: center;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .inc-grid {
+      grid-template-columns: 1fr;
+      max-width: 32rem;
+      margin-inline: auto;
+    }
+    .steps {
+      grid-template-columns: 1fr;
+      max-width: 30rem;
+      gap: 28px;
+    }
+  }
+</style>

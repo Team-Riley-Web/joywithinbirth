@@ -1,22 +1,105 @@
 ---
+/**
+ * One testimonial.
+ *
+ * Shared by the home page marquee (fixed-width slides, so the card must fill
+ * its slot) and the /testimonials column flow (where it sizes to its own text).
+ * `height: 100%` covers the first without constraining the second.
+ */
 import { Quote } from '@lucide/astro';
 import type { Testimonial } from '../data/testimonials';
 
 interface Props {
   testimonial: Testimonial;
+  /**
+   * Show the outcome tag. Opt-in rather than default: the home page marquee is
+   * a fixed-height row and was signed off without tags, so only /testimonials
+   * turns them on.
+   */
+  showContext?: boolean;
 }
 
-const { testimonial } = Astro.props;
+const { testimonial, showContext = false } = Astro.props;
+const context = showContext ? testimonial.context : undefined;
 ---
 
-<figure
-  class="flex h-full flex-col rounded-3xl bg-beige-50 p-8 shadow-soft ring-1 ring-rose-200"
->
-  <Quote class="h-6 w-6 shrink-0 text-rose-300" />
-  <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-ink-600">
-    &ldquo;{testimonial.quote}&rdquo;
-  </blockquote>
-  <figcaption class="mt-6 border-t border-rose-200 pt-4 text-sm font-bold text-ink-900">
-    {testimonial.name}
+<figure class="card">
+  <span class="mark" aria-hidden="true"><Quote /></span>
+
+  <blockquote>&ldquo;{testimonial.quote}&rdquo;</blockquote>
+
+  <figcaption>
+    <span class="name">{testimonial.name}</span>
+    {context && <span class="context">{context}</span>}
   </figcaption>
 </figure>
+
+<style>
+  .card {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    margin: 0;
+    padding: 30px 28px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 260ms ease,
+      box-shadow 260ms ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .mark {
+    display: block;
+    flex: none;
+    color: var(--rose-300);
+  }
+  .mark :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  blockquote {
+    flex: 1;
+    margin: 16px 0 0;
+    font-size: var(--type-small);
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .name {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  /* The outcome in her own words, as a chip — this is what lets a reader
+     scanning the page recognise her own situation. */
+  .context {
+    padding: 4px 10px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    background: var(--bg-soft);
+    font-size: var(--type-label);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text-muted);
+  }
+</style>

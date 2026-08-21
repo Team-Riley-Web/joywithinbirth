@@ -1,4 +1,11 @@
 ---
+/**
+ * One curriculum module in the /course list.
+ *
+ * The number is the anchor: set large in the brand accent and given its own
+ * column, so a long list of modules stays scannable by index rather than
+ * needing the reader to parse each title.
+ */
 import type { Module } from '../data/modules';
 
 interface Props {
@@ -8,13 +15,94 @@ interface Props {
 const { module: mod } = Astro.props;
 ---
 
-<div
-  class="flex gap-5 rounded-2xl border-l-4 border-sage-300 bg-cream-50 p-6 shadow-soft ring-1 ring-ink-100/60"
->
-  <span class="font-serif text-3xl text-blush-300">{String(mod.number).padStart(2, '0')}</span>
-  <div>
-    <p class="text-xs font-semibold uppercase tracking-wide text-sage-600">{mod.focus}</p>
-    <h3 class="mt-1 text-lg font-semibold text-ink-900">{mod.title}</h3>
-    <p class="mt-2 text-sm leading-relaxed text-ink-500">{mod.description}</p>
+<article class="module">
+  <span class="num" aria-hidden="true">{String(mod.number).padStart(2, '0')}</span>
+
+  <div class="body">
+    <p class="focus">{mod.focus}</p>
+    <h3>
+      <span class="sr-only">Module {mod.number}:</span>
+      {mod.title}
+    </h3>
+    <p class="desc">{mod.description}</p>
   </div>
-</div>
+</article>
+
+<style>
+  .module {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 22px;
+    align-items: start;
+    padding: 24px 26px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 260ms ease,
+      box-shadow 260ms ease,
+      border-color 260ms ease;
+  }
+  .module:hover {
+    transform: translateY(-3px);
+    border-color: var(--rose-300);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .num {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--rose-300);
+    font-variant-numeric: tabular-nums;
+  }
+  .module:hover .num {
+    color: var(--accent-quiet);
+  }
+
+  .focus {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  .body h3 {
+    margin-top: 7px;
+    font-size: var(--type-card);
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .desc {
+    margin-top: 9px;
+    max-width: 46em;
+    font-size: var(--type-small);
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  /* The visible number is decorative, so the module index is restated here for
+     anyone who cannot see it. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  @media (max-width: 560px) {
+    .module {
+      gap: 16px;
+      padding: 20px;
+    }
+  }
+</style>

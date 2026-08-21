@@ -1,13 +1,42 @@
 ---
+/**
+ * Testimonials.
+ *
+ * The words ARE the page, so a quote is the hero rather than a photograph — an
+ * earlier pass used a stock image of a woman on a phone, which sat badly beside
+ * the real birth and family photography everywhere else on the site.
+ *
+ * The lead quote is pulled from the data by name rather than by index, so
+ * reordering `testimonials` cannot silently change which story leads, and the
+ * grid below is the remainder (no duplicate of the featured one).
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
+import SectionCurve from '../components/SectionCurve.astro';
 import { Image } from 'astro:assets';
+import { reveal, stagger } from '../lib/reveal';
 import { Users, MessageCircle, Calendar } from '@lucide/astro';
 
-import heroImage from '../assets/images/imgi_7_689ec5431ef51b39e157f9d9.jpg';
+import communityImage from '../assets/images/imgi_20_689ec97e5bdfcfe965cfd670.jpg';
+import element7 from '../assets/images/elements/7.png';
 
 import { testimonials } from '../data/testimonials';
+
+const FEATURED_NAME = 'Kari L.';
+const featured = testimonials.find((t) => t.name === FEATURED_NAME) ?? testimonials[0];
+const rest = testimonials.filter((t) => t !== featured);
+
+/**
+ * Proof figures. These are the numbers already used on the home page — the
+ * count of quotes on this page is deliberately NOT one of them: seven is a
+ * small number to headline, and it undersells what the site claims elsewhere.
+ */
+const proof = [
+  { figure: '200+', label: 'Mothers prepared' },
+  { figure: '9', label: 'Modules, 10+ hours' },
+  { figure: 'Lifetime', label: 'Access, every pregnancy' },
+];
 
 const communityStats = [
   { icon: Users, label: '106+ members inside the free community' },
@@ -18,68 +47,454 @@ const communityStats = [
 
 <BaseLayout
   title="Testimonials"
-  description="Real stories from mamas who walked through fear into calm, confident birth with Joy Within Birth."
+  description="Real stories from mamas who walked through fear into calm, confident birth with Joy Within Birth — including VBAC and HBAC births."
 >
-  <section class="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
-    <div class="grid items-center gap-12 md:grid-cols-2">
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Real Stories</p>
-        <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
-          You don't have to wonder if you're the only one who feels this way
-        </h1>
-        <p class="mt-5 max-w-lg text-lg leading-relaxed text-ink-500">
-          The moment a mama joins Joy Within Birth, she realizes she's surrounded by
-          women who already understand her. Here are a few of their stories, in their own
-          words.
-        </p>
-      </div>
-      <div class="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-lift">
-        <Image
-          src={heroImage}
-          alt="A smiling woman reading a message on her phone"
-          class="h-full w-full object-cover"
-          style="transform: scale(1.04);"
-          data-scroll-scale-image
-          widths={[480, 768, 1024]}
-          sizes="(min-width: 768px) 45vw, 100vw"
-          priority
-        />
-      </div>
-    </div>
-  </section>
+  <!-- ───────── hero: the strongest story, at display scale ───────── -->
+  <section class="hero">
+    <div class="hero-wash" aria-hidden="true"></div>
+    <Image src={element7} alt="" aria-hidden="true" class="hero-flower" />
 
-  <section class="mx-auto max-w-6xl px-6 py-16">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {testimonials.map((testimonial) => (
-        <TestimonialCard testimonial={testimonial} />
-      ))}
-    </div>
-  </section>
+    <div class="hero-inner">
+      <h1 class="sr-only">Testimonials from Joy Within Birth mothers</h1>
 
-  <section class="bg-cream-100 py-16">
-    <div class="mx-auto max-w-4xl px-6 text-center">
-      <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">The Community</p>
-      <h2 class="mt-3 text-balance text-3xl sm:text-4xl">
-        A digital classroom and heart-centered community
-      </h2>
-      <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-ink-500">
-        Joy Within Birth's private community exists for women who want to experience
-        pregnancy, birth, and postpartum with confidence, peace, and joy, hosted right
-        alongside your course access on Skool.
+      <p class="eyebrow">Real stories</p>
+
+      <figure class="lead">
+        <blockquote>&ldquo;{featured.quote}&rdquo;</blockquote>
+
+        <figcaption>
+          <span class="lead-name">{featured.name}</span>
+          {featured.context && <span class="lead-context">{featured.context}</span>}
+        </figcaption>
+      </figure>
+
+      <p class="hero-sub">
+        You don't have to wonder if you're the only one who feels this way. Every mama
+        below started where you are.
       </p>
-      <div class="mx-auto mt-10 grid max-w-2xl gap-6 sm:grid-cols-3">
-        {communityStats.map(({ icon: Icon, label }) => (
-          <div class="rounded-2xl bg-cream-50 p-6 shadow-soft ring-1 ring-ink-100/60">
-            <Icon class="mx-auto h-6 w-6 text-blush-500" />
-            <p class="mt-3 text-sm font-medium text-ink-700">{label}</p>
-          </div>
-        ))}
+    </div>
+
+    <ul class="proof">
+      {
+        proof.map((p, i) => (
+          <li {...reveal(stagger(i, 90))}>
+            <span class="proof-figure">{p.figure}</span>
+            <span class="proof-label">{p.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <SectionCurve from="#fcf5f1" to="var(--bg-soft)" />
+
+  <!-- ───────────────────────── the stories ───────────────────────── -->
+  <section class="stories">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">In their own words</p>
+        <h2>More mamas who walked this road</h2>
       </div>
+
+      <ul class="story-grid">
+        {
+          rest.map((testimonial, i) => (
+            <li {...reveal(stagger(i, 60))}>
+              <TestimonialCard testimonial={testimonial} showContext />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── the community ───────────────────────── -->
+  <section class="community">
+    <div class="comm-grid">
+      <div class="comm-copy" {...reveal()}>
+        <p class="eyebrow">The community</p>
+
+        <h2>A digital classroom and heart-centered community</h2>
+
+        <p class="comm-lede">
+          Joy Within Birth's private community exists for women who want to experience
+          pregnancy, birth, and postpartum with confidence, peace, and joy, hosted right
+          alongside your course access on Skool.
+        </p>
+
+        <ul class="comm-list">
+          {
+            communityStats.map(({ icon: Icon, label }) => (
+              <li>
+                <span class="comm-icon" aria-hidden="true"><Icon /></span>
+                {label}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <figure class="comm-media" {...reveal(160)}>
+        <span class="grade" aria-hidden="true"></span>
+        <Image
+          src={communityImage}
+          alt="A mother laboring in a garden birth pool, her midwife holding her hand at the rim while her partner leans in beside her"
+          widths={[560, 840, 1179]}
+          sizes="(min-width: 1024px) 44vw, 92vw"
+        />
+      </figure>
     </div>
   </section>
 
   <CtaBand
+    capFrom="var(--bg-page)"
     heading="Your story could be next"
     subheading="Enroll in Joy Within Birth and join a community of women who already understand exactly what you're carrying."
   />
 </BaseLayout>
+
+<style>
+  /* ═══════════════════════════ hero ═══════════════════════════ */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fcf5f1;
+    padding: var(--space-section-md) 0 0;
+  }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(78% 70% at 50% 0%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
+      radial-gradient(52% 48% at 96% 72%, rgba(232, 207, 200, 0.7) 0%, rgba(232, 207, 200, 0) 70%);
+  }
+  .hero :global(.hero-flower) {
+    position: absolute;
+    left: max(18px, calc((100vw - var(--layout-max)) / 2));
+    top: 42px;
+    z-index: -1;
+    width: clamp(120px, 13vw, 190px);
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  /* The lead quote does the job the h1 usually does, so it carries the display
+     role. It stays a <blockquote> rather than becoming a heading — the page's
+     real h1 is the visually-hidden one above, so the outline is still correct. */
+  .lead {
+    position: relative;
+    margin: 30px 0 0;
+  }
+  .lead blockquote {
+    margin: 0;
+    font-size: var(--type-section);
+    font-weight: 800;
+    line-height: 1.22;
+    letter-spacing: -0.024em;
+    color: var(--text-primary);
+    text-wrap: balance;
+  }
+  .lead figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 14px;
+    margin-top: 28px;
+  }
+  .lead-name {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .lead-context {
+    padding: 6px 14px;
+    border: 1px solid var(--rose-300);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    font-size: var(--type-label);
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .hero-sub {
+    margin: 30px auto 0;
+    max-width: 34em;
+    font-size: var(--type-lead);
+    line-height: 1.78;
+    color: var(--text-muted);
+    text-wrap: balance;
+  }
+
+  /* ─────────────── proof strip, straddling the hero base ─────────────── */
+  .proof {
+    position: relative;
+    max-width: 58rem;
+    margin: 52px auto 0;
+    padding: 34px var(--layout-gutter) 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    border-top: 1px solid var(--border-subtle);
+    text-align: center;
+  }
+  .proof-figure {
+    display: block;
+    font-size: clamp(1.875rem, 3.4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--accent-quiet);
+  }
+  .proof-label {
+    display: block;
+    margin-top: 10px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════════ shared section head ══════════════════════ */
+  .wrap {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+
+  .sec-head {
+    max-width: 38em;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sec-head h2 {
+    margin-top: 14px;
+    font-size: var(--type-section);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* ═══════════════════════ the stories ═══════════════════════ */
+  .stories {
+    background: var(--bg-soft);
+    padding: var(--space-section-lg) 0;
+  }
+
+  /* CSS columns rather than grid: the quotes vary a lot in length, and a grid
+     stretches every card in a row to match its tallest sibling, which leaves
+     dead space under the short ones. */
+  .story-grid {
+    margin: 52px 0 0;
+    padding: 0;
+    list-style: none;
+    columns: 3;
+    column-gap: 22px;
+  }
+  .story-grid > li {
+    break-inside: avoid;
+    margin-bottom: 22px;
+  }
+
+  /* ═══════════════════════ the community ═══════════════════════ */
+  .community {
+    background: var(--bg-page);
+    padding: var(--space-section-lg) 0;
+  }
+
+  .comm-grid {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+    display: grid;
+    grid-template-columns: 1.06fr 0.94fr;
+    gap: 76px;
+    align-items: center;
+  }
+
+  .comm-copy .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .comm-copy .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .comm-copy h2 {
+    margin-top: 20px;
+    font-size: var(--type-section);
+    line-height: 1.1;
+    max-width: 20ch;
+  }
+
+  .comm-lede {
+    margin-top: 22px;
+    max-width: 34em;
+    font-size: var(--type-body);
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  .comm-list {
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 16px;
+  }
+  .comm-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--type-small);
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .comm-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 50%;
+    background: var(--bg-soft);
+    color: var(--accent-strong);
+  }
+  .comm-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ══════════════════════ the community media ══════════════════════ */
+  /* Landscape frame, not the arch: this photograph has three people spread
+     across it and the portrait arch would crop the support out of a picture
+     whose entire subject IS the support. */
+  .comm-media {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 40px 88px -40px rgba(124, 76, 66, 0.5);
+  }
+  .comm-media :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Teal pool and green trees are the coolest tones on the site; graded the
+       same way the journey and resource stills are. */
+    filter: saturate(0.6) contrast(1.05) brightness(1.02);
+  }
+  .comm-media .grade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  /* Hairline set inside the edge, matching the arch treatment elsewhere. */
+  .comm-media::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    z-index: 2;
+    border: 1px solid rgba(255, 253, 250, 0.6);
+    border-radius: calc(var(--radius-lg) - 6px);
+    pointer-events: none;
+  }
+
+  /* Visually hidden, still announced. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* ═══════════════════════ responsive ═══════════════════════ */
+  @media (max-width: 1080px) {
+    .story-grid {
+      columns: 2;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .comm-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .comm-copy {
+      text-align: center;
+    }
+    .comm-copy .eyebrow {
+      justify-content: center;
+    }
+    .comm-copy .eyebrow::before {
+      display: none;
+    }
+    .comm-copy h2,
+    .comm-lede {
+      max-width: none;
+      margin-inline: auto;
+    }
+    .comm-list {
+      max-width: 26rem;
+      margin-inline: auto;
+      text-align: left;
+    }
+    .comm-media {
+      max-width: 32rem;
+      margin-inline: auto;
+    }
+    .hero :global(.hero-flower) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .story-grid {
+      columns: 1;
+    }
+    .proof {
+      grid-template-columns: 1fr;
+      gap: 26px;
+      max-width: 22rem;
+    }
+  }
+</style>

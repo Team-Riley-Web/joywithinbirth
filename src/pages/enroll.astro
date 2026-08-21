@@ -1,16 +1,66 @@
 ---
+/**
+ * Pricing & FAQ (the /enroll route, linked as "Pricing" in the nav).
+ *
+ * An earlier pass was two feature-list boxes side by side — competent, and the
+ * most templated pricing layout there is. This one sells in the hero (price,
+ * what it buys, primary action, beside the outcome you are buying), treats the
+ * VIP tier as the optional add-on it actually is, and puts proof at the point of
+ * decision instead of leaving the page proof-free.
+ *
+ * Deliberately absent: any "compare us to a doula / hospital class" price
+ * anchoring. Those figures vary hugely by region and none is sourced anywhere
+ * in this project, so inventing them would put an unverifiable claim on the
+ * page where it is most likely to be believed.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
 import FaqItem from '../components/FaqItem.astro';
+import SectionCurve from '../components/SectionCurve.astro';
+import { Image } from 'astro:assets';
+import { reveal, stagger } from '../lib/reveal';
 import { Check } from '@lucide/astro';
 
-const coreFeatures = [
-  'Full 9-module course, 10+ hours of training',
-  'Lifetime access & future updates',
-  'Private community on Skool',
-  'Monthly live group Q&A coaching',
-  'In-portal messaging with Hailey',
-  'Birth plan templates, guides & checklists',
-  'Dedicated birth partner training module',
+import heroImage from '../assets/images/imgi_9_689ec57c5bdfcf6800cf5529.jpg';
+
+import { testimonials } from '../data/testimonials';
+
+const SKOOL_URL = 'https://www.skool.com/joywithinbirth/about';
+const HAILEY_IG = 'https://www.instagram.com/haileyaliff/';
+
+/** What the price buys, in figures. */
+const atAGlance = [
+  { figure: '9', label: 'Modules' },
+  { figure: '10+', label: 'Hours of training' },
+  { figure: 'Lifetime', label: 'Access' },
+  { figure: '$0', label: 'Recurring' },
+];
+
+/**
+ * Core features, grouped. A flat list of seven checkmarks reads as a wall; the
+ * groups let someone find the part they actually care about.
+ */
+const coreGroups = [
+  {
+    title: 'The training',
+    items: [
+      'Full 9-module course, 10+ hours',
+      'Birth plan templates, guides & checklists',
+      'Dedicated birth partner training module',
+    ],
+  },
+  {
+    title: 'The support',
+    items: [
+      'Private community on Skool',
+      'Monthly live group Q&A coaching',
+      'In-portal messaging with Hailey',
+    ],
+  },
+  {
+    title: 'The access',
+    items: ['Lifetime access & future updates', 'Yours again for future pregnancies'],
+  },
 ];
 
 const vipFeatures = [
@@ -19,96 +69,160 @@ const vipFeatures = [
   'Additional postpartum support session',
   'Priority access to Hailey',
 ];
+
+/** Proof at the decision point. Pulled from the data, not retyped. */
+const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonials[0];
 ---
 
 <BaseLayout
   title="Pricing & FAQ"
-  description="Enroll in Joy Within Birth for $350, one-time, lifetime access. See pricing details, the JWB VIP tier, and answers to common questions."
+  description="Enroll in Joy Within Birth for $350, one-time, lifetime access. See what's included, the optional VIP tier, and answers to common questions."
 >
-  <section class="mx-auto max-w-3xl px-6 pb-12 pt-14 text-center sm:pt-20">
-    <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Enroll</p>
-    <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
-      One enrollment. Lifetime access.
-    </h1>
-    <p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-500">
-      No subscriptions, no recurring fees. Just one trusted place to prepare, for as long
-      as your journey takes.
-    </p>
-  </section>
+  <!-- ───────── hero: the price, what it buys, and the outcome ───────── -->
+  <section class="hero">
+    <div class="hero-wash" aria-hidden="true"></div>
 
-  <section class="mx-auto max-w-5xl px-6 pb-20">
-    <div class="grid gap-8 lg:grid-cols-2">
-      <div class="relative flex flex-col rounded-3xl border-2 border-blush-400 bg-cream-50 p-8 shadow-lift">
-        <span class="absolute -top-3 left-8 rounded-full bg-blush-500 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-cream-50">
-          Most Popular
-        </span>
-        <h2 class="text-2xl font-semibold text-ink-900">Core Enrollment</h2>
-        <p class="mt-2 text-sm text-ink-500">The complete Joy Within Birth experience.</p>
-        <p class="mt-6">
-          <span class="font-serif text-5xl text-ink-900">$350</span>
-          <span class="text-sm text-ink-500"> one-time / lifetime access</span>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Enroll</p>
+
+        <h1>One enrollment. Lifetime access.</h1>
+
+        <p class="lede">
+          No subscriptions, no recurring fees. Just one trusted place to prepare, for as
+          long as your journey takes.
         </p>
-        <ul class="mt-8 flex-1 space-y-3">
-          {coreFeatures.map((feature) => (
-            <li class="flex items-start gap-3 text-sm text-ink-600">
-              <Check class="mt-0.5 h-4 w-4 flex-shrink-0 text-sage-600" />
-              {feature}
-            </li>
-          ))}
-        </ul>
-        <a
-          href="https://www.skool.com/joywithinbirth/about"
-          target="_blank"
-          rel="noreferrer"
-          class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-6 py-3.5 text-sm font-semibold text-cream-50 shadow-soft transition-colors hover:bg-blush-600"
-        >
-          Enroll Now
-        </a>
+
+        <div class="price-block">
+          <p class="price">
+            <span class="amount">$350</span>
+            <span class="unit">one-time · lifetime access</span>
+          </p>
+
+          <a class="btn-grad btn-lg" href={SKOOL_URL} target="_blank" rel="noreferrer">
+            Enroll Now
+          </a>
+        </div>
+
+        <dl class="glance">
+          {
+            atAGlance.map((g) => (
+              <div>
+                <dt>{g.figure}</dt>
+                <dd>{g.label}</dd>
+              </div>
+            ))
+          }
+        </dl>
       </div>
 
-      <div class="flex flex-col rounded-3xl border border-ink-100 bg-cream-100 p-8">
-        <h2 class="text-2xl font-semibold text-ink-900">Joy Within Birth VIP</h2>
-        <p class="mt-2 text-sm text-ink-500">
-          For mamas who want deeper, personalized support, especially those navigating a
-          redemption birth or complex history.
-        </p>
-        <p class="mt-6">
-          <span class="font-serif text-3xl text-ink-900">Custom pricing</span>
-          <span class="block text-sm text-ink-500">via a discovery call with Hailey</span>
-        </p>
-        <ul class="mt-8 flex-1 space-y-3">
-          {vipFeatures.map((feature) => (
-            <li class="flex items-start gap-3 text-sm text-ink-600">
-              <Check class="mt-0.5 h-4 w-4 flex-shrink-0 text-sage-600" />
-              {feature}
-            </li>
-          ))}
-        </ul>
-        <a
-          href="https://www.instagram.com/haileyaliff/"
-          target="_blank"
-          rel="noreferrer"
-          class="mt-8 inline-flex items-center justify-center rounded-full border-2 border-sage-600 px-6 py-3.5 text-sm font-semibold text-sage-800 transition-colors hover:bg-sage-100"
-        >
-          Message Hailey to Book a Call
-        </a>
+      <div class="stage">
+        <div class="halo" aria-hidden="true"></div>
+
+        <figure class="arch">
+          <span class="grade" aria-hidden="true"></span>
+          <Image
+            src={heroImage}
+            alt="A mother and father sitting close together on a sofa, cradling their sleeping newborn between them"
+            class="photo"
+            widths={[480, 720, 940]}
+            sizes="(min-width: 1024px) 42vw, 90vw"
+            priority
+          />
+        </figure>
       </div>
     </div>
+  </section>
 
-    <p class="mx-auto mt-8 max-w-xl text-center text-sm text-ink-400">
-      No guesswork, no pressure. Enrollment gives you immediate access to every module,
-      and you can move at whatever pace feels right for you.
+  <SectionCurve from="#fcf5f1" to="var(--bg-soft)" />
+
+  <!-- ───────────────────── what's included, grouped ───────────────────── -->
+  <section class="included">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">What's included</p>
+        <h2>Everything in Core Enrollment</h2>
+      </div>
+
+      <div class="group-grid">
+        {
+          coreGroups.map((group, i) => (
+            <article class="group" {...reveal(stagger(i, 90))}>
+              <h3>{group.title}</h3>
+              <ul>
+                {
+                  group.items.map((item) => (
+                    <li>
+                      <span class="tick" aria-hidden="true"><Check /></span>
+                      {item}
+                    </li>
+                  ))
+                }
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── proof, at the point of decision ─────────── -->
+  <section class="proof">
+    <blockquote class="proof-quote" {...reveal()}>
+      <p>&ldquo;{proofQuote.quote}&rdquo;</p>
+      <footer>
+        <span class="proof-name">{proofQuote.name}</span>
+        {proofQuote.context && <span class="proof-context">{proofQuote.context}</span>}
+      </footer>
+    </blockquote>
+
+    <p class="proof-meta" {...reveal(120)}>
+      <strong>200+</strong> mothers prepared · <a class="link-cta" href="/testimonials">Read
+      more stories <span class="arrow" aria-hidden="true">→</span></a>
     </p>
   </section>
 
-  <section class="bg-cream-100 py-20">
-    <div class="mx-auto max-w-3xl px-6">
-      <div class="text-center">
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">Common Questions</p>
-        <h2 class="mt-3 text-balance text-3xl sm:text-4xl">Before you enroll</h2>
+  <!-- ───────────────────── the optional VIP add-on ───────────────────── -->
+  <section class="vip">
+    <div class="vip-panel" {...reveal()}>
+      <div class="vip-copy">
+        <p class="vip-badge">Optional add-on</p>
+
+        <h2>Joy Within Birth VIP</h2>
+
+        <p class="vip-lede">
+          For mamas who want deeper, personalized support, especially those navigating a
+          redemption birth or complex history. Priced after a discovery call, so it fits
+          what you actually need.
+        </p>
+
+        <a class="link-cta vip-link" href={HAILEY_IG} target="_blank" rel="noreferrer">
+          Message Hailey to book a call <span class="arrow" aria-hidden="true">→</span>
+        </a>
       </div>
 
-      <div class="mt-10">
+      <ul class="vip-list">
+        {
+          vipFeatures.map((feature) => (
+            <li>
+              <span class="tick tick-dark" aria-hidden="true"><Check /></span>
+              {feature}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── the FAQ ───────────────────────── -->
+  <section class="faqs">
+    <div class="faq-inner">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">Common questions</p>
+        <h2>Before you enroll</h2>
+      </div>
+
+      <div class="faq-list" {...reveal(120)}>
         <FaqItem question="How do I access the community and course?">
           Everything operates through Skool.com, on your laptop or the free Skool mobile
           app. As soon as your enrollment is confirmed, you'll receive a link to join.
@@ -141,20 +255,491 @@ const vipFeatures = [
     </div>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 py-20 text-center">
-    <h2 class="text-balance text-3xl sm:text-4xl">
-      Ready to trade fear for peace?
-    </h2>
-    <p class="mx-auto mt-4 max-w-xl text-ink-500">
-      Enroll Now, and let's gently walk this season together.
-    </p>
-    <a
-      href="https://www.skool.com/joywithinbirth/about"
-      target="_blank"
-      rel="noreferrer"
-      class="mt-8 inline-flex items-center justify-center rounded-full bg-blush-500 px-8 py-3.5 text-sm font-semibold text-cream-50 shadow-lift transition-colors hover:bg-blush-600"
-    >
-      Enroll Now &mdash; $350, Lifetime Access
-    </a>
-  </section>
+  <CtaBand
+    capFrom="var(--bg-soft)"
+    heading="Ready to trade fear for peace?"
+    subheading="Enroll now, and let's gently walk this season together."
+    ctaLabel="Enroll Now"
+    ctaHref={SKOOL_URL}
+  />
 </BaseLayout>
+
+<style>
+  /* ═══════════════════════════ hero ═══════════════════════════ */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fcf5f1;
+  }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(86% 78% at 82% 4%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
+      radial-gradient(58% 54% at 98% 58%, rgba(232, 207, 200, 0.8) 0%, rgba(232, 207, 200, 0) 68%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.86fr;
+    gap: 72px;
+    align-items: center;
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: var(--space-section-md) var(--layout-gutter) var(--space-section-lg);
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  h1 {
+    margin-top: 24px;
+    font-size: var(--type-display);
+    line-height: 1.05;
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin-top: 24px;
+    max-width: 30em;
+    font-size: var(--type-lead);
+    line-height: 1.78;
+    color: var(--text-muted);
+  }
+
+  /* The price and the action sit together as one block — the decision is
+     "is it worth $350", so the number and the button should not be separated. */
+  .price-block {
+    margin-top: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 28px;
+  }
+  .amount {
+    display: block;
+    font-size: clamp(2.75rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+  }
+  .unit {
+    display: block;
+    margin-top: 8px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .glance {
+    margin: 36px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 44px;
+  }
+  .glance dt {
+    font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--accent-quiet);
+  }
+  .glance dd {
+    margin: 8px 0 0;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════ the arch (shared treatment) ══════════════════ */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    justify-self: end;
+  }
+  .arch {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: 300px 300px var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
+  }
+  .arch :global(.photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 20% 44%;
+    filter: saturate(0.72) contrast(0.98) brightness(1.26);
+  }
+  /* A real element: ::before holds the top tint, ::after the hairline rule. */
+  .arch .grade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  .arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(214, 167, 154, 0.55) 0%,
+      rgba(232, 207, 200, 0.32) 16%,
+      rgba(232, 207, 200, 0) 38%
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .arch::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    z-index: 2;
+    border: 1px solid rgba(255, 253, 250, 0.72);
+    border-radius: 288px 288px 20px 20px;
+    pointer-events: none;
+  }
+  .halo {
+    position: absolute;
+    left: -5.5%;
+    right: -5.5%;
+    top: -2.5%;
+    bottom: 4%;
+    border: 1px solid var(--border-subtle);
+    border-radius: 320px 320px 26px 26px;
+    z-index: -1;
+  }
+
+  /* ══════════════════════ shared section head ══════════════════════ */
+  .wrap {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+  .sec-head {
+    max-width: 38em;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sec-head .eyebrow {
+    justify-content: center;
+  }
+  .sec-head .eyebrow::before {
+    display: none;
+  }
+  .sec-head h2 {
+    margin-top: 16px;
+    font-size: var(--type-section);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* ═══════════════════ what's included, grouped ═══════════════════ */
+  .included {
+    background: var(--bg-soft);
+    padding: var(--space-section-lg) 0 var(--space-section-md);
+  }
+
+  .group-grid {
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 66rem;
+    margin-inline: auto;
+  }
+
+  .group {
+    padding: 30px 28px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+  .group h3 {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .group ul {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 14px;
+  }
+  .group li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: var(--type-small);
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .tick {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--rose-100);
+    color: var(--accent-strong);
+  }
+  .tick :global(svg) {
+    width: 13px;
+    height: 13px;
+    stroke-width: 3;
+  }
+  .tick-dark {
+    background: rgba(255, 247, 243, 0.14);
+    color: var(--rose-200);
+  }
+
+  /* ═════════════════════════ the proof ═════════════════════════ */
+  .proof {
+    background: var(--bg-soft);
+    padding: 0 var(--layout-gutter) var(--space-section-lg);
+    text-align: center;
+  }
+
+  .proof-quote {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding-top: var(--space-section-sm);
+    border-top: 1px solid var(--border-subtle);
+  }
+  .proof-quote p {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    text-wrap: balance;
+  }
+  .proof-quote footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 14px;
+    margin-top: 22px;
+  }
+  .proof-name {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .proof-context {
+    padding: 5px 13px;
+    border: 1px solid var(--rose-300);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    font-size: var(--type-label);
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .proof-meta {
+    margin: 30px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 10px;
+    font-size: var(--type-small);
+    color: var(--text-muted);
+  }
+  .proof-meta strong {
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  /* ═════════════════════ the optional VIP tier ═════════════════════ */
+  /* One dark surface, the same device the home page uses for the partner
+     module — it marks VIP as a different kind of offer without pretending to
+     compete with the $350 as an alternative price. */
+  .vip {
+    background: linear-gradient(to bottom, var(--bg-soft) 0%, var(--bg-page) 60%);
+    padding: 0 var(--layout-gutter) var(--space-section-lg);
+  }
+
+  .vip-panel {
+    --focus-ring: var(--text-inverse);
+    max-width: 66rem;
+    margin: 0 auto;
+    padding: clamp(34px, 4.5vw, 56px);
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(32px, 4vw, 60px);
+    align-items: center;
+    border: 1px solid rgba(255, 247, 243, 0.16);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(88% 82% at 96% 0%, rgba(169, 117, 106, 0.34) 0%, rgba(169, 117, 106, 0) 64%),
+      linear-gradient(145deg, var(--rose-800) 0%, var(--rose-900) 68%, #2f1c18 100%);
+    box-shadow:
+      0 1px 2px rgba(46, 18, 13, 0.18),
+      0 42px 90px -42px rgba(46, 18, 13, 0.72);
+  }
+
+  .vip-badge {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose-200);
+  }
+
+  .vip-copy h2 {
+    margin-top: 16px;
+    font-size: var(--type-section-compact);
+    line-height: 1.14;
+    color: var(--text-inverse);
+  }
+
+  .vip-lede {
+    margin-top: 18px;
+    max-width: 36em;
+    font-size: var(--type-body);
+    line-height: 1.78;
+    color: rgba(255, 247, 243, 0.76);
+  }
+
+  .vip-link {
+    margin-top: 26px;
+    color: var(--rose-200);
+    border-bottom-color: rgba(255, 247, 243, 0.24);
+  }
+
+  .vip-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 14px;
+  }
+  .vip-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    font-size: var(--type-small);
+    line-height: 1.6;
+    color: rgba(255, 247, 243, 0.86);
+  }
+
+  /* ═══════════════════════════ the FAQ ═══════════════════════════ */
+  .faqs {
+    background: var(--bg-soft);
+    padding: var(--space-section-lg) 0;
+  }
+  .faq-inner {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+  .faq-list {
+    margin-top: 44px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* ═══════════════════════ responsive ═══════════════════════ */
+  @media (max-width: 1023px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-copy {
+      text-align: center;
+    }
+    .eyebrow {
+      justify-content: center;
+    }
+    .eyebrow::before {
+      display: none;
+    }
+    h1,
+    .lede {
+      max-width: none;
+      margin-inline: auto;
+    }
+    .price-block,
+    .glance {
+      justify-content: center;
+    }
+    /* Explicit width, or this stretched grid item shrink-to-fits and the
+       aspect-ratio arch collapses. */
+    .stage {
+      width: 100%;
+      max-width: 380px;
+      justify-self: center;
+    }
+
+    .vip-panel {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .vip-copy {
+      text-align: center;
+    }
+    .vip-lede {
+      margin-inline: auto;
+    }
+    .vip-list {
+      max-width: 26rem;
+      margin-inline: auto;
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .group-grid {
+      grid-template-columns: 1fr;
+      max-width: 32rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .glance {
+      gap: 24px 32px;
+    }
+  }
+</style>
