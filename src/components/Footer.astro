@@ -23,7 +23,7 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
   <div class="mx-auto max-w-6xl px-6 pb-10 pt-8 sm:py-14">
     <div class="grid grid-cols-2 gap-x-8 gap-y-8 text-center lg:grid-cols-[1.4fr_1fr_1fr] lg:text-left">
       <div class="col-span-2 flex justify-center lg:col-span-1 lg:justify-start">
-        <a href="/" class="inline-block">
+        <a href="/" class="inline-flex min-h-11 items-center">
           <Image src={logo} alt="Joy Within Birth" width={400} height={355} class="h-auto w-[170px] brightness-0 invert sm:w-[200px]" />
         </a>
       </div>
@@ -33,7 +33,7 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
         <ul class="mt-4 space-y-3">
           {exploreLinks.map((link) => (
             <li>
-              <a href={link.href} class="text-sm text-beige-50/62 transition-colors hover:text-rose-200">
+              <a href={link.href} class="inline-flex min-h-11 items-center text-sm text-beige-50/62 transition-colors hover:text-rose-200">
                 {link.label}
               </a>
             </li>
@@ -50,7 +50,7 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
                 href={link.href}
                 target="_blank"
                 rel="noreferrer"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-beige-50/10 text-rose-100 shadow-soft ring-1 ring-beige-50/14 transition duration-500 ease-out hover:-translate-y-0.5 hover:bg-beige-50 hover:text-rose-800 hover:shadow-lift"
+                class="flex h-11 w-11 items-center justify-center rounded-full bg-beige-50/10 text-rose-100 shadow-soft ring-1 ring-beige-50/14 transition duration-500 ease-out hover:-translate-y-0.5 hover:bg-beige-50 hover:text-rose-800 hover:shadow-lift"
                 aria-label={link.label}
               >
                 {
@@ -76,7 +76,7 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
           href={communityLink.href}
           target="_blank"
           rel="noreferrer"
-          class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-beige-50/68 transition-colors hover:text-rose-200"
+          class="mt-2 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-beige-50/68 transition-colors hover:text-rose-200"
         >
           <Users class="h-4 w-4 text-rose-200" />
           {communityLink.label}
@@ -85,16 +85,16 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
     </div>
 
     <div
-      class="mt-10 flex flex-col items-center gap-2 border-t border-beige-50/12 pt-6 text-center text-xs text-beige-50/46 sm:mt-12 lg:flex-row lg:justify-between lg:text-left"
+      class="mt-10 flex flex-col items-center gap-2 border-t border-beige-50/12 pt-6 text-center text-xs text-beige-50/58 sm:mt-12 lg:flex-row lg:justify-between lg:text-left"
     >
       <p>&copy; {new Date().getFullYear()} Joy Within Birth LLC. All rights reserved.</p>
-      <span class="flex items-center justify-center gap-1 text-beige-50/46">
+      <span class="flex items-center justify-center gap-1 text-beige-50/58">
         Made with <Heart class="h-3 w-3 fill-rose-300 text-rose-300" /> by
         <a
           href="https://teamrileyweb.com"
           target="_blank"
           rel="noreferrer"
-          class="transition-colors hover:text-rose-200"
+          class="hit-target underline decoration-beige-50/30 underline-offset-2 transition-colors hover:text-rose-200"
         >
           Team Riley
         </a>

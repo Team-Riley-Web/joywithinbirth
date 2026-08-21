@@ -35,8 +35,8 @@ const currentPath = Astro.url.pathname;
         <a
           href={link.href}
           class:list={[
-            'text-sm font-medium transition-colors hover:text-rose-600',
-            currentPath === link.href ? 'text-rose-600' : 'text-ink-500',
+            'inline-flex min-h-11 items-center text-sm font-medium transition-colors hover:text-rose-700',
+            currentPath === link.href ? 'text-rose-700' : 'text-ink-600',
           ]}
         >
           {link.label}
@@ -44,7 +44,7 @@ const currentPath = Astro.url.pathname;
       ))}
       <a
         href="/enroll"
-        class="btn-grad px-6 py-2.5 text-sm"
+        class="btn-grad text-sm"
       >
         Enroll Now
       </a>
@@ -52,8 +52,9 @@ const currentPath = Astro.url.pathname;
 
     <button
       type="button"
-      class="text-ink-700 lg:hidden"
+      class="-mr-2 inline-flex h-11 w-11 items-center justify-center text-ink-700 lg:hidden"
       aria-label="Toggle menu"
+      :aria-expanded="open"
       @click="open = !open"
     >
       <Menu class="h-7 w-7" x-show="!open" />
@@ -71,8 +72,8 @@ const currentPath = Astro.url.pathname;
       <a
         href={link.href}
         class:list={[
-          'rounded-lg px-3 py-2.5 text-sm font-medium',
-          currentPath === link.href ? 'bg-rose-50 text-rose-600' : 'text-ink-600',
+          'flex min-h-11 items-center rounded-lg px-3 text-sm font-medium',
+          currentPath === link.href ? 'bg-rose-50 text-rose-700' : 'text-ink-600',
         ]}
       >
         {link.label}
@@ -80,7 +81,7 @@ const currentPath = Astro.url.pathname;
     ))}
     <a
       href="/enroll"
-      class="btn-grad mt-2 px-5 py-3 text-center text-sm"
+      class="btn-grad mt-2 text-sm"
     >
       Enroll Now
     </a>

@@ -19,7 +19,7 @@ import footElement from '../../assets/images/elements/7.png';
         <h2>Mamas who walked this road before you</h2>
       </div>
 
-      <a class="more more-head" href="/testimonials">Read more stories</a>
+      <a class="more more-head link-cta" href="/testimonials">Read more stories</a>
     </div>
   </div>
 
@@ -53,12 +53,12 @@ import footElement from '../../assets/images/elements/7.png';
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background: var(--beige-100);
-    padding: 96px 0 108px;
+    background: var(--bg-page);
+    padding: var(--space-section-lg) 0;
   }
   .stories :global(.foot-ghost) {
     position: absolute;
-    right: max(26px, calc((100vw - var(--f-max)) / 2 + 190px));
+    right: max(26px, calc((100vw - var(--layout-max)) / 2 + 190px));
     top: 18px;
     z-index: -1;
     width: clamp(130px, 14vw, 205px);
@@ -67,7 +67,7 @@ import footElement from '../../assets/images/elements/7.png';
     pointer-events: none;
     user-select: none;
   }
-  .wrap { max-width: var(--f-max); margin: 0 auto; padding: 0 40px; }
+  .wrap { max-width: var(--layout-max); margin: 0 auto; padding: 0 var(--layout-gutter); }
 
   .head {
     display: flex;
@@ -76,15 +76,15 @@ import footElement from '../../assets/images/elements/7.png';
     gap: 32px;
   }
   .eyebrow {
-    font-size: 11px;
+    font-size: var(--type-label);
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--rose-600);
+    color: var(--accent-strong);
   }
   .head h2 {
     margin-top: 14px;
-    font-size: clamp(1.9rem, 3.3vw, 2.9rem);
+    font-size: var(--type-section);
     line-height: 1.1;
     max-width: 18ch;
   }
@@ -103,7 +103,7 @@ import footElement from '../../assets/images/elements/7.png';
   }
   .viewport:hover .track,
   .track:focus-within { animation-play-state: paused; }
-  .track:focus-visible { outline: 2px solid var(--rose-400); outline-offset: 4px; }
+  .track:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
 
   .lane {
     display: flex;
@@ -119,12 +119,6 @@ import footElement from '../../assets/images/elements/7.png';
 
   .more {
     flex: none;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--rose-600);
-    text-decoration: none;
-    border-bottom: 1px solid var(--rose-200);
-    padding-bottom: 4px;
   }
 
   @keyframes testimonial-marquee {
@@ -144,13 +138,11 @@ import footElement from '../../assets/images/elements/7.png';
   }
 
   @media (max-width: 1023px) {
-    .stories { padding: 68px 0 80px; }
     .stories :global(.foot-ghost) {
       right: 14px;
       top: 40px;
       width: 112px;
     }
-    .wrap { padding: 0 24px; }
     .head { flex-direction: column; align-items: center; gap: 20px; text-align: center; }
     .head h2 { max-width: none; }
     .more-head { align-self: center; }

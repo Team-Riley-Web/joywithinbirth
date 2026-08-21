@@ -57,7 +57,7 @@ const covers = [
         }
       </ul>
 
-      <a class="link" href="/course">
+      <a class="link link-cta" href="/course">
         See the full curriculum <span class="arrow" aria-hidden="true">→</span>
       </a>
     </div>
@@ -69,11 +69,12 @@ const covers = [
     position: relative;
     z-index: 1;
     overflow: visible;
-    background: linear-gradient(to bottom, var(--beige-50) 0%, var(--beige-100) 72%);
-    padding: 16px 0 104px;
+    background: linear-gradient(to bottom, var(--surface) 0%, var(--bg-page) 72%);
+    padding: var(--space-section-group) 0 var(--space-section-lg);
   }
 
   .panel {
+    --focus-ring: var(--text-inverse);
     max-width: 1180px;
     margin: 0 auto;
     display: grid;
@@ -83,7 +84,7 @@ const covers = [
       radial-gradient(88% 82% at 96% 0%, rgba(169, 117, 106, 0.34) 0%, rgba(169, 117, 106, 0) 64%),
       linear-gradient(145deg, var(--rose-800) 0%, var(--rose-900) 68%, #2f1c18 100%);
     border: 1px solid rgba(255, 247, 243, 0.16);
-    border-radius: 36px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow:
       0 1px 2px rgba(46, 18, 13, 0.18),
@@ -119,7 +120,7 @@ const covers = [
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    font-size: 11px;
+    font-size: var(--type-label);
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -135,20 +136,20 @@ const covers = [
     border: 1px solid rgba(255, 247, 243, 0.22);
     font-size: 13px;
     letter-spacing: 0;
-    color: #fff7f3;
+    color: var(--text-inverse);
   }
 
   h2 {
     margin-top: 22px;
-    font-size: clamp(1.9rem, 3.1vw, 2.7rem);
+    font-size: var(--type-section-compact);
     line-height: 1.1;
     max-width: 15ch;
-    color: #fff7f3;
+    color: var(--text-inverse);
   }
 
   .lede {
     margin-top: 20px;
-    font-size: 16.5px;
+    font-size: var(--type-lead);
     line-height: 1.78;
     color: rgba(255, 247, 243, 0.74);
     max-width: 40em;
@@ -181,22 +182,13 @@ const covers = [
 
   .link {
     margin-top: 32px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 700;
     color: var(--rose-200);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 247, 243, 0.24);
-    padding-bottom: 5px;
+    border-bottom-color: rgba(255, 247, 243, 0.24);
   }
-  .link .arrow { transition: transform 200ms ease; }
-  .link:hover .arrow { transform: translateX(4px); }
 
   @media (max-width: 1023px) {
-    .partner { padding: 12px 24px 72px; }
-    .panel { grid-template-columns: 1fr; border-radius: 28px; }
+    .partner { padding-inline: var(--layout-gutter); }
+    .panel { grid-template-columns: 1fr; }
     .media { min-height: 280px; }
     .body { padding: 36px 28px 40px; text-align: center; }
     .lede { margin-inline: auto; }

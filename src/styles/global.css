@@ -12,14 +12,24 @@
 }
 
 /**
- * Option F palette as CSS custom properties.
+ * ── Design tokens ────────────────────────────────────────────────────────────
  *
- * Mirrors the `rose` / `beige` scales in tailwind.config.cjs. Tailwind v4 does
- * not resolve `theme('colors.rose.600')` inside a component's scoped <style>
- * when the palette comes from a JS config, so scoped styles read these vars
- * instead. Keep the two in sync when either changes.
+ * Two layers, and the distinction matters:
+ *
+ *   1. The RAW SCALES (--rose-*, --beige-*) mirror the `rose` / `beige` scales
+ *      in tailwind.config.cjs. Tailwind v4 does not resolve
+ *      `theme('colors.rose.600')` inside a component's scoped <style> when the
+ *      palette comes from a JS config, so scoped styles read these vars instead.
+ *      Keep the two in sync when either changes.
+ *
+ *   2. The SEMANTIC ROLES (--text-*, --bg-*, --accent-*, --type-*, --space-*, …)
+ *      are what components are supposed to consume. Reaching past them into a
+ *      raw scale step is how the page ended up with two competing inks and eight
+ *      different H2 sizes. Pick the role that describes the job; if no role
+ *      fits, add one here rather than hardcoding a value in a component.
  */
 :root {
+  /* ---------- raw scales (mirror tailwind.config.cjs) ---------- */
   --rose-50: #faede6;
   --rose-75: #f4e0d6;
   --rose-100: #f6e3da;
@@ -37,26 +47,123 @@
   --beige-200: #f8f0ea;
   --beige-300: #ede1da;
 
-  --f-ink: #322c28;
-  --f-ink-soft: #776b63;
+  /* ---------- semantic colour roles ---------- */
+  /* One ink anchors the page. The old --f-ink (#322c28) sat a few values off
+     ink-900 and read as a second primary; it is gone. */
+  --text-primary: #211a16;
+  --text-secondary: #584a3d;
+  --text-muted: #71604f;
+  --text-inverse: #fff7f3;
 
-  --f-r-sm: 16px;
-  --f-r-md: 24px;
-  --f-r-lg: 32px;
+  --bg-page: var(--beige-100);
+  --bg-soft: var(--rose-50);
+  --bg-strong: var(--rose-75);
+  --surface: var(--beige-50);
 
-  --f-max: 1320px;
+  /* --accent is decorative only: rules, dividers, tints, non-text surfaces.
+     Anything that is TEXT — a label, an eyebrow, a link — uses --accent-strong.
+     rose-600 measures 3.73:1 on --bg-strong and 4.41:1 on the hero ground, both
+     under AA for normal-size text; rose-700 clears 5.5:1 on every ground the
+     page actually uses. */
+  --accent: var(--rose-600);
+  --accent-strong: var(--rose-700);
+  --accent-quiet: var(--rose-500);
 
+  --border-subtle: var(--rose-200);
+  --focus-ring: var(--rose-700);
+
+  /* ---------- typography roles ---------- */
+  /* Four heading roles, not eight ad-hoc clamps. Every component using the same
+     role must resolve to the same size at a given breakpoint. */
+  --type-display: clamp(2.65rem, 5vw, 4rem);
+  --type-section: clamp(2rem, 3.5vw, 2.875rem);
+  --type-section-compact: clamp(1.75rem, 3vw, 2.5rem);
+  --type-card: 1.125rem;
+  --type-lead: 1.0625rem;
+  --type-body: 1rem;
+  --type-small: 0.875rem;
+  /* 12px floor. Below this the uppercase, letterspaced labels stop being
+     legible at arm's length, whatever the contrast. */
+  --type-label: 0.75rem;
+  --type-control: 0.9375rem;
+
+  /* ---------- spacing ---------- */
+  /* Three section tiers. The one exception is --space-section-group, the seam
+     between two sections that are deliberately read as a single unit (free
+     resources → partner module). It is a named rule, not a local nudge. */
+  --space-section-sm: 4rem;
+  --space-section-md: 6rem;
+  --space-section-lg: 7rem;
+  --space-section-group: 1rem;
+
+  --layout-max: 1320px;
+  --layout-gutter: 40px;
+
+  /* ---------- surfaces ---------- */
+  --radius-sm: 1rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2rem;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 24px 50px -30px rgba(124, 76, 66, 0.34);
+  --shadow-card-hover: 0 34px 64px -30px rgba(124, 76, 66, 0.44);
+  --shadow-float: 0 26px 54px -24px rgba(124, 76, 66, 0.4);
+
+  /* ---------- controls ---------- */
+  --control-height: 3rem;
+  --control-height-lg: 3.375rem;
+  --control-padding-x: 1.75rem;
+  --control-padding-x-lg: 2.125rem;
+  --control-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Minimum interactive hit area. Visible icons and labels may be smaller —
+     grow the target, not the artwork. */
+  --target-min: 2.75rem;
+}
+
+/* The section tiers compress together on small screens, so components declare a
+   tier once and never restate padding in a media query. */
+@media (max-width: 1023px) {
+  :root {
+    --space-section-sm: 3rem;
+    --space-section-md: 4rem;
+    --space-section-lg: 5rem;
+    --layout-gutter: 24px;
+  }
 }
 
 @layer base {
   body {
-    @apply bg-beige-100 text-ink-800 font-sans antialiased;
+    background: var(--bg-page);
+    color: var(--text-secondary);
+    @apply font-sans antialiased;
   }
 
   /* Option F sets headings in the same geometric sans as body copy, weighted
      and tracked rather than switched to a serif. */
   h1, h2, h3, h4 {
-    @apply font-display font-extrabold tracking-[-0.025em] text-ink-900;
+    color: var(--text-primary);
+    @apply font-display font-extrabold tracking-[-0.025em];
+  }
+
+  /**
+   * One focus treatment for the whole site.
+   *
+   * The browser default (a 1px blue ring) was the only interaction state on the
+   * page that came from outside the brand. The 3px offset lets the page ground
+   * show through between the ring and the element, which is what keeps it
+   * readable on photography and on the blush fields.
+   *
+   * Dark sections rebind --focus-ring to the inverse ink locally; because it is
+   * a custom property it inherits, so a single declaration on the section
+   * covers every control inside it.
+   */
+  :focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  footer {
+    --focus-ring: var(--text-inverse);
   }
 }
 
@@ -64,28 +171,120 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /**
+   * Grows a small inline target to --target-min without changing its box, its
+   * baseline, or the line it sits on. For links inside running text, where
+   * padding would break the leading.
+   */
+  .hit-target {
+    position: relative;
+  }
+  .hit-target::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    min-width: var(--target-min);
+    height: var(--target-min);
+    transform: translate(-50%, -50%);
+  }
 }
 
 @layer components {
-  .btn-grad {
+  /**
+   * ── The control primitive ─────────────────────────────────────────────────
+   *
+   * One contract — box, type, radius, motion, focus, disabled — shared by every
+   * button-shaped control. Variants below change paint only, never geometry.
+   * `.btn-grad` and `.btn-quiet` keep their names because they are spread
+   * across pages that have not moved onto Option F yet.
+   *
+   * min-height carries the tap target, so a variant can be re-padded without
+   * quietly dropping under 44px.
+   */
+  .btn,
+  .btn-grad,
+  .btn-quiet,
+  .btn-inverse,
+  .btn-line {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: var(--control-height);
+    padding-inline: var(--control-padding-x);
+    border-radius: var(--radius-pill);
+    font-size: var(--type-control);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      color 700ms var(--control-ease),
+      background-color 700ms var(--control-ease),
+      border-color 700ms var(--control-ease),
+      transform 700ms var(--control-ease),
+      box-shadow 700ms var(--control-ease);
+  }
+
+  .btn-lg {
+    min-height: var(--control-height-lg);
+    padding-inline: var(--control-padding-x-lg);
+  }
+
+  /* Every variant lifts by the same amount and settles back the same way. */
+  .btn:hover,
+  .btn-grad:hover,
+  .btn-quiet:hover,
+  .btn-inverse:hover,
+  .btn-line:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active,
+  .btn-grad:active,
+  .btn-quiet:active,
+  .btn-inverse:active,
+  .btn-line:active {
+    transform: translateY(0);
+    transition-duration: 90ms;
+  }
+
+  .btn[disabled],
+  .btn[aria-disabled='true'],
+  .btn-grad[disabled],
+  .btn-grad[aria-disabled='true'],
+  .btn-quiet[disabled],
+  .btn-quiet[aria-disabled='true'],
+  .btn-inverse[disabled],
+  .btn-inverse[aria-disabled='true'],
+  .btn-line[disabled],
+  .btn-line[aria-disabled='true'] {
+    opacity: 0.45;
+    box-shadow: none;
+    pointer-events: none;
+    transform: none;
+  }
+
+  /* ---------- variant: primary ---------- */
+  .btn-grad {
     isolation: isolate;
-    display: inline-block;
     overflow: hidden;
-    border-radius: 999px;
+    /* The light end is capped at rose-600, not rose-400.
+       The label is beige-50 at 15px/700, which needs 4.5:1: rose-600 clears it
+       at 4.66:1, rose-500 does not (3.78:1). The old sweep measured 3.88:1 at
+       the button's right edge — the primary CTA, on every section of the page.
+       rose-600 is the lightest stop that keeps the whole sweep readable. */
     background:
-      linear-gradient(96deg, var(--rose-700) 0%, var(--rose-500) 52%, var(--rose-400) 100%);
+      linear-gradient(96deg, var(--rose-800) 0%, var(--rose-700) 52%, var(--rose-600) 100%);
     background-size: 190% 190%;
     color: var(--beige-50);
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
     box-shadow:
       0 2px 4px rgba(63, 38, 32, 0.18),
       0 22px 44px -16px rgba(124, 76, 66, 0.62);
-    transition:
-      transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 700ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-grad::before {
@@ -97,21 +296,20 @@
     background:
       linear-gradient(
         112deg,
-        var(--rose-800) 0%,
-        var(--rose-600) 20%,
-        var(--rose-400) 40%,
-        var(--rose-500) 60%,
-        var(--rose-700) 80%,
-        var(--rose-800) 100%
+        var(--rose-900) 0%,
+        var(--rose-700) 20%,
+        var(--rose-600) 40%,
+        var(--rose-700) 60%,
+        var(--rose-800) 80%,
+        var(--rose-900) 100%
       );
     background-size: 320% 320%;
     background-position: 0% 50%;
     opacity: 0;
-    transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 1200ms var(--control-ease);
   }
 
   .btn-grad:hover {
-    transform: translateY(-2px);
     box-shadow:
       0 2px 5px rgba(63, 38, 32, 0.2),
       0 30px 58px -18px rgba(124, 76, 66, 0.72);
@@ -122,33 +320,97 @@
     animation: luxe-gradient-drift 18s linear infinite;
   }
 
+  /* ---------- variant: secondary ---------- */
   .btn-quiet {
-    position: relative;
-    display: inline-block;
-    border-radius: 999px;
     background:
       linear-gradient(var(--beige-50), var(--beige-50)) padding-box,
       linear-gradient(108deg, var(--rose-300), var(--rose-500), var(--rose-200)) border-box;
     border: 1px solid transparent;
     color: var(--rose-800);
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
     box-shadow:
       0 1px 2px rgba(63, 38, 32, 0.06),
       0 16px 34px -22px rgba(124, 76, 66, 0.45);
-    transition:
-      color 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 700ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-quiet:hover {
-    color: var(--rose-700);
-    transform: translateY(-2px);
+    color: var(--accent-strong);
     box-shadow:
       0 2px 4px rgba(63, 38, 32, 0.08),
       0 24px 46px -20px rgba(124, 76, 66, 0.5);
+  }
+
+  /* ---------- variant: inverse (light control on a dark ground) ---------- */
+  /* A rose gradient disappears into the deep rose grounds, so the primary
+     action flips rather than restating itself. */
+  .btn-inverse {
+    background: var(--surface);
+    color: var(--rose-800);
+    /* two-part shadow: a tight dark contact edge plus a wide soft cast */
+    box-shadow:
+      0 2px 4px rgba(46, 18, 13, 0.28),
+      0 22px 46px -18px rgba(46, 18, 13, 0.6);
+  }
+  .btn-inverse:hover {
+    box-shadow:
+      0 2px 4px rgba(46, 18, 13, 0.3),
+      0 30px 56px -18px rgba(46, 18, 13, 0.66);
+  }
+
+  /* ---------- variant: outline on a dark ground ---------- */
+  .btn-line {
+    border: 1px solid rgba(255, 247, 243, 0.34);
+    color: var(--text-inverse);
+    font-weight: 600;
+  }
+  .btn-line:hover {
+    border-color: rgba(255, 247, 243, 0.72);
+    background: rgba(255, 247, 243, 0.07);
+  }
+
+  /**
+   * ── Text links ────────────────────────────────────────────────────────────
+   *
+   * Two shapes, both carrying the tap target on min-height so the visible rule
+   * or arrow stays the size it was.
+   */
+  .link-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--target-min);
+    color: var(--accent-strong);
+    font-size: var(--type-small);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .link-cta .arrow {
+    transition: transform 200ms ease;
+  }
+  .link-cta:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .link-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: var(--target-min);
+    color: var(--accent-strong);
+    font-size: var(--type-small);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .link-card .arrow {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 50%;
+    background: var(--bg-soft);
+    font-size: 11px;
+    transition: transform 200ms ease;
   }
 
   .signature-accent {
@@ -157,7 +419,7 @@
     font-size: 1.58em;
     line-height: 0.8;
     letter-spacing: 0;
-    color: var(--rose-500);
+    color: var(--accent-quiet);
     margin-left: 8px;
     font-synthesis: none;
     text-shadow:
@@ -170,6 +432,21 @@
 @media (prefers-reduced-motion: reduce) {
   .btn-grad::before {
     animation: none;
+  }
+
+  .btn,
+  .btn-grad,
+  .btn-quiet,
+  .btn-inverse,
+  .btn-line {
+    transition: none;
+  }
+  .btn:hover,
+  .btn-grad:hover,
+  .btn-quiet:hover,
+  .btn-inverse:hover,
+  .btn-line:hover {
+    transform: none;
   }
 }
 
@@ -195,13 +472,16 @@
  * ease-out-expo curve, and only 22px of travel. Big travel plus a short
  * duration is what makes reveals feel cheap, so this does the opposite.
  *
- * The `.js` guard matters. Without it, anything with [data-reveal] would sit at
- * opacity 0 forever for users and crawlers where JS never runs. The class is set
- * by an inline script in BaseLayout's <head>, so it lands before first paint and
- * there is no flash of visible-then-hidden content.
+ * The `.reveal-ready` guard matters, and it is deliberately stricter than a
+ * plain "is JS on?" check. What actually un-hides these elements is Alpine's
+ * x-intersect, so the question is not whether scripting exists but whether
+ * Alpine booted. The class is set by an inline script in BaseLayout's <head>
+ * before first paint (so there is no flash of visible-then-hidden content) and
+ * withdrawn again if Alpine has not initialized shortly after — a failed or
+ * blocked bundle degrades to plain visible content instead of a blank page.
  */
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal] {
+  .reveal-ready [data-reveal] {
     opacity: 0;
   }
 
@@ -212,7 +492,7 @@
      Animating the independent `translate` property rather than `transform` for
      the same reason in reverse: the cards translate on hover via `transform`,
      and the two properties compose instead of overwriting each other. */
-  .js [data-reveal][data-shown='true'] {
+  .reveal-ready [data-reveal][data-shown='true'] {
     animation: reveal-in 1250ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms) both;
   }
 }

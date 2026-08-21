@@ -18,7 +18,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
   <div class="wash" aria-hidden="true"></div>
 
   <div class="photo" aria-hidden="true">
-    <Image src={heroAlt} alt="" widths={[900, 1280, 1600]} sizes="66vw" />
+    <Image src={heroAlt} alt="" widths={[900, 1280, 1600]} sizes="(min-width: 1024px) 66vw, 100vw" />
   </div>
 
   <div class="inner">
@@ -34,7 +34,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
       what your options are, and who is beside you.
     </p>
 
-    <a class="btn-grad btn-bwf" href="/enroll" {...reveal(280)}>Enroll Now</a>
+    <a class="btn-grad btn-lg btn-bwf" href="/enroll" {...reveal(280)}>Enroll Now</a>
 
     <dl class="stats" {...reveal(330)}>
       <div>
@@ -125,20 +125,20 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
 
   .inner {
     position: relative;
-    max-width: 1320px;
+    max-width: var(--layout-max);
     margin: 0 auto;
-    padding: 104px 40px 116px;
+    padding: var(--space-section-lg) var(--layout-gutter);
   }
 
   .eyebrow {
     display: flex;
     align-items: center;
     gap: 16px;
-    font-size: 11px;
+    font-size: var(--type-label);
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--rose-600);
+    color: var(--accent-strong);
   }
   .eyebrow::before {
     content: '';
@@ -149,21 +149,20 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
 
   h2 {
     margin-top: 26px;
-    font-size: clamp(2.6rem, 5vw, 4.6rem);
+    font-size: var(--type-display);
     line-height: 1.04;
     max-width: 18em;
   }
   .lede {
     margin-top: 28px;
     max-width: 34em;
-    font-size: 17px;
+    font-size: var(--type-lead);
     line-height: 1.82;
-    color: var(--f-ink-soft);
+    color: var(--text-muted);
   }
 
   .btn-bwf {
     margin-top: 42px;
-    padding: 16px 34px;
   }
 
   .stats {
@@ -171,7 +170,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     display: flex;
     flex-wrap: wrap;
     gap: 56px;
-    border-top: 1px solid var(--rose-200);
+    border-top: 1px solid var(--border-subtle);
     padding-top: 28px;
     max-width: 760px;
   }
@@ -180,15 +179,15 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1;
-    color: var(--rose-500);
+    color: var(--accent-quiet);
   }
   .stats dd {
     margin-top: 8px;
-    font-size: 10.5px;
+    font-size: var(--type-label);
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--f-ink-soft);
+    color: var(--text-muted);
   }
 
   @media (max-width: 1023px) {
@@ -199,7 +198,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 30%, #000 62%);
       mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 30%, #000 62%);
     }
-    .inner { padding: 64px 24px 300px; text-align: center; }
+    .inner { padding: var(--space-section-md) var(--layout-gutter) 300px; text-align: center; }
     .eyebrow { justify-content: center; }
     .eyebrow::before { display: none; }
     .lede { margin-inline: auto; }
@@ -220,7 +219,7 @@ import heroAlt from '../../assets/images/home-hero-alt.png';
     .stats dt { font-size: clamp(1.35rem, 7vw, 1.875rem); }
     .stats .stat-lifetime { font-size: clamp(1rem, 5.2vw, 1.35rem); }
     .stats dd {
-      font-size: 9px;
+      font-size: 10px;
       letter-spacing: 0.1em;
       line-height: 1.5;
     }

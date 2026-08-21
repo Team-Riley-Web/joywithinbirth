@@ -1,155 +1,962 @@
 ---
+/**
+ * About Hailey.
+ *
+ * Hailey's own words, on the Option F system: arch-shaped media, rose/beige
+ * grounds, the semantic tokens from global.css. Two movements —
+ *
+ *   1. The family story (photo-paired, warm, one paragraph per threshold).
+ *   2. "How I got called into the birth space" (the vocational essay).
+ *
+ * The essay keeps Hailey's phrasing and rhythm verbatim; only the casing is
+ * normalised to sentences (her source copy was typed lowercase throughout).
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
+import SectionCurve from '../components/SectionCurve.astro';
 import { Image } from 'astro:assets';
-import { Heart, Leaf, Users } from '@lucide/astro';
+import { reveal, stagger } from '../lib/reveal';
 
-import portraitImage from '../assets/images/imgi_15_689d13e9d232a380bb17ff2c.jpg';
-import familyImage from '../assets/images/imgi_9_689ec57c5bdfcf6800cf5529.jpg';
-import birthImage from '../assets/images/imgi_11_689cede83b01e6b095436d26.jpg';
+import familyStanding from '../assets/images/about/imgi_2_483237453cc84278863b345009418cf417d61a9f6a26424e905972b325f8640d-md.jpg';
+import haileyEmerson from '../assets/images/about/imgi_3_ef01762d21614546b59b9dab7be155fd243b2640b3034f27b801b73cf78b9b67-md.jpg';
+import haileyKoa from '../assets/images/about/imgi_4_d8d4682145ac41b9b9b8116bc567771eb8eb4d9a0efb41c3be6ff3f6d8fb5739-md.jpg';
+import haileyHarvest from '../assets/images/about/imgi_5_cd5816f7e41c4b7dbe5ada92f4089b63c782ccb17dee429daeaecc9652d3d681-md.jpg';
+import familyWalking from '../assets/images/about/imgi_6_1a01a034f25547f9b54e7da008397cecda952246575e4e64acf1a293f1ef0ae1-md.jpg';
+import bellyField from '../assets/images/about/imgi_26_eb03179c273c47ee9c70e670f332d2f08a2c780bfeb9431fad1c7d3a60a247e5-md.jpg';
+import familySnow from '../assets/images/about/imgi_33_63007c641205488296a5edb0fbfd68f2558d53ed471b4b94b1708041808f8b26-md.jpg';
 
-const values = [
+/**
+ * Video links.
+ *
+ * Hailey's source copy points at three videos with the word "HERE". Bare "here"
+ * is poor link text (a screen reader reading the page's links out of context
+ * gets three identical "here"s), so each one is given a description of where it
+ * actually goes.
+ *
+ * Set to null until the real URLs are known. Each link renders ONLY when its URL
+ * is filled in, so the page never ships a dead `#` anchor — drop a URL in and
+ * the link appears.
+ */
+const videos = {
+  emersonStory: null as string | null,
+  koaBirth: null as string | null,
+  harvestBirth: null as string | null,
+};
+
+/** The two home births, in order. */
+const births = [
   {
-    icon: Heart,
-    title: 'Faith-Centered',
-    description:
-      'Rooted in trust and gentle encouragement, never fear-mongering, never high-pressure.',
+    name: 'Koa Bane',
+    meaning: '“brave; long-awaited one”',
+    image: haileyKoa,
+    alt: 'Hailey laughing as she carries her son Koa on her hip at the beach, pregnant with her fourth',
+    /* Her face sits high in this frame; a shared 30% crop cut it off. */
+    focus: '50% 14%',
+    copy:
+      'When Emerson was 15 months old, I miraculously got pregnant with our son, Koa Bane.',
+    href: videos.koaBirth,
+    linkLabel: 'Watch Koa’s home birth',
   },
   {
-    icon: Leaf,
-    title: 'Genuinely Holistic',
-    description:
-      'From holistic fertility through the fourth trimester, in one connected journey.',
-  },
-  {
-    icon: Users,
-    title: 'Community First',
-    description:
-      'You are never left to figure this out alone, in the course or in the community.',
+    name: 'Harvest Joy',
+    meaning: '“Those who sow in tears will reap a harvest of joy.”',
+    scripture: 'Psalm 126:5',
+    image: haileyHarvest,
+    alt: 'Hailey sitting in the dune grass and sand, holding her daughter Harvest in her lap',
+    focus: '50% 34%',
+    copy: 'And 15 months later, along came Harvest Joy.',
+    href: videos.harvestBirth,
+    linkLabel: 'Watch Harvest’s home birth',
   },
 ];
 ---
 
 <BaseLayout
   title="About Hailey"
-  description="Meet Hailey Aliff, a second-generation midwife and mother of four, and the story behind Joy Within Birth."
+  description="Meet Hailey Joy Aliff — second-generation midwife, doula, childbirth educator, and mother of four — and the story of how she was called into the birth space."
 >
-  <section class="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
-    <div class="grid items-center gap-12 md:grid-cols-2">
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-600">About Hailey</p>
-        <h1 class="mt-4 text-balance text-4xl leading-[1.1] sm:text-5xl">
-          Second-generation midwife. Mother of four. Your guide through this season.
-        </h1>
-        <p class="mt-5 max-w-lg text-lg leading-relaxed text-ink-500">
-          Hailey Aliff built Joy Within Birth to be the trusted, faith-centered guide she
-          wished every mama had beside her, one that honors both evidence and intuition,
-          both careful preparation and quiet peace.
+  <!-- ───────────────────────── hero ───────────────────────── -->
+  <section class="hero">
+    <div class="hero-wash" aria-hidden="true"></div>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">About Hailey</p>
+
+        <h1>Meet Hailey <span class="signature-accent">Joy</span> Aliff</h1>
+
+        <p class="lede">
+          This is my husband, Jeremy, and our four kiddos — Emerson, Koa, Harvest,
+          and baby still in the belly.
+        </p>
+
+        <p class="sub">
+          Second-generation midwife, doula, and childbirth educator. I learned birth at
+          my mother’s side long before I ever carried life of my own.
         </p>
       </div>
-      <div class="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-lift">
-        <Image
-          src={portraitImage}
-          alt="A mother smiling warmly at her sleeping newborn in a cozy home setting"
-          class="h-full w-full object-cover"
-          style="transform: scale(1.04);"
-          data-scroll-scale-image
-          widths={[480, 768, 1024]}
-          sizes="(min-width: 768px) 45vw, 100vw"
-          priority
-        />
+
+      <div class="stage">
+        <div class="halo" aria-hidden="true"></div>
+
+        <figure class="arch">
+          <Image
+            src={familyStanding}
+            alt="Hailey and Jeremy Aliff standing together on a white sand beach with their three children, Hailey holding the youngest on her hip"
+            class="photo"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 1024px) 44vw, 90vw"
+            priority
+          />
+        </figure>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-3xl px-6 py-10">
-    <div class="space-y-6 text-lg leading-relaxed text-ink-600">
-      <p>
-        I still remember the first time I sat with a mama who was six months pregnant,
-        hands trembling, telling me she was terrified she'd &ldquo;freeze up&rdquo; when
-        it mattered most. She'd read everything. Watched every video. And still felt like
-        she was standing at the edge of the unknown, alone.
-      </p>
-      <p>
-        I understand that feeling deeply, because I've stood there myself. As a
-        second-generation midwife, I grew up watching my own mother hold space for
-        laboring women with a calm that felt almost supernatural. And still, when it was
-        my turn, fear tried to find me too. One of my own births was completely
-        pain-free, not because fear never knocked, but because I had learned how to
-        answer the door with peace instead of panic.
-      </p>
-      <p>That's the heart of Joy Within Birth.</p>
-      <p>
-        This isn't another generic hospital class that rushes through paperwork and
-        parking instructions. It's nine modules and over ten hours of training built to
-        walk with you, step by step, through nourishing your body, steadying your mind,
-        planning your birth with clarity, preparing your partner to truly support you,
-        and even holding space for the fourth trimester that follows.
-      </p>
-      <p>
-        You don't need previous experience. You don't need to have it all figured out.
-        You just need a trusted place to begin, and a community of women walking this
-        same sacred road beside you.
-      </p>
-      <p>
-        I believe birth was never meant to be walked alone, and it was never meant to be
-        ruled by fear. With the right preparation, you can move from anxious uncertainty
-        into calm, grounded confidence, the kind that stays with you long after your baby
-        arrives.
-      </p>
-      <p class="font-medium text-ink-800">
-        If you're ready to trade fear for peace, I'd be honored to walk this season with
-        you. &mdash; Hailey
-      </p>
-    </div>
-  </section>
+  <SectionCurve from="#fcf5f1" to="var(--bg-soft)" />
 
-  <section class="bg-cream-100 py-16">
-    <div class="mx-auto max-w-6xl px-6">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-balance text-3xl sm:text-4xl">What Joy Within Birth stands on</h2>
+  <!-- ──────────────────── the seven-year wait ──────────────────── -->
+  <section class="wait">
+    <div class="wait-grid">
+      <div class="stage stage-left" {...reveal()}>
+        <div class="halo" aria-hidden="true"></div>
+
+        <figure class="arch">
+          <Image
+            src={haileyEmerson}
+            alt="Hailey standing at the water’s edge in a floral dress, her daughter Emerson pressing her face against her pregnant belly"
+            class="photo"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 1024px) 42vw, 90vw"
+          />
+        </figure>
       </div>
-      <div class="mt-12 grid gap-8 sm:grid-cols-3">
-        {values.map(({ icon: Icon, title, description }) => (
-          <div class="rounded-2xl bg-cream-50 p-6 text-center shadow-soft ring-1 ring-ink-100/60">
-            <Icon class="mx-auto h-7 w-7 text-blush-500" />
-            <h3 class="mt-4 text-lg font-semibold text-ink-900">{title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-ink-500">{description}</p>
-          </div>
-        ))}
+
+      <div class="wait-copy" {...reveal(160)}>
+        <p class="eyebrow">The winter wait</p>
+
+        <h2>Seven years of waiting, then a daughter</h2>
+
+        <p class="body">
+          We have been married for 11 years, and for the first 7 years of our marriage
+          we struggled to conceive. (I’m currently working on a Holistic Fertility Ebook
+          to share a lot of the knowledge we gained in that winter wait.)
+        </p>
+
+        <p class="body">
+          We knew before getting married that we would adopt one day, so we first became
+          parents through the miracle of adoption.
+        </p>
+
+        <div class="named">
+          <p class="named-name">Emerson Faith</p>
+          <p class="named-meaning">
+            Emerson means <em>“brave”</em> — and her birth mother, who we keep in touch
+            with today, gave her the middle name <em>“faith”</em>.
+          </p>
+          <p class="body">
+            It’s wild to think she is about to be the big sis of 3 little siblings.
+          </p>
+          {
+            videos.emersonStory && (
+              <a class="link-cta" href={videos.emersonStory} target="_blank" rel="noreferrer">
+                Watch Emerson’s adoption story <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            )
+          }
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
-    <div class="grid gap-6 sm:grid-cols-2">
-      <div class="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-soft">
-        <Image
-          src={familyImage}
-          alt="A family sitting closely together, holding their newborn baby"
-          class="h-full w-full object-cover"
-          widths={[480, 640]}
-          sizes="(min-width: 640px) 45vw, 100vw"
-        />
+  <!-- ───────────────────── the two home births ───────────────────── -->
+  <section class="births">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">Then came springtime</p>
+        <h2>Two home births, fifteen months apart</h2>
+        <p class="sec-sub">
+          After answering the call to adopt our daughter, our springtime came — and I
+          got to experience birth in the way I already knew it was meant to be.
+        </p>
       </div>
-      <div class="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-soft">
-        <Image
-          src={birthImage}
-          alt="A partner gently supporting a laboring mother during a home water birth"
-          class="h-full w-full object-cover"
-          widths={[480, 640]}
-          sizes="(min-width: 640px) 45vw, 100vw"
-        />
+
+      <div class="birth-grid">
+        {
+          births.map((b, i) => (
+            <article class="birth-card" {...reveal(stagger(i, 120))}>
+              <div class="birth-media">
+                <Image
+                  src={b.image}
+                  alt={b.alt}
+                  widths={[480, 720, 960]}
+                  sizes="(min-width: 900px) 44vw, 100vw"
+                  style={`object-position: ${b.focus}`}
+                />
+              </div>
+
+              <div class="birth-copy">
+                <h3>{b.name}</h3>
+                <p class="birth-meaning">
+                  {b.meaning}
+                  {b.scripture && <span class="scripture">{b.scripture}</span>}
+                </p>
+                <p class="body">{b.copy}</p>
+                {
+                  b.href && (
+                    <a class="link-card" href={b.href} target="_blank" rel="noreferrer">
+                      <span>{b.linkLabel}</span>
+                      <span class="arrow" aria-hidden="true">→</span>
+                    </a>
+                  )
+                }
+              </div>
+            </article>
+          ))
+        }
       </div>
     </div>
-    <p class="mx-auto mt-8 max-w-2xl text-balance text-center text-ink-500">
-      Whether your birth happens in a hospital room or a birthing tub at home, Joy Within
-      Birth was built to walk with you, and the person beside you, through all of it.
-    </p>
+  </section>
+
+  <!-- ─────────────── full-bleed band into the essay ─────────────── -->
+  <div class="band">
+    <Image
+      src={familyWalking}
+      alt="The whole Aliff family walking hand in hand across an open stretch of white sand beach"
+      widths={[720, 1080, 1440]}
+      sizes="100vw"
+      data-scroll-scale-image
+      style="transform: scale(1.04);"
+    />
+  </div>
+
+  <!-- ─────────────────────── the vocation essay ─────────────────────── -->
+  <!-- Hailey's words verbatim, sentence-cased. -->
+  <section class="calling">
+    <div class="essay">
+      <div class="essay-head" {...reveal()}>
+        <p class="eyebrow">Her calling</p>
+        <h2>How I got called into the birth space</h2>
+      </div>
+
+      <div class="prose" {...reveal(120)}>
+        <p>
+          The calling to preserve birth and experience God’s hand in it started for me
+          long before I ever carried life in my womb or gave birth myself. In fact, it
+          started as a young child as I observed homebirths alongside my mama who was a
+          lay midwife. Before the time I was even in high school I believed in birth, was
+          awe-inspired by it, and knew it was God’s gift to women (not a curse).
+        </p>
+
+        <p>
+          I pursued this calling into college shadowing OB’s and DO’s and interning at
+          clinics trying to figure out which direction I would take being a birthworker.
+          After a year of seeing mainly medicated births and surgical births, I decided I
+          would pursue midwifery school.
+        </p>
+
+        <p>
+          Before starting midwifery school, I imagined I would start natural birth clinics
+          in 3rd world countries. By the time I graduated, I realized that first world
+          countries might have a bigger need. Progress has certainly not done better for
+          the design of birth.
+        </p>
+
+        <p>
+          In 1989 (the year I was born) c-section rates were at 19%. A lot has changed
+          since then and as of 2022, the U.S. sits at an average of 32.1%. According to
+          the CDC, the overall cesarean delivery rate in the U.S. increased 60% between
+          1996 and 2009. It’s safe to say we’ve lost touch with the natural process of how
+          things were meant to go and they are only declining.
+        </p>
+      </div>
+
+      <figure class="inset" {...reveal()}>
+        <Image
+          src={bellyField}
+          alt="A close view of a pregnant belly in a dotted cotton dress, hands resting underneath, in a field of tall grass at golden hour"
+          widths={[480, 720]}
+          sizes="(min-width: 720px) 34rem, 100vw"
+        />
+      </figure>
+
+      <div class="prose" {...reveal(120)}>
+        <p>
+          I graduated midwifery school a year after getting married and we could not wait
+          to have kids. Jeremy wrote in his vows “I can’t wait to make a million babies
+          with you” and we really thought we would be parents soon. 7 years went by and I
+          became more involved with and enthralled by birth. Equally the longing to
+          experience it myself ached.
+        </p>
+
+        <p>
+          I shadowed three different midwives, finished all my numbers for licensure, and
+          then I never sat for the test. My heart was in my doula business and childbirth
+          education ministry. The medical role in birth didn’t fuel me as much as the
+          support role in birth. Both are needed and have their special place and I was
+          niching down into mine.
+        </p>
+
+        <p>
+          After answering the call to adopt our daughter, our springtime came and I became
+          pregnant with my son. I experienced birth in the way that I already knew it was
+          meant to be. Two years later giving birth to my daughter I got to experience the
+          joy-within even deeper.
+        </p>
+      </div>
+
+      <blockquote class="pull" {...reveal()}>
+        <p>
+          When I say I look forward to giving birth I mean it. It’s like a glimpse of
+          heaven touching earth every single time.
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── the closing ───────────────────────── -->
+  <section class="closing">
+    <div class="closing-grid">
+      <div class="closing-copy" {...reveal()}>
+        <p class="closing-eyebrow">A note from Hailey</p>
+
+        <p class="closing-lede">
+          I’m so glad you’re here. I’ve prayed for you to be here, and it’s my honor to
+          pass this birth knowledge onto you.
+        </p>
+
+        {/* "Joy" is her actual middle name, so it is set in the brand script at
+            display scale — the same move the home hero makes with "joy", used
+            here as the signature flourish that closes the page. */}
+        <p class="signature">
+          <span class="signature-dash" aria-hidden="true"></span>
+          <span class="signature-name">Hailey</span>
+          <span class="signature-accent signature-joy">Joy</span>
+        </p>
+      </div>
+
+      <figure class="candid" {...reveal(160)}>
+        <Image
+          src={familySnow}
+          alt="The Aliff family bundled in snow gear on a ski slope, all six of them grinning at the camera"
+          widths={[360, 540]}
+          sizes="(min-width: 900px) 20rem, 60vw"
+        />
+        <figcaption>Our family today.</figcaption>
+      </figure>
+    </div>
   </section>
 
   <CtaBand
     heading="I'd be honored to walk this season with you"
     subheading="Enroll in Joy Within Birth and gain lifetime access to the course, the community, and Hailey herself."
+    capFrom="var(--surface)"
   />
 </BaseLayout>
+
+<style>
+  /* ═══════════════════════════ hero ═══════════════════════════ */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fcf5f1;
+  }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(86% 78% at 82% 4%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
+      radial-gradient(58% 54% at 98% 58%, rgba(232, 207, 200, 0.8) 0%, rgba(232, 207, 200, 0) 68%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.92fr;
+    gap: 72px;
+    align-items: center;
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: var(--space-section-md) var(--layout-gutter) var(--space-section-lg);
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  h1 {
+    margin-top: 24px;
+    font-size: var(--type-display);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin-top: 26px;
+    max-width: 30em;
+    font-size: var(--type-lead);
+    line-height: 1.76;
+    color: var(--text-secondary);
+  }
+
+  .sub {
+    margin-top: 18px;
+    max-width: 32em;
+    font-size: var(--type-body);
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════ the shared arch treatment ══════════════════ */
+  /* Same silhouette as the home page's Meet Hailey block: a dome with the
+     hairline rule set inside its edge and a rose halo tracing just outside. */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 470px;
+    justify-self: end;
+  }
+
+  .arch {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 2 / 3;
+    border-radius: 300px 300px var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
+  }
+  .arch :global(.photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 32%;
+    filter: saturate(0.92) contrast(1.03);
+  }
+
+  /* These beach frames are bright and high-key, so the top of the arch would
+     dissolve into the pale ground without a tint holding its silhouette. */
+  .arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      var(--rose-300) 0%,
+      var(--rose-200) 14%,
+      rgba(232, 207, 200, 0.55) 26%,
+      rgba(232, 207, 200, 0.16) 38%,
+      rgba(232, 207, 200, 0) 48%
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .arch::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    z-index: 2;
+    border: 1px solid rgba(255, 253, 250, 0.72);
+    border-radius: 288px 288px 20px 20px;
+    pointer-events: none;
+  }
+
+  .halo {
+    position: absolute;
+    left: -5.5%;
+    right: -5.5%;
+    top: -2.5%;
+    bottom: 4%;
+    border: 1px solid var(--border-subtle);
+    border-radius: 320px 320px 26px 26px;
+    z-index: -1;
+  }
+
+  /* ═════════════════════ the seven-year wait ═════════════════════ */
+  .wait {
+    background: var(--bg-soft);
+    padding: var(--space-section-lg) 0;
+  }
+
+  .wait-grid {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: 84px;
+    align-items: center;
+  }
+
+  .stage-left {
+    justify-self: start;
+  }
+
+  .wait-copy h2 {
+    margin-top: 22px;
+    font-size: var(--type-section);
+    line-height: 1.09;
+    max-width: 20ch;
+  }
+
+  .body {
+    margin-top: 22px;
+    max-width: 34em;
+    font-size: var(--type-body);
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  .named {
+    margin-top: 32px;
+    padding-top: 26px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .named-name {
+    font-size: var(--type-card);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+  .named-meaning {
+    margin-top: 8px;
+    max-width: 32em;
+    font-size: var(--type-body);
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+  .named-meaning em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent-strong);
+  }
+  .named .body {
+    margin-top: 14px;
+  }
+  .named .link-cta {
+    margin-top: 20px;
+  }
+
+  /* ═══════════════════════ the two births ═══════════════════════ */
+  .births {
+    background: var(--bg-strong);
+    padding: var(--space-section-lg) 0;
+  }
+  .wrap {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+
+  .sec-head {
+    max-width: 40em;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sec-head .eyebrow {
+    justify-content: center;
+  }
+  .sec-head .eyebrow::before {
+    display: none;
+  }
+  .sec-head h2 {
+    margin-top: 16px;
+    font-size: var(--type-section);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .sec-sub {
+    margin-top: 18px;
+    font-size: var(--type-lead);
+    line-height: 1.8;
+    color: var(--text-muted);
+    text-wrap: balance;
+  }
+
+  .birth-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    max-width: 1040px;
+    margin-inline: auto;
+  }
+
+  .birth-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 16px;
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 260ms ease,
+      box-shadow 260ms ease;
+  }
+  .birth-card:hover,
+  .birth-card:focus-within {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .birth-media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--bg-page);
+  }
+  .birth-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* crop comes from each entry's `focus`, art-directed per frame */
+    filter: saturate(0.86) contrast(1.03);
+    transition: transform 600ms ease;
+  }
+  .birth-card:hover .birth-media :global(img) {
+    transform: scale(1.04);
+  }
+  /* One rose grade over both frames so the pair reads as a set. */
+  .birth-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .birth-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 22px 8px 8px;
+  }
+  .birth-copy h3 {
+    font-size: var(--type-card);
+    font-weight: 800;
+    line-height: 1.25;
+  }
+  .birth-meaning {
+    margin-top: 8px;
+    font-size: var(--type-body);
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--accent-strong);
+  }
+  .scripture {
+    display: block;
+    margin-top: 6px;
+    font-size: var(--type-label);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .birth-copy .body {
+    margin-top: 12px;
+    font-size: var(--type-small);
+    line-height: 1.7;
+  }
+  .birth-copy .link-card {
+    margin-top: auto;
+    padding-top: 16px;
+  }
+
+  /* ══════════════════════ full-bleed band ══════════════════════ */
+  .band {
+    position: relative;
+    overflow: hidden;
+    height: clamp(320px, 52vw, 660px);
+    background: var(--bg-page);
+  }
+  .band :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 42%;
+    filter: saturate(0.94) contrast(1.04);
+  }
+  /* Feathered top and bottom so the band dissolves into the sections either
+     side instead of arriving as two hard rules. */
+  .band::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to bottom, var(--bg-strong) 0%, rgba(244, 224, 214, 0) 16%),
+      linear-gradient(to top, var(--bg-page) 0%, rgba(252, 246, 241, 0) 11%);
+  }
+
+  /* ════════════════════════ the essay ════════════════════════ */
+  .calling {
+    background: var(--bg-page);
+    padding: var(--space-section-lg) 0;
+  }
+
+  .essay {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+
+  .essay-head {
+    text-align: center;
+  }
+  .essay-head .eyebrow {
+    justify-content: center;
+  }
+  .essay-head .eyebrow::before {
+    display: none;
+  }
+  .essay-head h2 {
+    margin-top: 16px;
+    font-size: var(--type-section-compact);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  .prose {
+    margin-top: 40px;
+  }
+  .prose p {
+    margin-top: 22px;
+    font-size: var(--type-lead);
+    line-height: 1.85;
+    color: var(--text-secondary);
+  }
+  .prose p:first-child {
+    margin-top: 0;
+  }
+
+  .inset {
+    margin: 44px 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .inset :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .pull {
+    margin: 48px 0 0;
+    padding: 32px 0 0;
+    border-top: 1px solid var(--border-subtle);
+    text-align: center;
+  }
+  .pull p {
+    max-width: 26em;
+    margin: 0 auto;
+    font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--accent-strong);
+    text-wrap: balance;
+  }
+
+  /* ═══════════════════════ the closing ═══════════════════════ */
+  .closing {
+    background: linear-gradient(to bottom, var(--bg-page) 0%, var(--surface) 55%, var(--surface) 100%);
+    padding: var(--space-section-md) 0;
+  }
+
+  /* The sign-off gets its own raised surface rather than trailing off the end of
+     the essay: a light echo of the partner panel's treatment, so the page closes
+     on a deliberate note instead of just running out of text. */
+  .closing-grid {
+    position: relative;
+    max-width: 64rem;
+    margin: 0 auto var(--space-section-sm);
+    padding: clamp(36px, 5vw, 64px);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(36px, 5vw, 64px);
+    align-items: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(to bottom, var(--bg-soft) 0%, #ffffff 100%);
+    box-shadow: var(--shadow-card);
+  }
+  /* The gutter has to come back inside the panel's own margin, or the panel
+     runs to the viewport edge on narrow screens. */
+  @media (max-width: 71rem) {
+    .closing-grid {
+      margin-inline: var(--layout-gutter);
+    }
+  }
+
+  .closing-eyebrow {
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  .closing-lede {
+    margin-top: 20px;
+    max-width: 24em;
+    font-size: var(--type-section-compact);
+    font-weight: 800;
+    line-height: 1.24;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+    text-wrap: balance;
+  }
+
+  .signature {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  /* A drawn rule rather than an em dash: the glyph's length and weight shift
+     with the font, this does not. */
+  .signature-dash {
+    width: 34px;
+    height: 2px;
+    flex: none;
+    background: var(--accent-strong);
+  }
+
+  .signature-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text-secondary);
+  }
+
+  /* Display scale, so the flourish closes the page with some weight. The base
+     .signature-accent class carries the family, colour and text-shadow; this
+     only resizes it and corrects the optical drop of the script's baseline. */
+  .signature-joy {
+    font-size: clamp(1.875rem, 3vw, 2.375rem) !important;
+    line-height: 0.8;
+    margin-left: 0 !important;
+    transform: translateY(0.08em);
+  }
+
+  /* The candid is a phone snapshot next to a professional set, so it is kept
+     small and captioned — reading as a real family photo rather than trying to
+     pass as part of the shoot. */
+  .candid {
+    margin: 0;
+    width: min(19.5rem, 100%);
+  }
+  .candid :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+  .candid figcaption {
+    margin-top: 12px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ═══════════════════════ responsive ═══════════════════════ */
+  @media (max-width: 1023px) {
+    .hero-grid,
+    .wait-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero-copy,
+    .wait-copy {
+      text-align: center;
+    }
+    .eyebrow {
+      justify-content: center;
+    }
+    .eyebrow::before {
+      display: none;
+    }
+    .lede,
+    .sub,
+    .body,
+    .named-meaning {
+      margin-inline: auto;
+    }
+    .wait-copy h2 {
+      max-width: none;
+    }
+    /* Explicit width, or these stretched grid items shrink-to-fit and the
+       aspect-ratio arch collapses to zero. */
+    .stage,
+    .stage-left {
+      width: 100%;
+      max-width: 400px;
+      justify-self: center;
+    }
+    .named {
+      text-align: center;
+    }
+
+    .closing-grid {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+      text-align: center;
+      padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px);
+      gap: 36px;
+    }
+    /* `justify-items: center` sizes these columns to their CONTENT rather than
+       stretching them, so .closing-lede's 24em max-width became a 672px demand
+       and pushed straight out of the panel. Both guards are needed: min-width
+       to let the grid item shrink, max-width to cap it at the content box. */
+    .closing-copy,
+    .candid {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .closing-lede {
+      margin-inline: auto;
+      max-width: 20em;
+      /* the section-heading floor is too big for a padded panel this narrow */
+      font-size: clamp(1.375rem, 6.2vw, 1.875rem);
+    }
+    .signature {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .birth-grid {
+      grid-template-columns: 1fr;
+      max-width: 30rem;
+      gap: 24px;
+    }
+  }
+</style>

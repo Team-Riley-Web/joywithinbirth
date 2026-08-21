@@ -33,7 +33,7 @@ import element1 from '../../assets/images/elements/1.png';
       trusted, faith-centered place.
     </p>
 
-    <a class="btn-grad btn-problem" href="/course" {...reveal(460)}>See what's inside the course</a>
+    <a class="btn-grad btn-lg btn-problem" href="/course" {...reveal(460)}>See what's inside the course</a>
   </div>
 </section>
 
@@ -51,7 +51,7 @@ import element1 from '../../assets/images/elements/1.png';
       var(--rose-50) 94%,
       var(--rose-50) 100%
     );
-    padding: 116px 0 124px;
+    padding: var(--space-section-lg) 0;
   }
 
   .ghost {
@@ -82,7 +82,7 @@ import element1 from '../../assets/images/elements/1.png';
   }
 
   h2 {
-    font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+    font-size: var(--type-section);
     line-height: 1.08;
     text-wrap: balance;
   }
@@ -90,9 +90,9 @@ import element1 from '../../assets/images/elements/1.png';
   .body {
     margin: 30px auto 0;
     max-width: 34em;
-    font-size: 17.5px;
+    font-size: var(--type-lead);
     line-height: 1.8;
-    color: var(--f-ink-soft);
+    color: var(--text-muted);
     text-wrap: balance;
   }
 
@@ -103,7 +103,7 @@ import element1 from '../../assets/images/elements/1.png';
     max-width: 22em;
     font-size: clamp(1.08rem, 1.75vw, 1.35rem);
     line-height: 1.45;
-    color: var(--f-ink-soft);
+    color: var(--text-muted);
     text-wrap: balance;
   }
   .question strong {
@@ -113,25 +113,24 @@ import element1 from '../../assets/images/elements/1.png';
     line-height: 1.16;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: var(--rose-700);
+    color: var(--accent-strong);
   }
 
   .answer {
     margin: 26px auto 0;
     max-width: 32em;
-    font-size: 17px;
+    font-size: var(--type-lead);
     line-height: 1.8;
-    color: var(--f-ink-soft);
+    color: var(--text-muted);
     text-wrap: balance;
   }
 
   .btn-problem {
     margin-top: 40px;
-    padding: 16px 34px;
   }
 
   @media (max-width: 720px) {
-    .problem { padding: 76px 0 84px; }
+    .problem { padding: var(--space-section-md) 0; }
     .ghost { display: none; }
     .wrap { padding: 0 24px; }
     .body, .question, .answer { margin-top: 26px; }

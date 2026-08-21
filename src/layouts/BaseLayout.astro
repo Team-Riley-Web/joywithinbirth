@@ -28,11 +28,32 @@ const siteTitle = `${title} | Joy Within Birth`;
       crossorigin
     />
 
-    {/* Marks that scripting is available, so the scroll-reveal styles in
-        global.css only hide content when something can reveal it again. Inline
-        and in <head> so it applies before first paint. */}
+    {/* Arms the scroll-reveal styles in global.css, which hide [data-reveal]
+        content until it scrolls in.
+
+        Set inline and in <head> so it lands before first paint — there is no
+        flash of visible-then-hidden content. But "scripting exists" is the wrong
+        thing to condition on: what actually reveals these elements again is
+        Alpine's x-intersect, so if the Alpine bundle is slow, blocked, or errors
+        out, the guard alone would leave most of the page permanently blank.
+
+        So it is withdrawn again unless Alpine has booted. `alpine:init` fires
+        when it does; the timeout is the failsafe for when it never does, and
+        both paths converge on visible content. 2500ms is well past a normal boot
+        while still short enough that a genuinely broken bundle self-heals before
+        a reader has scrolled far. */}
     <script is:inline>
-      document.documentElement.classList.add('js');
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('reveal-ready');
+
+        let booted = false;
+        document.addEventListener('alpine:init', () => { booted = true; }, { once: true });
+
+        window.setTimeout(() => {
+          if (!booted) root.classList.remove('reveal-ready');
+        }, 2500);
+      })();
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />

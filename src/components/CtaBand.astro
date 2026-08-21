@@ -45,8 +45,8 @@ const {
     <p class="sub" {...reveal(200)}>{subheading}</p>
 
     <div class="actions" {...reveal(290)}>
-      <a class="btn-light" href={ctaHref}>{ctaLabel}</a>
-      <a class="btn-line" href="/course">See what's included</a>
+      <a class="btn-inverse btn-lg" href={ctaHref}>{ctaLabel}</a>
+      <a class="btn-line btn-lg" href="/course">See what's included</a>
     </div>
 
     {
@@ -61,6 +61,8 @@ const {
 
 <style>
   .cta {
+    /* dark ground: the rose focus ring would vanish here */
+    --focus-ring: var(--text-inverse);
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -71,7 +73,7 @@ const {
       var(--rose-900) 74%,
       var(--rose-900) 100%
     );
-    color: #fff7f3;
+    color: var(--text-inverse);
   }
 
   /* Warm light falling from the top right, so the panel has some depth rather
@@ -92,12 +94,12 @@ const {
     position: relative;
     max-width: 46rem;
     margin: 0 auto;
-    padding: 108px 32px 116px;
+    padding: var(--space-section-lg) 32px;
     text-align: center;
   }
 
   .eyebrow {
-    font-size: 11px;
+    font-size: var(--type-label);
     font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -106,16 +108,16 @@ const {
 
   h2 {
     margin-top: 20px;
-    font-size: clamp(2.1rem, 4vw, 3.4rem);
+    font-size: var(--type-section);
     line-height: 1.08;
-    color: #fff7f3;
+    color: var(--text-inverse);
     text-wrap: balance;
   }
 
   .sub {
     margin: 22px auto 0;
     max-width: 34em;
-    font-size: 17px;
+    font-size: var(--type-lead);
     line-height: 1.78;
     color: rgba(255, 247, 243, 0.78);
     text-wrap: balance;
@@ -130,45 +132,6 @@ const {
     gap: 16px;
   }
 
-  /* Light on dark: a rose gradient button would disappear into this ground, so
-     the primary action inverts instead. */
-  .btn-light {
-    display: inline-block;
-    text-decoration: none;
-    background: var(--beige-50);
-    color: var(--rose-800);
-    font-weight: 700;
-    font-size: 15px;
-    border-radius: 999px;
-    padding: 17px 36px;
-    /* two-part shadow: a tight dark contact edge plus a wide soft cast */
-    box-shadow:
-      0 2px 4px rgba(46, 18, 13, 0.28),
-      0 22px 46px -18px rgba(46, 18, 13, 0.6);
-    transition: transform 220ms ease, box-shadow 220ms ease;
-  }
-  .btn-light:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 2px 4px rgba(46, 18, 13, 0.3),
-      0 30px 56px -18px rgba(46, 18, 13, 0.66);
-  }
-
-  .btn-line {
-    text-decoration: none;
-    color: #fff7f3;
-    font-weight: 600;
-    font-size: 15px;
-    border: 1px solid rgba(255, 247, 243, 0.34);
-    border-radius: 999px;
-    padding: 16px 30px;
-    transition: border-color 220ms ease, background-color 220ms ease;
-  }
-  .btn-line:hover {
-    border-color: rgba(255, 247, 243, 0.72);
-    background: rgba(255, 247, 243, 0.07);
-  }
-
   .meta {
     margin: 42px auto 0;
     padding: 22px 0 0;
@@ -179,7 +142,7 @@ const {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px 28px;
-    font-size: 11px;
+    font-size: var(--type-label);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -202,10 +165,8 @@ const {
   }
 
   @media (max-width: 640px) {
-    .inner { padding: 88px 24px 64px; }
+    .inner { padding: var(--space-section-md) 24px var(--space-section-sm); }
     .actions { flex-direction: column; align-items: stretch; }
-    .btn-light,
-    .btn-line { text-align: center; }
     .meta { gap: 8px 20px; }
     .meta li + li::before { left: -11px; }
   }
