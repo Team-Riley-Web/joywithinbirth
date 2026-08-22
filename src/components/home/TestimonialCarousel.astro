@@ -4,9 +4,13 @@
  */
 import TestimonialCard from '../TestimonialCard.astro';
 import { Image } from 'astro:assets';
+import { ChevronLeft, ChevronRight } from '@lucide/astro';
 import { reveal } from '../../lib/reveal';
 import { testimonials } from '../../data/testimonials';
 import footElement from '../../assets/images/elements/7.png';
+
+const firstTestimonial = testimonials[0]!;
+const lastTestimonial = testimonials[testimonials.length - 1]!;
 ---
 
 <section class="stories">
@@ -45,6 +49,123 @@ import footElement from '../../assets/images/elements/7.png';
         }
       </ul>
     </div>
+  </div>
+
+  <div
+    class="mobile-carousel"
+    aria-label="Testimonials"
+    x-data={`{
+      active: 0,
+      position: 1,
+      total: ${testimonials.length},
+      timer: null,
+      transitionTimer: null,
+      transitioning: true,
+      locked: false,
+      duration: 1100,
+      reducedMotion: false,
+      init() {
+        this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (this.reducedMotion) this.duration = 0;
+        this.start();
+      },
+      start() {
+        this.stop();
+        if (this.reducedMotion || this.total < 2) return;
+        this.timer = window.setInterval(() => this.move(1, false), 5000);
+      },
+      stop() {
+        if (this.timer) window.clearInterval(this.timer);
+        this.timer = null;
+      },
+      move(direction, restart = true) {
+        if (this.locked || this.total < 2) return;
+
+        this.locked = true;
+        this.active = (this.active + direction + this.total) % this.total;
+        this.position += direction;
+        if (restart) this.start();
+
+        if (this.transitionTimer) window.clearTimeout(this.transitionTimer);
+        this.transitionTimer = window.setTimeout(() => {
+          if (this.position === 0) this.jumpTo(this.total);
+          else if (this.position === this.total + 1) this.jumpTo(1);
+          else this.locked = false;
+        }, this.duration);
+      },
+      jumpTo(position) {
+        this.transitioning = false;
+        this.position = position;
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            this.transitioning = true;
+            this.locked = false;
+          });
+        });
+      },
+      previous() {
+        this.move(-1);
+      },
+      next() {
+        this.move(1);
+      },
+      destroy() {
+        this.stop();
+        if (this.transitionTimer) window.clearTimeout(this.transitionTimer);
+      }
+    }`}
+  >
+    <div class="mobile-viewport">
+      <ul
+        class="mobile-track"
+        :class="{ 'is-jumping': !transitioning }"
+        :style="'transform: translateX(-' + (position * 100) + '%)'"
+      >
+        <li class="mobile-slide" aria-hidden="true">
+          <TestimonialCard testimonial={lastTestimonial} />
+        </li>
+
+        {
+          testimonials.map((testimonial, i) => (
+            <li class="mobile-slide" :aria-hidden={`active !== ${i}`}>
+              <TestimonialCard testimonial={testimonial} />
+            </li>
+          ))
+        }
+
+        <li class="mobile-slide" aria-hidden="true">
+          <TestimonialCard testimonial={firstTestimonial} />
+        </li>
+      </ul>
+    </div>
+
+    <div class="mobile-controls">
+      <button
+        class="mobile-arrow"
+        type="button"
+        aria-label="Previous testimonial"
+        :disabled="total < 2"
+        @click="previous()"
+      >
+        <ChevronLeft aria-hidden="true" />
+      </button>
+
+      <span class="mobile-count" aria-hidden="true">
+        <span x-text="active + 1">1</span> / {testimonials.length}
+      </span>
+
+      <button
+        class="mobile-arrow"
+        type="button"
+        aria-label="Next testimonial"
+        :disabled="total < 2"
+        @click="next()"
+      >
+        <ChevronRight aria-hidden="true" />
+      </button>
+    </div>
+
+    <a class="more mobile-more link-cta" href="/testimonials">Read more stories</a>
   </div>
 </section>
 
@@ -117,6 +238,80 @@ import footElement from '../../assets/images/elements/7.png';
     width: min(390px, 82vw);
   }
 
+  /* Phones use a discrete carousel; tablet and desktop keep the marquee. */
+  .mobile-carousel {
+    display: none;
+  }
+  .mobile-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+  .mobile-track {
+    display: flex;
+    margin: 0;
+    padding: 4px 0 2px;
+    list-style: none;
+    transform: translateX(-100%);
+    transition: transform 1100ms cubic-bezier(0.22, 0.65, 0.3, 1);
+    will-change: transform;
+  }
+  .mobile-track.is-jumping {
+    transition: none;
+  }
+  .mobile-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+  .mobile-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .mobile-arrow {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-primary);
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+  .mobile-arrow:hover {
+    border-color: var(--accent-strong);
+    background: var(--bg-soft);
+    color: var(--accent-strong);
+  }
+  .mobile-arrow:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+  .mobile-arrow:disabled {
+    opacity: 0.45;
+  }
+  .mobile-arrow :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+  .mobile-count {
+    min-width: 42px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .mobile-more {
+    display: none;
+  }
+
   .more {
     flex: none;
   }
@@ -135,6 +330,7 @@ import footElement from '../../assets/images/elements/7.png';
     }
     .viewport::-webkit-scrollbar { display: none; }
     .track { animation: none; }
+    .mobile-track { transition: none; }
   }
 
   @media (max-width: 1023px) {
@@ -146,5 +342,33 @@ import footElement from '../../assets/images/elements/7.png';
     .head { flex-direction: column; align-items: center; gap: 20px; text-align: center; }
     .head h2 { max-width: none; }
     .more-head { align-self: center; }
+  }
+
+  @media (max-width: 639px) {
+    .viewport {
+      display: none;
+    }
+    .more-head {
+      display: none;
+    }
+    .mobile-carousel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 32rem;
+      width: calc(100% - var(--layout-gutter) - var(--layout-gutter));
+      margin: 44px auto 0;
+    }
+    .mobile-slide :global(.card) {
+      box-shadow: none;
+    }
+    .mobile-slide :global(.card:hover) {
+      transform: none;
+      box-shadow: none;
+    }
+    .mobile-more {
+      display: inline-flex;
+      margin-top: 22px;
+    }
   }
 </style>

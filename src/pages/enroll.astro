@@ -5,8 +5,8 @@
  * An earlier pass was two feature-list boxes side by side — competent, and the
  * most templated pricing layout there is. This one sells in the hero (price,
  * what it buys, primary action, beside the outcome you are buying), treats the
- * VIP tier as the optional add-on it actually is, and puts proof at the point of
- * decision instead of leaving the page proof-free.
+ * VIP tier as a high-touch next step, and puts proof at the point of decision
+ * instead of leaving the page proof-free.
  *
  * Deliberately absent: any "compare us to a doula / hospital class" price
  * anchoring. Those figures vary hugely by region and none is sourced anywhere
@@ -19,9 +19,10 @@ import FaqItem from '../components/FaqItem.astro';
 import SectionCurve from '../components/SectionCurve.astro';
 import { Image } from 'astro:assets';
 import { reveal, stagger } from '../lib/reveal';
-import { Check } from '@lucide/astro';
+import { ArrowDown, Check } from '@lucide/astro';
 
-import heroImage from '../assets/images/imgi_9_689ec57c5bdfcf6800cf5529.jpg';
+import heroImage from '../assets/images/aliff-bluey-04.jpg';
+import vipImage from '../assets/images/imgi_10_689cf0151f951ee0b182e811.jpg';
 
 import { testimonials } from '../data/testimonials';
 
@@ -37,8 +38,9 @@ const atAGlance = [
 ];
 
 /**
- * Core features, grouped. A flat list of seven checkmarks reads as a wall; the
- * groups let someone find the part they actually care about.
+ * Core features, grouped. A flat list of nine checkmarks reads as a wall; the
+ * groups let someone find the part they actually care about. Three items per
+ * group, so the three cards sit level rather than one running short.
  */
 const coreGroups = [
   {
@@ -59,12 +61,16 @@ const coreGroups = [
   },
   {
     title: 'The access',
-    items: ['Lifetime access & future updates', 'Yours again for future pregnancies'],
+    items: [
+      'Lifetime access & future updates',
+      'Yours again for future pregnancies',
+      'Self-paced, revisit any module anytime',
+    ],
   },
 ];
 
 const vipFeatures = [
-  'Everything included in Core Enrollment',
+  'Everything in the full enrollment',
   'Private 1:1 coaching, custom plan',
   'Additional postpartum support session',
   'Priority access to Hailey',
@@ -76,73 +82,81 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
 
 <BaseLayout
   title="Pricing & FAQ"
-  description="Enroll in Joy Within Birth for $350, one-time, lifetime access. See what's included, the optional VIP tier, and answers to common questions."
+  description="Enroll in Joy Within Birth for $350, one-time, lifetime access. See what's included, explore personalized VIP support, and get answers to common questions."
 >
   <!-- ───────── hero: the price, what it buys, and the outcome ───────── -->
   <section class="hero">
-    <div class="hero-wash" aria-hidden="true"></div>
-
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Enroll</p>
 
-        <h1>One enrollment. Lifetime access.</h1>
+        <h1>One enrollment.<br /><span class="signature-accent">Joy</span> for life.</h1>
 
         <p class="lede">
           No subscriptions, no recurring fees. Just one trusted place to prepare, for as
           long as your journey takes.
         </p>
 
-        <div class="price-block">
-          <p class="price">
-            <span class="amount">$350</span>
-            <span class="unit">one-time · lifetime access</span>
-          </p>
+        <div class="offer">
+          <div class="price-row">
+            <p class="amount">$350</p>
+            <p class="price-meta">
+              <strong>One-time payment</strong>
+              <span>Lifetime access · Future updates included</span>
+            </p>
+          </div>
 
-          <a class="btn-grad btn-lg" href={SKOOL_URL} target="_blank" rel="noreferrer">
-            Enroll Now
-          </a>
+          <div class="action-row">
+            <a class="btn-grad btn-lg" href={SKOOL_URL} target="_blank" rel="noreferrer">
+              Enroll Now
+            </a>
+            <a class="included-link" href="#included">
+              <span>See everything included</span>
+              <ArrowDown aria-hidden="true" />
+            </a>
+          </div>
         </div>
-
-        <dl class="glance">
-          {
-            atAGlance.map((g) => (
-              <div>
-                <dt>{g.figure}</dt>
-                <dd>{g.label}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-
-      <div class="stage">
-        <div class="halo" aria-hidden="true"></div>
-
-        <figure class="arch">
-          <span class="grade" aria-hidden="true"></span>
-          <Image
-            src={heroImage}
-            alt="A mother and father sitting close together on a sofa, cradling their sleeping newborn between them"
-            class="photo"
-            widths={[480, 720, 940]}
-            sizes="(min-width: 1024px) 42vw, 90vw"
-            priority
-          />
-        </figure>
       </div>
     </div>
+
+    <figure class="hero-media">
+      <span class="grade" aria-hidden="true"></span>
+      <Image
+        src={heroImage}
+        alt="The Aliff family standing together outdoors with their children and dogs"
+        class="photo"
+        style="transform: scale(1.04);"
+        data-scroll-scale-image
+        widths={[720, 1080, 1440]}
+        sizes="(min-width: 1024px) 52vw, 100vw"
+        priority
+      />
+    </figure>
+
+    <SectionCurve from="transparent" to="var(--bg-soft)" overlay />
   </section>
 
-  <SectionCurve from="#fcf5f1" to="var(--bg-soft)" />
-
   <!-- ───────────────────── what's included, grouped ───────────────────── -->
-  <section class="included">
+  <section class="included" id="included">
     <div class="wrap">
       <div class="sec-head" {...reveal()}>
         <p class="eyebrow">What's included</p>
-        <h2>Everything in Core Enrollment</h2>
+        <h2>Everything you need, from fertility to postpartum</h2>
       </div>
+
+      {/* The figures used to sit in the hero under the price, where they
+          competed with the one action on the page. They belong here, as the
+          headline numbers for what the enrollment actually contains. */}
+      <dl class="glance" {...reveal(80)}>
+        {
+          atAGlance.map((g) => (
+            <div>
+              <dt>{g.figure}</dt>
+              <dd>{g.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
 
       <div class="group-grid">
         {
@@ -182,12 +196,10 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     </p>
   </section>
 
-  <!-- ───────────────────── the optional VIP add-on ───────────────────── -->
+  <!-- ───────────────────── personalized VIP support ───────────────────── -->
   <section class="vip">
     <div class="vip-panel" {...reveal()}>
       <div class="vip-copy">
-        <p class="vip-badge">Optional add-on</p>
-
         <h2>Joy Within Birth VIP</h2>
 
         <p class="vip-lede">
@@ -196,21 +208,31 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
           what you actually need.
         </p>
 
+        <ul class="vip-list">
+          {
+            vipFeatures.map((feature) => (
+              <li>
+                <span class="tick tick-dark" aria-hidden="true"><Check /></span>
+                {feature}
+              </li>
+            ))
+          }
+        </ul>
+
         <a class="link-cta vip-link" href={HAILEY_IG} target="_blank" rel="noreferrer">
           Message Hailey to book a call <span class="arrow" aria-hidden="true">→</span>
         </a>
       </div>
 
-      <ul class="vip-list">
-        {
-          vipFeatures.map((feature) => (
-            <li>
-              <span class="tick tick-dark" aria-hidden="true"><Check /></span>
-              {feature}
-            </li>
-          ))
-        }
-      </ul>
+      <figure class="vip-media">
+        <Image
+          src={vipImage}
+          alt="Hailey Aliff standing outdoors during pregnancy"
+          class="vip-photo"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 1024px) 32rem, 100vw"
+        />
+      </figure>
     </div>
   </section>
 
@@ -248,7 +270,7 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
         </FaqItem>
         <FaqItem question="Is coaching required to benefit from the course?">
           No. The self-paced course works as a complete, standalone experience. The
-          monthly group Q&A and optional VIP 1:1 coaching are there if and when you want
+          monthly group Q&A and VIP 1:1 coaching are there if and when you want
           additional, personalized support.
         </FaqItem>
       </div>
@@ -266,30 +288,83 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
 
 <style>
   /* ═══════════════════════════ hero ═══════════════════════════ */
+  /* A compact rose wash gives the copy side the same atmosphere as the rest
+     of the site while the flat outer ground keeps the photo seam invisible. */
   .hero {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background: #fcf5f1;
-  }
-  .hero-wash {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
     background:
-      radial-gradient(86% 78% at 82% 4%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
-      radial-gradient(58% 54% at 98% 58%, rgba(232, 207, 200, 0.8) 0%, rgba(232, 207, 200, 0) 68%);
+      radial-gradient(
+        48% 60% at 0% 4%,
+        rgba(246, 227, 218, 0.92) 0%,
+        rgba(246, 227, 218, 0.48) 38%,
+        rgba(246, 227, 218, 0) 76%
+      ),
+      #fcf5f1;
+    --curve-h: clamp(34px, 4.6vw, 96px);
   }
 
   .hero-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 0.86fr;
-    gap: 72px;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     max-width: var(--layout-max);
     margin: 0 auto;
     padding: var(--space-section-md) var(--layout-gutter) var(--space-section-lg);
   }
+  .hero-copy {
+    width: 50%;
+    padding-right: 56px;
+  }
+
+  /* The photograph occupies the right half of the hero without creating a
+     separate card. A soft mask lets it meet the copy naturally. */
+  .hero-media {
+    position: absolute;
+    z-index: 0;
+    inset: 0 0 0 50%;
+    margin: 0;
+    overflow: hidden;
+    border-top-left-radius: clamp(3rem, 9vw, 9rem);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0, 0, 0, 0.5) 22px, #000 64px);
+    mask-image: linear-gradient(to right, transparent 0, rgba(0, 0, 0, 0.5) 22px, #000 64px);
+  }
+  .hero-media :global(.photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 58% 50%;
+    filter: saturate(0.68) contrast(0.94) brightness(1.34);
+  }
+  .hero-media .grade {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, rgba(252, 245, 241, 0.2), transparent 34%);
+  }
+  .hero-media::before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    inset: 14px;
+    border: 1px solid rgba(255, 253, 250, 0.72);
+    border-radius: clamp(2.25rem, 8.2vw, 8.25rem) 0 0 0;
+    pointer-events: none;
+  }
+  .hero-media::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: auto 0 0;
+    height: calc(var(--curve-h) * 1.3);
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(252, 245, 241, 0.82));
+  }
+
 
   .eyebrow {
     display: flex;
@@ -308,56 +383,110 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     background: var(--border-subtle);
   }
 
+  /* The two beats are broken explicitly in the markup — the offer, then the
+     reason — so no ch cap or balancing here. */
   h1 {
     margin-top: 24px;
     font-size: var(--type-display);
     line-height: 1.05;
-    max-width: 16ch;
-    text-wrap: balance;
   }
 
   .lede {
     margin-top: 24px;
-    max-width: 30em;
+    max-width: 62ch;
     font-size: var(--type-lead);
     line-height: 1.78;
     color: var(--text-muted);
   }
 
-  /* The price and the action sit together as one block — the decision is
-     "is it worth $350", so the number and the button should not be separated. */
-  .price-block {
-    margin-top: 34px;
+  /* Price with payment context, followed by two side-by-side actions. */
+  .offer {
+    margin-top: clamp(22px, 3vw, 32px);
+  }
+  .price-row {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 28px;
+    gap: clamp(12px, 1.4vw, 20px);
   }
   .amount {
-    display: block;
+    margin: 0;
+    flex: none;
     font-size: clamp(2.75rem, 5vw, 3.5rem);
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.04em;
+    color: var(--accent-quiet);
+  }
+  .price-meta {
+    margin: 0;
+  }
+  .price-meta strong {
+    display: block;
+    font-size: clamp(1.125rem, 2vw, 1.45rem);
+    font-weight: 800;
+    line-height: 1.15;
     color: var(--text-primary);
   }
-  .unit {
+  .price-meta span {
     display: block;
-    margin-top: 8px;
-    font-size: var(--type-label);
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    margin-top: 0;
+    font-size: var(--type-body);
+    line-height: 1.4;
     color: var(--text-muted);
   }
+  .action-row {
+    margin-top: clamp(32px, 4vw, 48px);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 2vw, 28px);
+    flex-wrap: nowrap;
+  }
+  .action-row .btn-lg {
+    min-width: 12rem;
+  }
+  .included-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 44px;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--text-primary);
+  }
+  .included-link span {
+    padding-bottom: 6px;
+    background-image: linear-gradient(var(--accent-strong), var(--accent-strong));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 2px;
+    transition: color 180ms ease, background-size 180ms ease;
+  }
+  .included-link :global(svg) {
+    width: 21px;
+    height: 21px;
+    transition: transform 180ms ease;
+  }
+  .included-link:hover span {
+    color: var(--accent-strong);
+    background-size: 58% 2px;
+  }
+  .included-link:hover :global(svg) {
+    transform: translateY(3px);
+  }
 
+  /* Lives in .included now, centred under the section head. */
   .glance {
-    margin: 36px 0 0;
-    padding-top: 26px;
+    margin: 44px auto 0;
+    padding-top: 30px;
+    max-width: 52rem;
     border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-wrap: wrap;
-    gap: 32px 44px;
+    justify-content: center;
+    gap: 32px 56px;
+    text-align: center;
   }
   .glance dt {
     font-size: clamp(1.375rem, 2.2vw, 1.75rem);
@@ -373,72 +502,6 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--text-muted);
-  }
-
-  /* ══════════════════ the arch (shared treatment) ══════════════════ */
-  .stage {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    justify-self: end;
-  }
-  .arch {
-    position: relative;
-    margin: 0;
-    aspect-ratio: 4 / 5;
-    border-radius: 300px 300px var(--radius-lg) var(--radius-lg);
-    overflow: hidden;
-    box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
-  }
-  .arch :global(.photo) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 20% 44%;
-    filter: saturate(0.72) contrast(0.98) brightness(1.26);
-  }
-  /* A real element: ::before holds the top tint, ::after the hairline rule. */
-  .arch .grade {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: var(--rose-400);
-    mix-blend-mode: color;
-    opacity: 0.2;
-    pointer-events: none;
-  }
-  .arch::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      to bottom,
-      rgba(214, 167, 154, 0.55) 0%,
-      rgba(232, 207, 200, 0.32) 16%,
-      rgba(232, 207, 200, 0) 38%
-    );
-    mix-blend-mode: multiply;
-    pointer-events: none;
-  }
-  .arch::after {
-    content: '';
-    position: absolute;
-    inset: 14px;
-    z-index: 2;
-    border: 1px solid rgba(255, 253, 250, 0.72);
-    border-radius: 288px 288px 20px 20px;
-    pointer-events: none;
-  }
-  .halo {
-    position: absolute;
-    left: -5.5%;
-    right: -5.5%;
-    top: -2.5%;
-    bottom: 4%;
-    border: 1px solid var(--border-subtle);
-    border-radius: 320px 320px 26px 26px;
-    z-index: -1;
   }
 
   /* ══════════════════════ shared section head ══════════════════════ */
@@ -593,10 +656,9 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     color: var(--text-primary);
   }
 
-  /* ═════════════════════ the optional VIP tier ═════════════════════ */
+  /* ═════════════════════ personalized VIP support ═════════════════════ */
   /* One dark surface, the same device the home page uses for the partner
-     module — it marks VIP as a different kind of offer without pretending to
-     compete with the $350 as an alternative price. */
+     module — it marks VIP as a high-touch extension of the course. */
   .vip {
     background: linear-gradient(to bottom, var(--bg-soft) 0%, var(--bg-page) 60%);
     padding: 0 var(--layout-gutter) var(--space-section-lg);
@@ -604,13 +666,12 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
 
   .vip-panel {
     --focus-ring: var(--text-inverse);
-    max-width: 66rem;
+    max-width: 72rem;
     margin: 0 auto;
-    padding: clamp(34px, 4.5vw, 56px);
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: clamp(32px, 4vw, 60px);
-    align-items: center;
+    grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.92fr);
+    align-items: stretch;
+    overflow: hidden;
     border: 1px solid rgba(255, 247, 243, 0.16);
     border-radius: var(--radius-lg);
     background:
@@ -621,16 +682,11 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
       0 42px 90px -42px rgba(46, 18, 13, 0.72);
   }
 
-  .vip-badge {
-    font-size: var(--type-label);
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--rose-200);
+  .vip-copy {
+    padding: clamp(38px, 5vw, 68px);
   }
 
   .vip-copy h2 {
-    margin-top: 16px;
     font-size: var(--type-section-compact);
     line-height: 1.14;
     color: var(--text-inverse);
@@ -645,13 +701,13 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
   }
 
   .vip-link {
-    margin-top: 26px;
+    margin-top: 32px;
     color: var(--rose-200);
     border-bottom-color: rgba(255, 247, 243, 0.24);
   }
 
   .vip-list {
-    margin: 0;
+    margin: 26px 0 0;
     padding: 0;
     list-style: none;
     display: grid;
@@ -664,6 +720,30 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     font-size: var(--type-small);
     line-height: 1.6;
     color: rgba(255, 247, 243, 0.86);
+  }
+
+  .vip-media {
+    position: relative;
+    min-height: 34rem;
+    margin: 0;
+    overflow: hidden;
+  }
+  .vip-media::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(to right, rgba(78, 39, 33, 0.42), transparent 30%),
+      linear-gradient(to top, rgba(47, 28, 24, 0.28), transparent 38%);
+    pointer-events: none;
+  }
+  .vip-media :global(.vip-photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 52% 62%;
+    filter: saturate(0.76) contrast(0.94) brightness(0.92);
   }
 
   /* ═══════════════════════════ the FAQ ═══════════════════════════ */
@@ -684,11 +764,24 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
   /* ═══════════════════════ responsive ═══════════════════════ */
   @media (max-width: 1023px) {
     .hero-grid {
-      grid-template-columns: 1fr;
-      gap: 48px;
+      padding-bottom: var(--space-section-md);
     }
     .hero-copy {
+      width: 100%;
+      padding-right: 0;
       text-align: center;
+    }
+    .hero-media {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: clamp(20rem, 62vw, 30rem);
+      border-top-left-radius: clamp(3rem, 12vw, 7rem);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 48px);
+    }
+    .hero-media :global(.photo) {
+      object-position: 58% 50%;
     }
     .eyebrow {
       justify-content: center;
@@ -696,26 +789,23 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     .eyebrow::before {
       display: none;
     }
-    h1,
+    h1 {
+      margin-inline: auto;
+    }
     .lede {
       max-width: none;
       margin-inline: auto;
     }
-    .price-block,
-    .glance {
+    .price-row,
+    .action-row {
       justify-content: center;
     }
-    /* Explicit width, or this stretched grid item shrink-to-fits and the
-       aspect-ratio arch collapses. */
-    .stage {
-      width: 100%;
-      max-width: 380px;
-      justify-self: center;
+    .price-meta {
+      text-align: left;
     }
 
     .vip-panel {
       grid-template-columns: 1fr;
-      gap: 32px;
     }
     .vip-copy {
       text-align: center;
@@ -728,6 +818,15 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
       margin-inline: auto;
       text-align: left;
     }
+    .vip-media {
+      min-height: clamp(22rem, 70vw, 34rem);
+    }
+    .vip-media::before {
+      background: linear-gradient(to bottom, rgba(78, 39, 33, 0.32), transparent 26%);
+    }
+    .vip-media :global(.vip-photo) {
+      object-position: 50% 58%;
+    }
   }
 
   @media (max-width: 860px) {
@@ -738,6 +837,26 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
   }
 
   @media (max-width: 560px) {
+    .price-row {
+      flex-direction: column;
+      gap: 18px;
+    }
+    .price-meta {
+      text-align: center;
+    }
+    .action-row {
+      max-width: 24rem;
+      margin-inline: auto;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 18px;
+    }
+    .action-row .btn-lg {
+      min-width: 0;
+    }
+    .included-link {
+      justify-content: center;
+    }
     .glance {
       gap: 24px 32px;
     }

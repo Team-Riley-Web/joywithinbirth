@@ -19,6 +19,13 @@ import { reveal, stagger } from '../lib/reveal';
 import { Users, MessageCircle, Calendar } from '@lucide/astro';
 
 import communityImage from '../assets/images/imgi_20_689ec97e5bdfcfe965cfd670.jpg';
+import galleryPregnancy from '../assets/images/imgi_19_689ec90324858a5600fb5a4e.jpg';
+import galleryBirth from '../assets/images/imgi_11_689cede83b01e6b095436d26.jpg';
+import galleryNewborn from '../assets/images/imgi_13_689e45cee0fe54b3a73e08c7.jpg';
+import galleryMotherBaby from '../assets/images/imgi_15_689d13e9d232a380bb17ff2c.jpg';
+import galleryParents from '../assets/images/imgi_22_689ec9b4c6ba4e06d49d48ed.jpg';
+import galleryHospital from '../assets/images/imgi_23_68a207374fa1aa2b5b419aef.jpg';
+import galleryFamily from '../assets/images/imgi_9_689ec57c5bdfcf6800cf5529.jpg';
 import element7 from '../assets/images/elements/7.png';
 
 import { testimonials } from '../data/testimonials';
@@ -42,6 +49,17 @@ const communityStats = [
   { icon: Users, label: '106+ members inside the free community' },
   { icon: MessageCircle, label: 'In-portal messaging with Hailey directly' },
   { icon: Calendar, label: 'Monthly live Q&A calls' },
+];
+
+const galleryImages = [
+  { src: galleryPregnancy, alt: 'An expectant mother standing outdoors with her hands resting on her belly', position: 'center 44%' },
+  { src: galleryBirth, alt: 'A mother supported by her birth team during labor', position: 'center 48%' },
+  { src: communityImage, alt: 'A mother laboring in a birth pool with support beside her', position: 'center 46%' },
+  { src: galleryNewborn, alt: 'A mother smiling down at her newborn baby', position: 'center 42%' },
+  { src: galleryMotherBaby, alt: 'A mother resting at home while holding her baby', position: 'center 48%' },
+  { src: galleryParents, alt: 'New parents holding their sleeping newborn together', position: 'center 44%' },
+  { src: galleryHospital, alt: 'Parents smiling together after welcoming their baby', position: 'center 42%' },
+  { src: galleryFamily, alt: 'A mother and father cradling their newborn on a sofa', position: 'center 40%' },
 ];
 ---
 
@@ -108,6 +126,50 @@ const communityStats = [
     </div>
   </section>
 
+  <!-- ─────────────────── the families behind the stories ─────────────────── -->
+  <section class="client-gallery" aria-labelledby="client-gallery-title">
+    <div class="gallery-heading" {...reveal()}>
+      <p class="eyebrow">Held through every chapter</p>
+      <h2 id="client-gallery-title">The families behind the stories</h2>
+    </div>
+
+    <div class="gallery-viewport">
+      <div class="gallery-track">
+        <div class="gallery-set">
+          {
+            galleryImages.map((item) => (
+              <figure class="gallery-card">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  widths={[320, 480, 640]}
+                  sizes="(min-width: 1024px) 20rem, 52vw"
+                  style={`object-position: ${item.position};`}
+                />
+              </figure>
+            ))
+          }
+        </div>
+
+        <div class="gallery-set" aria-hidden="true">
+          {
+            galleryImages.map((item) => (
+              <figure class="gallery-card">
+                <Image
+                  src={item.src}
+                  alt=""
+                  widths={[320, 480, 640]}
+                  sizes="(min-width: 1024px) 20rem, 52vw"
+                  style={`object-position: ${item.position};`}
+                />
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ───────────────────────── the community ───────────────────────── -->
   <section class="community">
     <div class="comm-grid">
@@ -160,7 +222,9 @@ const communityStats = [
     isolation: isolate;
     overflow: hidden;
     background: #fcf5f1;
-    padding: var(--space-section-md) 0 0;
+    /* Bottom padding is the proof strip's breathing room before the curve —
+       without it the stats sit right on the arc. */
+    padding: var(--space-section-md) 0 var(--space-section-md);
   }
   .hero-wash {
     position: absolute;
@@ -302,7 +366,9 @@ const communityStats = [
   /* ═══════════════════════ the stories ═══════════════════════ */
   .stories {
     background: var(--bg-soft);
-    padding: var(--space-section-lg) 0;
+    /* Lighter on top: the curve's dome already rises most of its own height at
+       the centre, so a full section pad above the eyebrow reads as a gap. */
+    padding: 3rem 0 var(--space-section-lg);
   }
 
   /* CSS columns rather than grid: the quotes vary a lot in length, and a grid
@@ -318,6 +384,78 @@ const communityStats = [
   .story-grid > li {
     break-inside: avoid;
     margin-bottom: 22px;
+  }
+
+  /* ═══════════════════ the client photo gallery ═══════════════════ */
+  .client-gallery {
+    overflow: hidden;
+    background: linear-gradient(to bottom, var(--bg-soft), var(--bg-page));
+    padding: 0 0 var(--space-section-lg);
+  }
+  .gallery-heading {
+    max-width: 42rem;
+    margin: 0 auto 40px;
+    padding: 0 var(--layout-gutter);
+    text-align: center;
+  }
+  .gallery-heading h2 {
+    margin-top: 14px;
+    font-size: var(--type-section-compact);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+  .gallery-viewport {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 5vw, #000 95vw, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 5vw, #000 95vw, transparent);
+  }
+  .gallery-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: gallery-scroll 48s linear infinite;
+  }
+  .gallery-viewport:hover .gallery-track {
+    animation-play-state: paused;
+  }
+  .gallery-set {
+    display: grid;
+    grid-template-rows: repeat(2, clamp(10rem, 16vw, 13rem));
+    grid-auto-columns: clamp(13rem, 23vw, 19rem);
+    grid-auto-flow: column;
+    gap: 16px;
+    padding-right: 16px;
+  }
+  .gallery-card {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--rose-100);
+    box-shadow:
+      0 1px 2px rgba(78, 39, 33, 0.14),
+      0 20px 46px -28px rgba(78, 39, 33, 0.52);
+  }
+  .gallery-card :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.78) contrast(0.98) brightness(1.02);
+    transform: scale(1.015);
+  }
+  .gallery-card::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(255, 253, 250, 0.58);
+    border-radius: calc(var(--radius-md) - 4px);
+    pointer-events: none;
+  }
+  @keyframes gallery-scroll {
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   /* ═══════════════════════ the community ═══════════════════════ */
@@ -495,6 +633,21 @@ const communityStats = [
       grid-template-columns: 1fr;
       gap: 26px;
       max-width: 22rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-viewport {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+      scrollbar-width: thin;
+    }
+    .gallery-track {
+      animation: none;
+    }
+    .gallery-set[aria-hidden='true'] {
+      display: none;
     }
   }
 </style>

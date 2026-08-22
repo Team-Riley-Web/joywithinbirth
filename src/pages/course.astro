@@ -15,7 +15,7 @@ import { Image } from 'astro:assets';
 import { reveal, stagger } from '../lib/reveal';
 import { Video, NotebookPen, HandHeart, Users, MessageCircle, Infinity } from '@lucide/astro';
 
-import heroImage from '../assets/images/imgi_8_689ec538c6ba4e09e29cc249.jpg';
+import heroImage from '../assets/images/imgi_13_689e45cee0fe54b3a73e08c7.jpg';
 
 import { modules } from '../data/modules';
 
@@ -93,7 +93,7 @@ const howItWorks = [
       <div class="hero-copy">
         <p class="eyebrow">The course</p>
 
-        <h1>Nine modules. Ten-plus hours. One lifetime of access.</h1>
+        <h1>9 modules.<br />10+ hours.<br />Lifetime access.</h1>
 
         <p class="lede">
           A complete, self-paced natural childbirth training and community, built for
@@ -114,10 +114,10 @@ const howItWorks = [
           <span class="grade" aria-hidden="true"></span>
           <Image
             src={heroImage}
-            alt="A pregnant woman writing in a journal with a laptop nearby, building her birth plan"
+            alt="A mother smiling at her newborn while holding the baby's hands"
             class="photo"
-            widths={[480, 720, 960]}
-            sizes="(min-width: 1024px) 44vw, 90vw"
+            widths={[640, 960, 1280]}
+            sizes="(min-width: 1024px) 48vw, 90vw"
             priority
           />
         </figure>
@@ -223,20 +223,19 @@ const howItWorks = [
 
   .hero-grid {
     display: grid;
-    grid-template-columns: 1fr 0.9fr;
-    gap: 72px;
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+    gap: clamp(44px, 5vw, 72px);
     align-items: center;
     max-width: var(--layout-max);
     margin: 0 auto;
     padding: var(--space-section-md) var(--layout-gutter) var(--space-section-lg);
   }
 
+  /* Line breaks are explicit in the markup, so no balancing or ch cap here. */
   h1 {
     margin-top: 24px;
     font-size: var(--type-display);
     line-height: 1.05;
-    max-width: 18ch;
-    text-wrap: balance;
   }
 
   .lede {
@@ -308,8 +307,8 @@ const howItWorks = [
   .stage {
     position: relative;
     width: 100%;
-    max-width: 450px;
-    justify-self: end;
+    max-width: 540px;
+    justify-self: start;
   }
 
   .arch {
@@ -324,12 +323,10 @@ const howItWorks = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 34%;
-    /* The dress in this frame is a saturated mustard, the one hue on the site
-       outside the rose/beige family. Pulled down and graded (below) the same way
-       the journey and resource cards grade their stills, so the hero belongs to
-       the palette instead of introducing a second accent. */
-    filter: saturate(0.6) contrast(1.04) brightness(1.02);
+    object-position: 50% 50%;
+    /* The cool wall and bedding are softened into the site's warmer palette
+       without flattening the photograph's natural contrast. */
+    filter: saturate(0.72) contrast(1.02) brightness(1.03);
   }
   /* A real element rather than a pseudo: ::before carries the top tint and
      ::after the hairline rule, so both are already taken. */
@@ -516,7 +513,7 @@ const howItWorks = [
   @media (max-width: 1023px) {
     .hero-grid {
       grid-template-columns: 1fr;
-      gap: 48px;
+      gap: 40px;
     }
     .hero-copy {
       text-align: center;
@@ -528,7 +525,6 @@ const howItWorks = [
       display: none;
     }
     h1 {
-      max-width: none;
       margin-inline: auto;
     }
     .lede {
@@ -541,7 +537,7 @@ const howItWorks = [
        aspect-ratio arch collapses. */
     .stage {
       width: 100%;
-      max-width: 400px;
+      max-width: 480px;
       justify-self: center;
     }
   }
