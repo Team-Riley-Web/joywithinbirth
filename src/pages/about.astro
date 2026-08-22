@@ -23,7 +23,7 @@ import haileyKoa from '../assets/images/about/imgi_4_d8d4682145ac41b9b9b8116bc56
 import haileyHarvest from '../assets/images/about/imgi_5_cd5816f7e41c4b7dbe5ada92f4089b63c782ccb17dee429daeaecc9652d3d681-md.jpg';
 import familyWalking from '../assets/images/about/imgi_6_1a01a034f25547f9b54e7da008397cecda952246575e4e64acf1a293f1ef0ae1-md.jpg';
 import bellyField from '../assets/images/about/imgi_26_eb03179c273c47ee9c70e670f332d2f08a2c780bfeb9431fad1c7d3a60a247e5-md.jpg';
-import familySnow from '../assets/images/about/imgi_33_63007c641205488296a5edb0fbfd68f2558d53ed471b4b94b1708041808f8b26-md.jpg';
+import familyPhoto from '../assets/images/family-photo.jpg';
 
 /**
  * Video links.
@@ -325,20 +325,16 @@ const births = [
           pass this birth knowledge onto you.
         </p>
 
-        {/* "Joy" is her actual middle name, so it is set in the brand script at
-            display scale — the same move the home hero makes with "joy", used
-            here as the signature flourish that closes the page. */}
         <p class="signature">
           <span class="signature-dash" aria-hidden="true"></span>
           <span class="signature-name">Hailey</span>
-          <span class="signature-accent signature-joy">Joy</span>
         </p>
       </div>
 
       <figure class="candid" {...reveal(160)}>
         <Image
-          src={familySnow}
-          alt="The Aliff family bundled in snow gear on a ski slope, all six of them grinning at the camera"
+          src={familyPhoto}
+          alt="The Aliff family together in a mountain meadow"
           widths={[360, 540]}
           sizes="(min-width: 900px) 20rem, 60vw"
         />
@@ -786,29 +782,16 @@ const births = [
     padding: var(--space-section-md) 0;
   }
 
-  /* The sign-off gets its own raised surface rather than trailing off the end of
-     the essay: a light echo of the partner panel's treatment, so the page closes
-     on a deliberate note instead of just running out of text. */
+  /* The sign-off stays open on the page rather than sitting inside a card. */
   .closing-grid {
     position: relative;
     max-width: 64rem;
     margin: 0 auto var(--space-section-sm);
-    padding: clamp(36px, 5vw, 64px);
+    padding: 0 var(--layout-gutter);
     display: grid;
     grid-template-columns: 1fr auto;
     gap: clamp(36px, 5vw, 64px);
     align-items: center;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    background: linear-gradient(to bottom, var(--bg-soft) 0%, #ffffff 100%);
-    box-shadow: var(--shadow-card);
-  }
-  /* The gutter has to come back inside the panel's own margin, or the panel
-     runs to the viewport edge on narrow screens. */
-  @media (max-width: 71rem) {
-    .closing-grid {
-      margin-inline: var(--layout-gutter);
-    }
   }
 
   .closing-eyebrow {
@@ -851,16 +834,6 @@ const births = [
     font-weight: 700;
     letter-spacing: -0.015em;
     color: var(--text-secondary);
-  }
-
-  /* Display scale, so the flourish closes the page with some weight. The base
-     .signature-accent class carries the family, colour and text-shadow; this
-     only resizes it and corrects the optical drop of the script's baseline. */
-  .signature-joy {
-    font-size: clamp(1.875rem, 3vw, 2.375rem) !important;
-    line-height: 0.8;
-    margin-left: 0 !important;
-    transform: translateY(0.08em);
   }
 
   /* The candid is a phone snapshot next to a professional set, so it is kept
@@ -929,7 +902,6 @@ const births = [
       grid-template-columns: minmax(0, 1fr);
       justify-items: center;
       text-align: center;
-      padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 44px);
       gap: 36px;
     }
     /* `justify-items: center` sizes these columns to their CONTENT rather than
@@ -957,6 +929,12 @@ const births = [
       grid-template-columns: 1fr;
       max-width: 30rem;
       gap: 24px;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .wait-copy {
+      order: -1;
     }
   }
 </style>

@@ -4,7 +4,6 @@
  */
 import TestimonialCard from '../TestimonialCard.astro';
 import { Image } from 'astro:assets';
-import { ChevronLeft, ChevronRight } from '@lucide/astro';
 import { reveal } from '../../lib/reveal';
 import { testimonials } from '../../data/testimonials';
 import footElement from '../../assets/images/elements/7.png';
@@ -103,12 +102,6 @@ const lastTestimonial = testimonials[testimonials.length - 1]!;
           });
         });
       },
-      previous() {
-        this.move(-1);
-      },
-      next() {
-        this.move(1);
-      },
       destroy() {
         this.stop();
         if (this.transitionTimer) window.clearTimeout(this.transitionTimer);
@@ -137,32 +130,6 @@ const lastTestimonial = testimonials[testimonials.length - 1]!;
           <TestimonialCard testimonial={firstTestimonial} />
         </li>
       </ul>
-    </div>
-
-    <div class="mobile-controls">
-      <button
-        class="mobile-arrow"
-        type="button"
-        aria-label="Previous testimonial"
-        :disabled="total < 2"
-        @click="previous()"
-      >
-        <ChevronLeft aria-hidden="true" />
-      </button>
-
-      <span class="mobile-count" aria-hidden="true">
-        <span x-text="active + 1">1</span> / {testimonials.length}
-      </span>
-
-      <button
-        class="mobile-arrow"
-        type="button"
-        aria-label="Next testimonial"
-        :disabled="total < 2"
-        @click="next()"
-      >
-        <ChevronRight aria-hidden="true" />
-      </button>
     </div>
 
     <a class="more mobile-more link-cta" href="/testimonials">Read more stories</a>
@@ -262,52 +229,6 @@ const lastTestimonial = testimonials[testimonials.length - 1]!;
     flex: 0 0 100%;
     min-width: 0;
   }
-  .mobile-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin-top: 20px;
-  }
-  .mobile-arrow {
-    display: inline-flex;
-    width: 44px;
-    height: 44px;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border-subtle);
-    border-radius: 999px;
-    background: var(--surface);
-    color: var(--text-primary);
-    transition:
-      border-color 180ms ease,
-      background-color 180ms ease,
-      color 180ms ease;
-  }
-  .mobile-arrow:hover {
-    border-color: var(--accent-strong);
-    background: var(--bg-soft);
-    color: var(--accent-strong);
-  }
-  .mobile-arrow:focus-visible {
-    outline: 3px solid var(--focus-ring);
-    outline-offset: 3px;
-  }
-  .mobile-arrow:disabled {
-    opacity: 0.45;
-  }
-  .mobile-arrow :global(svg) {
-    width: 20px;
-    height: 20px;
-  }
-  .mobile-count {
-    min-width: 42px;
-    font-size: var(--type-label);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-align: center;
-    color: var(--text-muted);
-  }
   .mobile-more {
     display: none;
   }
@@ -345,6 +266,17 @@ const lastTestimonial = testimonials[testimonials.length - 1]!;
   }
 
   @media (max-width: 639px) {
+    .stories {
+      padding-top: 6.5rem;
+    }
+    .stories :global(.foot-ghost) {
+      top: 10px;
+      right: auto;
+      left: 50%;
+      width: 72px;
+      opacity: 0.085;
+      transform: translateX(-50%);
+    }
     .viewport {
       display: none;
     }

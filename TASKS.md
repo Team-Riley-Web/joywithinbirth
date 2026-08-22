@@ -28,5 +28,16 @@ unchecked task unless you are starting it.
 - [x] Add a soft upper-left wash and a Course-inspired inset border to the pricing hero image.
 - [x] Add space beneath the home-page proof stats and tighten the top of the Free resources section.
 - [x] Show one testimonial at a time on phones and auto-slide every four seconds without changing tablet or desktop behavior.
-- [ ] Refine the phone testimonial carousel with arrows, gentler transitions, flat cards, and the stories link below the testimonial.
-- [ ] Restyle the pricing-page VIP section as a full-width split image-and-content feature based on the provided concept.
+- [x] Refine the phone testimonial carousel with arrows, gentler transitions, flat cards, and the stories link below the testimonial.
+- [x] Restyle the pricing-page VIP section as a full-width split image-and-content feature based on the provided concept.
+- [x] Remove the mobile testimonial arrows and slide count while preserving autoplay and the stories link.
+- [x] Stack Connect beneath Explore in the footer and center the footer content.
+- [x] Hide only the Explore and Connect footer headings on mobile while keeping their links and icons visible.
+- [x] Center the ghost footprint above the Real Stories eyebrow on the mobile index page.
+- [x] Move the mobile testimonial footprint closer to the Partner Module and make it more visible.
+- [x] Place the About-page Winter Wait photo after its content on mobile only.
+- [x] Remove the card container treatment around the About-page A Note from Hailey section.
+- [x] Use family-photo.jpg in the About-page A Note from Hailey section.
+- [x] Remove the “—Joy” sign-off from the About-page A Note from Hailey section.
+- [x] Move the Testimonials intro to the top, enlarge its images, and reverse the second image row.
+- [x] Move the Testimonials Community photo before its copy on mobile only.

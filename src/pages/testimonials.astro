@@ -61,20 +61,66 @@ const galleryImages = [
   { src: galleryHospital, alt: 'Parents smiling together after welcoming their baby', position: 'center 42%' },
   { src: galleryFamily, alt: 'A mother and father cradling their newborn on a sofa', position: 'center 40%' },
 ];
+
+const galleryRows = [galleryImages.slice(0, 4), galleryImages.slice(4)];
 ---
 
 <BaseLayout
   title="Testimonials"
   description="Real stories from mamas who walked through fear into calm, confident birth with Joy Within Birth — including VBAC and HBAC births."
 >
+  <!-- ─────────────────── the families behind the stories ─────────────────── -->
+  <section class="client-gallery" aria-labelledby="client-gallery-title">
+    <div class="gallery-heading" {...reveal()}>
+      <p class="eyebrow">Held through every chapter</p>
+      <h1 id="client-gallery-title">The families behind the stories</h1>
+    </div>
+
+    <div class="gallery-stack">
+      {
+        galleryRows.map((row, rowIndex) => (
+          <div class="gallery-viewport">
+            <div class={`gallery-track${rowIndex === 1 ? ' gallery-track--reverse' : ''}`}>
+              <div class="gallery-set">
+                {row.map((item) => (
+                  <figure class="gallery-card">
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      widths={[480, 720, 960]}
+                      sizes="(min-width: 1024px) 29rem, 82vw"
+                      style={`object-position: ${item.position};`}
+                    />
+                  </figure>
+                ))}
+              </div>
+
+              <div class="gallery-set" aria-hidden="true">
+                {row.map((item) => (
+                  <figure class="gallery-card">
+                    <Image
+                      src={item.src}
+                      alt=""
+                      widths={[480, 720, 960]}
+                      sizes="(min-width: 1024px) 29rem, 82vw"
+                      style={`object-position: ${item.position};`}
+                    />
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
   <!-- ───────── hero: the strongest story, at display scale ───────── -->
   <section class="hero">
     <div class="hero-wash" aria-hidden="true"></div>
     <Image src={element7} alt="" aria-hidden="true" class="hero-flower" />
 
     <div class="hero-inner">
-      <h1 class="sr-only">Testimonials from Joy Within Birth mothers</h1>
-
       <p class="eyebrow">Real stories</p>
 
       <figure class="lead">
@@ -123,50 +169,6 @@ const galleryImages = [
           ))
         }
       </ul>
-    </div>
-  </section>
-
-  <!-- ─────────────────── the families behind the stories ─────────────────── -->
-  <section class="client-gallery" aria-labelledby="client-gallery-title">
-    <div class="gallery-heading" {...reveal()}>
-      <p class="eyebrow">Held through every chapter</p>
-      <h2 id="client-gallery-title">The families behind the stories</h2>
-    </div>
-
-    <div class="gallery-viewport">
-      <div class="gallery-track">
-        <div class="gallery-set">
-          {
-            galleryImages.map((item) => (
-              <figure class="gallery-card">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  widths={[320, 480, 640]}
-                  sizes="(min-width: 1024px) 20rem, 52vw"
-                  style={`object-position: ${item.position};`}
-                />
-              </figure>
-            ))
-          }
-        </div>
-
-        <div class="gallery-set" aria-hidden="true">
-          {
-            galleryImages.map((item) => (
-              <figure class="gallery-card">
-                <Image
-                  src={item.src}
-                  alt=""
-                  widths={[320, 480, 640]}
-                  sizes="(min-width: 1024px) 20rem, 52vw"
-                  style={`object-position: ${item.position};`}
-                />
-              </figure>
-            ))
-          }
-        </div>
-      </div>
     </div>
   </section>
 
@@ -389,20 +391,27 @@ const galleryImages = [
   /* ═══════════════════ the client photo gallery ═══════════════════ */
   .client-gallery {
     overflow: hidden;
-    background: linear-gradient(to bottom, var(--bg-soft), var(--bg-page));
-    padding: 0 0 var(--space-section-lg);
+    background:
+      radial-gradient(70% 68% at 8% 0%, rgba(246, 227, 218, 0.8) 0%, rgba(246, 227, 218, 0) 68%),
+      #fcf5f1;
+    padding: clamp(5rem, 8vw, 7.5rem) 0 clamp(4rem, 7vw, 6.5rem);
   }
   .gallery-heading {
     max-width: 42rem;
-    margin: 0 auto 40px;
+    margin: 0 auto clamp(2.5rem, 5vw, 4.5rem);
     padding: 0 var(--layout-gutter);
     text-align: center;
   }
-  .gallery-heading h2 {
+  .gallery-heading h1 {
     margin-top: 14px;
-    font-size: var(--type-section-compact);
-    line-height: 1.12;
+    font-size: var(--type-display);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
     text-wrap: balance;
+  }
+  .gallery-stack {
+    display: grid;
+    gap: clamp(16px, 2vw, 24px);
   }
   .gallery-viewport {
     overflow: hidden;
@@ -413,21 +422,25 @@ const galleryImages = [
     display: flex;
     width: max-content;
     will-change: transform;
-    animation: gallery-scroll 48s linear infinite;
+    animation: gallery-scroll 52s linear infinite;
+  }
+  .gallery-track--reverse {
+    animation-name: gallery-scroll-reverse;
+    animation-duration: 56s;
   }
   .gallery-viewport:hover .gallery-track {
     animation-play-state: paused;
   }
   .gallery-set {
-    display: grid;
-    grid-template-rows: repeat(2, clamp(10rem, 16vw, 13rem));
-    grid-auto-columns: clamp(13rem, 23vw, 19rem);
-    grid-auto-flow: column;
-    gap: 16px;
-    padding-right: 16px;
+    display: flex;
+    gap: clamp(16px, 2vw, 24px);
+    padding-right: clamp(16px, 2vw, 24px);
   }
   .gallery-card {
     position: relative;
+    flex: none;
+    width: clamp(19rem, 30vw, 29rem);
+    height: clamp(14rem, 21vw, 20rem);
     margin: 0;
     overflow: hidden;
     border-radius: var(--radius-md);
@@ -455,6 +468,14 @@ const galleryImages = [
   @keyframes gallery-scroll {
     to {
       transform: translateX(-50%);
+    }
+  }
+  @keyframes gallery-scroll-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
     }
   }
 
@@ -572,19 +593,6 @@ const galleryImages = [
     pointer-events: none;
   }
 
-  /* Visually hidden, still announced. */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-
   /* ═══════════════════════ responsive ═══════════════════════ */
   @media (max-width: 1080px) {
     .story-grid {
@@ -633,6 +641,12 @@ const galleryImages = [
       grid-template-columns: 1fr;
       gap: 26px;
       max-width: 22rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .comm-media {
+      order: -1;
     }
   }
 

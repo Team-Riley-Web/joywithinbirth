@@ -199,6 +199,18 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
   <!-- ───────────────────── personalized VIP support ───────────────────── -->
   <section class="vip">
     <div class="vip-panel" {...reveal()}>
+      <figure class="vip-media">
+        <Image
+          src={vipImage}
+          alt="Hailey Aliff standing outdoors during pregnancy"
+          class="vip-photo"
+          style="transform: scale(1.04);"
+          data-scroll-scale-image
+          widths={[720, 1080, 1440]}
+          sizes="(min-width: 1024px) 46vw, 100vw"
+        />
+      </figure>
+
       <div class="vip-copy">
         <h2>Joy Within Birth VIP</h2>
 
@@ -220,19 +232,9 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
         </ul>
 
         <a class="link-cta vip-link" href={HAILEY_IG} target="_blank" rel="noreferrer">
-          Message Hailey to book a call <span class="arrow" aria-hidden="true">→</span>
+          Message Hailey about VIP <span class="arrow" aria-hidden="true">→</span>
         </a>
       </div>
-
-      <figure class="vip-media">
-        <Image
-          src={vipImage}
-          alt="Hailey Aliff standing outdoors during pregnancy"
-          class="vip-photo"
-          widths={[480, 720, 960]}
-          sizes="(min-width: 1024px) 32rem, 100vw"
-        />
-      </figure>
     </div>
   </section>
 
@@ -657,61 +659,77 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
   }
 
   /* ═════════════════════ personalized VIP support ═════════════════════ */
-  /* One dark surface, the same device the home page uses for the partner
-     module — it marks VIP as a high-touch extension of the course. */
+  /* Full-bleed split feature: the image and dark offer surface are the
+     section, rather than a card floating inside another background. */
   .vip {
-    background: linear-gradient(to bottom, var(--bg-soft) 0%, var(--bg-page) 60%);
-    padding: 0 var(--layout-gutter) var(--space-section-lg);
+    background: var(--rose-900);
   }
 
   .vip-panel {
     --focus-ring: var(--text-inverse);
-    max-width: 72rem;
-    margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.92fr);
+    grid-template-columns: minmax(0, 46%) minmax(0, 54%);
+    grid-template-areas: 'media copy';
     align-items: stretch;
+    width: 100%;
+    min-height: clamp(42rem, 62vw, 54rem);
     overflow: hidden;
-    border: 1px solid rgba(255, 247, 243, 0.16);
-    border-radius: var(--radius-lg);
     background:
-      radial-gradient(88% 82% at 96% 0%, rgba(169, 117, 106, 0.34) 0%, rgba(169, 117, 106, 0) 64%),
-      linear-gradient(145deg, var(--rose-800) 0%, var(--rose-900) 68%, #2f1c18 100%);
-    box-shadow:
-      0 1px 2px rgba(46, 18, 13, 0.18),
-      0 42px 90px -42px rgba(46, 18, 13, 0.72);
+      radial-gradient(76% 70% at 100% 0%, rgba(169, 117, 106, 0.28) 0%, rgba(169, 117, 106, 0) 68%),
+      linear-gradient(145deg, var(--rose-800) 0%, var(--rose-900) 62%, #2f1c18 100%);
   }
 
   .vip-copy {
-    padding: clamp(38px, 5vw, 68px);
+    grid-area: copy;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(56px, 7.4vw, 132px);
   }
 
   .vip-copy h2 {
-    font-size: var(--type-section-compact);
-    line-height: 1.14;
+    max-width: 10ch;
+    font-size: var(--type-display);
+    line-height: 1.08;
     color: var(--text-inverse);
   }
 
   .vip-lede {
-    margin-top: 18px;
-    max-width: 36em;
+    margin-top: 28px;
+    max-width: 38em;
     font-size: var(--type-body);
     line-height: 1.78;
     color: rgba(255, 247, 243, 0.76);
   }
 
   .vip-link {
-    margin-top: 32px;
-    color: var(--rose-200);
-    border-bottom-color: rgba(255, 247, 243, 0.24);
+    align-self: flex-start;
+    margin-top: 38px;
+    min-height: var(--control-height);
+    padding: 0 24px;
+    border: 1px solid rgba(255, 247, 243, 0.32);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 247, 243, 0.04);
+    color: var(--text-inverse);
+    transition:
+      background-color 220ms ease,
+      border-color 220ms ease,
+      transform 220ms ease;
+  }
+  .vip-link:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 247, 243, 0.58);
+    background: rgba(255, 247, 243, 0.1);
   }
 
   .vip-list {
-    margin: 26px 0 0;
+    margin: 30px 0 0;
     padding: 0;
     list-style: none;
     display: grid;
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 32px;
+    max-width: 44rem;
   }
   .vip-list li {
     display: flex;
@@ -724,7 +742,8 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
 
   .vip-media {
     position: relative;
-    min-height: 34rem;
+    grid-area: media;
+    min-height: 100%;
     margin: 0;
     overflow: hidden;
   }
@@ -734,7 +753,7 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     inset: 0;
     z-index: 1;
     background:
-      linear-gradient(to right, rgba(78, 39, 33, 0.42), transparent 30%),
+      linear-gradient(to left, rgba(63, 38, 32, 0.38), transparent 28%),
       linear-gradient(to top, rgba(47, 28, 24, 0.28), transparent 38%);
     pointer-events: none;
   }
@@ -742,7 +761,7 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 52% 62%;
+    object-position: 52% 58%;
     filter: saturate(0.76) contrast(0.94) brightness(0.92);
   }
 
@@ -806,6 +825,10 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
 
     .vip-panel {
       grid-template-columns: 1fr;
+      grid-template-areas:
+        'copy'
+        'media';
+      min-height: 0;
     }
     .vip-copy {
       text-align: center;
@@ -814,9 +837,12 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
       margin-inline: auto;
     }
     .vip-list {
-      max-width: 26rem;
+      max-width: 34rem;
       margin-inline: auto;
       text-align: left;
+    }
+    .vip-link {
+      align-self: center;
     }
     .vip-media {
       min-height: clamp(22rem, 70vw, 34rem);
@@ -859,6 +885,13 @@ const proofQuote = testimonials.find((t) => t.name === 'Kari L.') ?? testimonial
     }
     .glance {
       gap: 24px 32px;
+    }
+    .vip-copy {
+      padding: 52px var(--layout-gutter);
+    }
+    .vip-list {
+      grid-template-columns: 1fr;
+      max-width: 26rem;
     }
   }
 </style>
