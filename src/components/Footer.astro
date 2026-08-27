@@ -21,14 +21,14 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
 
 <footer class="bg-gradient-to-b from-rose-900 via-rose-900 to-[#241411]">
   <div class="mx-auto max-w-6xl px-6 pb-10 pt-8 sm:py-14">
-    <div class="flex flex-col items-center text-center">
-      <div class="flex justify-center">
+    <div class="flex flex-col items-center text-center lg:grid lg:grid-cols-[1.4fr_1fr_1fr] lg:items-start lg:gap-x-8 lg:text-left">
+      <div class="flex justify-center lg:justify-start">
         <a href="/" class="inline-flex min-h-11 items-center">
           <Image src={logo} alt="Joy Within Birth" width={400} height={355} class="h-auto w-[170px] brightness-0 invert sm:w-[200px]" />
         </a>
       </div>
 
-      <div class="mt-8 w-full max-w-xs">
+      <div class="mt-8 w-full max-w-xs lg:mt-0 lg:max-w-none">
         <p class="hidden text-sm font-semibold text-beige-50 sm:block">Explore</p>
         <ul class="mt-0 space-y-3 sm:mt-4">
           {exploreLinks.map((link) => (
@@ -41,9 +41,9 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
         </ul>
       </div>
 
-      <div class="mt-8 w-full max-w-xs">
+      <div class="mt-8 w-full max-w-xs lg:mt-0 lg:max-w-none">
         <p class="hidden text-sm font-semibold text-beige-50 sm:block">Connect</p>
-        <ul class="mt-0 flex items-center justify-center gap-3 sm:mt-4">
+        <ul class="mt-0 flex items-center justify-center gap-3 sm:mt-4 lg:justify-start">
           {socialLinks.map((link) => (
             <li>
               <a
@@ -85,7 +85,7 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
     </div>
 
     <div
-      class="mt-10 flex flex-col items-center gap-2 border-t border-beige-50/12 pt-6 text-center text-xs text-beige-50/58 sm:mt-12"
+      class="mt-10 flex flex-col items-center gap-2 border-t border-beige-50/12 pt-6 text-center text-xs text-beige-50/58 sm:mt-12 lg:flex-row lg:justify-between lg:text-left"
     >
       <p>&copy; {new Date().getFullYear()} Joy Within Birth LLC. All rights reserved.</p>
       <span class="flex items-center justify-center gap-1 text-beige-50/58">
