@@ -30,10 +30,10 @@ const communityLink = { href: 'https://www.skool.com/joywithinbirth/about', labe
 
       <div class="mt-8 w-full max-w-xs lg:mt-0 lg:max-w-none">
         <p class="hidden text-sm font-semibold text-beige-50 sm:block">Explore</p>
-        <ul class="mt-0 space-y-3 sm:mt-4">
+        <ul class="mt-0 space-y-3 sm:mt-4 lg:space-y-2">
           {exploreLinks.map((link) => (
             <li>
-              <a href={link.href} class="inline-flex min-h-11 items-center text-sm text-beige-50/62 transition-colors hover:text-rose-200">
+              <a href={link.href} class="inline-flex min-h-11 items-center text-sm text-beige-50/62 transition-colors hover:text-rose-200 lg:min-h-0 lg:py-1">
                 {link.label}
               </a>
             </li>
