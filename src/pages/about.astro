@@ -17,21 +17,22 @@ import SectionCurve from '../components/SectionCurve.astro';
 import { Image } from 'astro:assets';
 import { reveal, stagger } from '../lib/reveal';
 
-import familyStanding from '../assets/images/about/imgi_2_483237453cc84278863b345009418cf417d61a9f6a26424e905972b325f8640d-md.jpg';
+import familyStanding from '../assets/images/about/family-beach-four.jpg';
 import haileyEmerson from '../assets/images/about/imgi_3_ef01762d21614546b59b9dab7be155fd243b2640b3034f27b801b73cf78b9b67-md.jpg';
 import haileyKoa from '../assets/images/about/imgi_4_d8d4682145ac41b9b9b8116bc567771eb8eb4d9a0efb41c3be6ff3f6d8fb5739-md.jpg';
 import haileyHarvest from '../assets/images/about/imgi_5_cd5816f7e41c4b7dbe5ada92f4089b63c782ccb17dee429daeaecc9652d3d681-md.jpg';
+import haileyJude from '../assets/images/about/jude-newborn.jpg';
 import familyWalking from '../assets/images/about/imgi_6_1a01a034f25547f9b54e7da008397cecda952246575e4e64acf1a293f1ef0ae1-md.jpg';
 import bellyField from '../assets/images/about/imgi_26_eb03179c273c47ee9c70e670f332d2f08a2c780bfeb9431fad1c7d3a60a247e5-md.jpg';
-import familyPhoto from '../assets/images/family-photo.jpg';
+import familyPhoto from '../assets/images/about/family-today.jpg';
 
 /**
  * Video links.
  *
- * Hailey's source copy points at three videos with the word "HERE". Bare "here"
- * is poor link text (a screen reader reading the page's links out of context
- * gets three identical "here"s), so each one is given a description of where it
- * actually goes.
+ * Hailey's source copy points at the birth videos with the word "HERE". Bare
+ * "here" is poor link text (a screen reader reading the page's links out of
+ * context gets a row of identical "here"s), so each one is given a description
+ * of where it actually goes.
  *
  * Set to null until the real URLs are known. Each link renders ONLY when its URL
  * is filled in, so the page never ships a dead `#` anchor — drop a URL in and
@@ -41,9 +42,10 @@ const videos = {
   emersonStory: null as string | null,
   koaBirth: null as string | null,
   harvestBirth: null as string | null,
+  judeBirth: null as string | null,
 };
 
-/** The two home births, in order. */
+/** The three home births, in order. */
 const births = [
   {
     name: 'Koa Bane',
@@ -68,6 +70,18 @@ const births = [
     href: videos.harvestBirth,
     linkLabel: 'Watch Harvest’s home birth',
   },
+  {
+    name: 'Jude Winston',
+    meaning: '“thankfulness; let Him be praised; servant of Jesus”',
+    image: haileyJude,
+    alt: 'Newborn Jude swaddled in a cream knit blanket, both hands tucked up beside his face, asleep',
+    /* A landscape newborn frame in a 4:5 card: his face sits just right of
+       centre, so the crop is nudged across to keep it in the middle. */
+    focus: '52% 48%',
+    copy: 'When Harvest was 13 months old, our second son was conceived!',
+    href: videos.judeBirth,
+    linkLabel: 'Watch Jude’s home birth',
+  },
 ];
 ---
 
@@ -87,7 +101,7 @@ const births = [
 
         <p class="lede">
           This is my husband, Jeremy, and our four kiddos — Emerson, Koa, Harvest,
-          and baby still in the belly.
+          and Jude.
         </p>
 
         <p class="sub">
@@ -102,7 +116,7 @@ const births = [
         <figure class="arch">
           <Image
             src={familyStanding}
-            alt="Hailey and Jeremy Aliff standing together on a white sand beach with their three children, Hailey holding the youngest on her hip"
+            alt="Hailey and Jeremy Aliff standing together on a white sand beach at dusk with their four children gathered around them"
             class="photo"
             widths={[480, 720, 960]}
             sizes="(min-width: 1024px) 44vw, 90vw"
@@ -138,9 +152,9 @@ const births = [
         <h2>Seven years of waiting, then a daughter</h2>
 
         <p class="body">
-          We have been married for 11 years, and for the first 7 years of our marriage
-          we struggled to conceive. (I’m currently working on a Holistic Fertility Ebook
-          to share a lot of the knowledge we gained in that winter wait.)
+          We have been married for 13 years, and for the first 7 years of our marriage
+          we struggled to conceive. (I wrote an entire Ebook called Holistic Fertility
+          sharing a lot of the knowledge we gained in that winter wait.)
         </p>
 
         <p class="body">
@@ -155,7 +169,7 @@ const births = [
             with today, gave her the middle name <em>“faith”</em>.
           </p>
           <p class="body">
-            It’s wild to think she is about to be the big sis of 3 little siblings.
+            It’s wild to think she is now the big sis of 3 little siblings.
           </p>
           {
             videos.emersonStory && (
@@ -174,10 +188,10 @@ const births = [
     <div class="wrap">
       <div class="sec-head" {...reveal()}>
         <p class="eyebrow">Then came springtime</p>
-        <h2>Two home births, fifteen months apart</h2>
+        <h2>Three home births</h2>
         <p class="sec-sub">
-          After answering the call to adopt our daughter, our springtime came — and I
-          got to experience birth in the way I already knew it was meant to be.
+          After answering the call to adopt our precious daughter, our springtime came —
+          and I got to experience birth in the way I already knew it was meant to be.
         </p>
       </div>
 
@@ -190,7 +204,7 @@ const births = [
                   src={b.image}
                   alt={b.alt}
                   widths={[480, 720, 960]}
-                  sizes="(min-width: 900px) 44vw, 100vw"
+                  sizes="(min-width: 901px) 31vw, 100vw"
                   style={`object-position: ${b.focus}`}
                 />
               </div>
@@ -264,10 +278,9 @@ const births = [
 
         <p>
           In 1989 (the year I was born) c-section rates were at 19%. A lot has changed
-          since then and as of 2022, the U.S. sits at an average of 32.1%. According to
-          the CDC, the overall cesarean delivery rate in the U.S. increased 60% between
-          1996 and 2009. It’s safe to say we’ve lost touch with the natural process of how
-          things were meant to go and they are only declining.
+          since then and as of 2026, the U.S. sits at an average of 32.4%. It’s safe to
+          say we’ve lost touch with the natural process of how things were meant to go
+          and they are only declining.
         </p>
       </div>
 
@@ -299,9 +312,12 @@ const births = [
 
         <p>
           After answering the call to adopt our daughter, our springtime came and I became
-          pregnant with my son. I experienced birth in the way that I already knew it was
-          meant to be. Two years later giving birth to my daughter I got to experience the
-          joy-within even deeper.
+          pregnant with my first son. I experienced birth in the way that I already knew it
+          was meant to be. Two years later giving birth to my daughter I got to experience
+          the joy-within even deeper. After my second son’s birth, I realized I unlocked a
+          secret mystery to God’s design for birth as my labor played out almost exactly
+          how I envisioned it would. THIS is what I want to teach women! THIS is why I
+          started Joy Within Birth.
         </p>
       </div>
 
@@ -334,7 +350,7 @@ const births = [
       <figure class="candid" {...reveal(160)}>
         <Image
           src={familyPhoto}
-          alt="The Aliff family together in a mountain meadow"
+          alt="The Aliff family of six standing together in a sunlit park, Hailey holding Jude on her hip"
           widths={[360, 540]}
           sizes="(min-width: 900px) 20rem, 60vw"
         />
@@ -587,9 +603,9 @@ const births = [
   .birth-grid {
     margin-top: 56px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px;
-    max-width: 1040px;
+    max-width: 1100px;
     margin-inline: auto;
   }
 
@@ -924,7 +940,9 @@ const births = [
     }
   }
 
-  @media (max-width: 720px) {
+  /* Three cards never fall to two columns — that strands the last one alone on
+     its row — so the grid drops straight from three to one. */
+  @media (max-width: 900px) {
     .birth-grid {
       grid-template-columns: 1fr;
       max-width: 30rem;
