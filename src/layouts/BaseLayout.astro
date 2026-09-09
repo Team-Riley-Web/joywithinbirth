@@ -6,10 +6,45 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  /* Overrides the headline on social cards, which otherwise mirrors <title>.
+     Useful where the tab title is a terse nav label ("Home") that reads oddly
+     as the first line of a shared link. */
+  ogTitle?: string;
+  /* Root-relative path to a page-specific share image. Falls back to the
+     sitewide card. */
+  image?: string;
+  imageAlt?: string;
+  /* og:type — 'article' for anything dated or authored. */
+  type?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogTitle, image, imageAlt, type = 'website' } = Astro.props;
+
+/* The sitewide share card. Its dimensions are declared to the scrapers so the
+   preview renders on the first fetch rather than after they have downloaded and
+   measured the file — without them, the first share of a URL often shows as a
+   bare text link.
+
+   Note the source is 1750x1050 (5:3). Facebook and X crop share cards to
+   1.91:1 and 2:1, so the top and bottom edges get shaved; keep anything
+   essential away from them, or drop in a 1200x630 export at the same path. */
+const DEFAULT_SHARE_IMAGE = {
+  src: '/social-share.png',
+  alt: 'Joy Within Birth — faith-centered natural childbirth training with Hailey Joy Aliff',
+  width: 1750,
+  height: 1050,
+};
+
+const shareImage = image ? { src: image, width: null, height: null } : DEFAULT_SHARE_IMAGE;
+const shareImageAlt = imageAlt ?? DEFAULT_SHARE_IMAGE.alt;
+
 const siteTitle = `${title} | Joy Within Birth`;
+const socialTitle = ogTitle ?? siteTitle;
+
+/* Open Graph rejects relative paths, so everything below is resolved against
+   `site` in astro.config.mjs. */
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const shareImageUrl = new URL(shareImage.src, Astro.site).href;
 ---
 
 <!doctype html>
@@ -19,7 +54,27 @@ const siteTitle = `${title} | Joy Within Birth`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{siteTitle}</title>
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.png" type="image/png" />
+
+    {/* Open Graph — Facebook, iMessage, WhatsApp, Slack, Pinterest, LinkedIn. */}
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Joy Within Birth" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={shareImageUrl} />
+    <meta property="og:image:alt" content={shareImageAlt} />
+    {shareImage.width && <meta property="og:image:width" content={String(shareImage.width)} />}
+    {shareImage.height && <meta property="og:image:height" content={String(shareImage.height)} />}
+
+    {/* X/Twitter reads the og:* tags for anything it omits here. */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImageUrl} />
+    <meta name="twitter:image:alt" content={shareImageAlt} />
     <link
       rel="preload"
       href="/fonts/lindsey-signature/LindseySignature.woff2"
