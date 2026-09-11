@@ -11,6 +11,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import ModuleCard from '../components/ModuleCard.astro';
 import SectionCurve from '../components/SectionCurve.astro';
+import VideoBackdrop from '../components/VideoBackdrop.astro';
 import { Image } from 'astro:assets';
 import { reveal, stagger } from '../lib/reveal';
 import { Video, NotebookPen, HandHeart, Users, MessageCircle, Infinity } from '@lucide/astro';
@@ -42,8 +43,8 @@ const included = [
   },
   {
     icon: MessageCircle,
-    title: 'Monthly live Q&A + in-portal messaging',
-    description: 'Ask Hailey directly. You are never left wondering alone.',
+    title: 'Live Q&A calls with Hailey + in-portal messaging',
+    description: 'Ask her directly. You are never left wondering alone.',
   },
   {
     icon: Infinity,
@@ -76,7 +77,7 @@ const howItWorks = [
   {
     step: '05',
     title: 'Stay supported',
-    description: 'Bring your questions to the monthly live Q&A, before and after birth.',
+    description: 'Bring your questions to the live Q&A calls with Hailey, before and after birth.',
   },
 ];
 ---
@@ -182,6 +183,20 @@ const howItWorks = [
         <p class="eyebrow">How it works</p>
         <h2>Simple, self-paced, supported</h2>
       </div>
+
+      {/*
+        A silent, looping look at the teaching itself, between the promise and
+        the five steps — so "move through the modules" has a picture attached
+        to it before the reader is asked to imagine one.
+      */}
+      <figure class="how-media" {...reveal(80)}>
+        <VideoBackdrop
+          src="/videos/clips/teaching-pelvis-and-baby.mp4"
+          poster="/videos/clips/teaching-pelvis-and-baby.jpg"
+          position="50% 42%"
+          label="Hailey teaching with a pelvis model and a baby doll"
+        />
+      </figure>
 
       <ol class="steps">
         {
@@ -449,6 +464,18 @@ const howItWorks = [
   .how {
     background: var(--bg-strong);
     padding: var(--space-section-lg) 0;
+  }
+
+  /* 16:9 to match the clip, so nothing is cropped away by object-fit. */
+  .how-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: min(100%, 860px);
+    margin: 48px auto 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--bg-soft);
+    box-shadow: var(--shadow-card);
   }
 
   .steps {

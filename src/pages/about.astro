@@ -153,7 +153,15 @@ const births = [
 
         <p class="body">
           We have been married for 13 years, and for the first 7 years of our marriage
-          we struggled to conceive. (I wrote an entire Ebook called Holistic Fertility
+          we struggled to conceive. (I wrote an entire Ebook called{' '}
+          <a
+            class="inline-link"
+            href="https://joywithinbirth.myflodesk.com/fertilityebook"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Holistic Fertility
+          </a>{' '}
           sharing a lot of the knowledge we gained in that winter wait.)
         </p>
 
@@ -367,6 +375,23 @@ const births = [
 </BaseLayout>
 
 <style>
+  /* A link inside running prose. The site has no base anchor style — every
+     other link is a button or a card — so this is the one place that needs
+     one. */
+  .inline-link {
+    color: var(--accent-strong);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--rose-200);
+    transition: text-decoration-color 200ms ease;
+  }
+  .inline-link:hover,
+  .inline-link:focus-visible {
+    text-decoration-color: currentColor;
+  }
+
   /* ═══════════════════════════ hero ═══════════════════════════ */
   .hero {
     position: relative;

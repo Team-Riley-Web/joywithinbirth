@@ -10,46 +10,87 @@ import ProblemStatement from '../components/home/ProblemStatement.astro';
 import TestimonialCarousel from '../components/home/TestimonialCarousel.astro';
 import PartnerModule from '../components/home/PartnerModule.astro';
 import SectionCurve from '../components/SectionCurve.astro';
-import { reveal, stagger } from '../lib/reveal';
+import { reveal } from '../lib/reveal';
 import element6 from '../assets/images/elements/6.png';
-import dreamBirthImage from '../assets/images/imgi_26_689ec9cc5dc21c83efcd4588.jpg';
+import fertilityImage from '../assets/images/imgi_26_689ec9cc5dc21c83efcd4588.jpg';
 import laborFlowImage from '../assets/images/imgi_11_689cede83b01e6b095436d26.jpg';
 import ebookImage from '../assets/images/imgi_8_689ec538c6ba4e09e29cc249.jpg';
+import bodyPrepImage from '../assets/images/imgi_19_689ec90324858a5600fb5a4e.jpg';
+import oilsImage from '../assets/images/imgi_21_689ec99d5bdfcf8261cfd875.jpg';
+import doulaImage from '../assets/images/imgi_20_689ec97e5bdfcfe965cfd670.jpg';
 
 
 
+/**
+ * The free opt-ins, in the order Hailey lists them. Every `href` is the live
+ * Flodesk landing page for that resource — these are the real destinations,
+ * not the generic Flodesk root the section pointed at before.
+ *
+ * All six ride a carousel — three to a page on desktop, one on phones.
+ */
 const freebies = [
-  {
-    image: dreamBirthImage,
-    imageAlt: 'Sunset over mountains and water, representing a peaceful dream birth visualization.',
-    title: 'How to Visualize Your Dream Birth',
-    description:
-      'A free class to help you map your dream birth and start preparing with confidence.',
-    type: 'Free class',
-    cta: 'Watch free class',
-    href: 'https://joywithinbirth.myflodesk.com/',
-  },
-  {
-    image: laborFlowImage,
-    imageAlt: 'A mother laboring in water with steady birth support nearby.',
-    title: 'Flow for Each Stage of Labor',
-    description:
-      'Movement & mindset flow to reduce fear and build joy as you prepare for birth.',
-    type: 'Free class',
-    cta: 'Watch free class',
-    href: 'https://joywithinbirth.myflodesk.com/',
-  },
   {
     image: ebookImage,
     imageAlt: 'A pregnant mother journaling with a laptop while preparing for birth.',
-    title: '5 Keys to Joy Within Birth (Ebook)',
+    title: '5 Keys to a Joy-Filled Birth',
     description:
       'A simple, hope-filled guide to prepare your heart and mind for a peaceful birth.',
     type: 'Ebook',
     cta: 'Get the free ebook',
-    href: 'https://joywithinbirth.myflodesk.com/',
+    href: 'https://joywithinbirth.myflodesk.com/5keystojoywithinbirth',
+  },
+  {
+    image: bodyPrepImage,
+    imageAlt: 'A mother in her third trimester holding her belly and a handful of wildflowers.',
+    title: 'How to Prep Your Body for Birth 36 Weeks On',
+    description:
+      'What to do in the final weeks to help your body soften, open, and get ready for labor.',
+    type: 'Free class',
+    cta: 'Watch free class',
+    href: 'https://joywithinbirth.myflodesk.com/birthprep',
+  },
+  {
+    image: oilsImage,
+    imageAlt: 'Essential oil bottles, a candle, and wildflowers set out beside a birth pool.',
+    title: 'How to Use Essential Oils for Labor',
+    description:
+      'Which oils to reach for at each stage of labor, and how to use them safely.',
+    type: 'Free class',
+    cta: 'Watch free class',
+    href: 'https://joywithinbirth.myflodesk.com/oilsforpregnancy',
+  },
+  {
+    image: laborFlowImage,
+    imageAlt: 'A mother laboring with her partner supporting her close by.',
+    title: 'Flow & Energy for Each Stage of Labor',
+    description:
+      'Movement & mindset flow to reduce fear and build joy as you prepare for birth.',
+    type: 'Free class',
+    cta: 'Watch free class',
+    href: 'https://joywithinbirth.myflodesk.com/joyfulflow',
+  },
+  {
+    image: doulaImage,
+    imageAlt: 'A doula and a birth partner supporting a mother laboring in a birth pool.',
+    title: 'Doula Guide',
+    description:
+      'How to find, choose, and work with a doula who fits the birth you are planning.',
+    type: 'Free guide',
+    cta: 'Get the free guide',
+    href: 'https://joywithinbirth.myflodesk.com/doulaguide',
+  },
+  {
+    image: fertilityImage,
+    imageAlt: 'A quiet lake and mountains at dusk.',
+    title: 'Holistic Fertility Ebook',
+    description:
+      'The nutrition, cycle, and whole-body groundwork Hailey gathered across seven years of waiting.',
+    type: 'Ebook',
+    cta: 'Get the free ebook',
+    href: 'https://joywithinbirth.myflodesk.com/fertilityebook',
   },
 ];
+
 
 ---
 
@@ -106,32 +147,221 @@ const freebies = [
       </p>
     </div>
 
-    <div class="freebies-grid">
-      {freebies.map((item, i) => (
-        <article class="freebie-card" {...reveal(stagger(i, 90))}>
-          <div class="freebie-image">
-            <Image
-              src={item.image}
-              alt={item.imageAlt}
-              widths={[640, 960, 1280]}
-              sizes="(min-width: 1024px) 29vw, (min-width: 640px) 44vw, 100vw"
-              style="transform: scale(1.04);"
-              data-scroll-scale-image
-            />
-          </div>
-          <div class="freebie-copy">
-            <p class="freebie-type">{item.type}</p>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-            <a class="freebie-link link-card" href={item.href} target="_blank" rel="noreferrer">
-              <span>{item.cta}</span>
-              <span class="arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
-        </article>
-      ))}
+    <div class="freebies-carousel" data-freebies {...reveal()}>
+      <ul class="freebies-track" data-freebies-track tabindex="0" aria-label="Free resources">
+        {[...freebies, ...freebies].map((item, i) => {
+          /*
+           * The set is rendered twice. Scrolling past the last real card runs
+           * straight into its duplicate, and the script then hops back by one
+           * set — an identical picture, so the seam is invisible and the
+           * carousel never rewinds. The copies are hidden from assistive tech
+           * and skipped by Tab so nothing is announced or focused twice.
+           */
+          const isCopy = i >= freebies.length;
+
+          return (
+            <li class="freebie-slide" aria-hidden={isCopy ? 'true' : undefined}>
+              <article class="freebie-card">
+                <div class="freebie-image">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt}
+                    widths={[640, 960, 1280]}
+                    sizes="(min-width: 981px) 29vw, 86vw"
+                    style="transform: scale(1.04);"
+                    data-scroll-scale-image
+                  />
+                </div>
+                <div class="freebie-copy">
+                  <p class="freebie-type">{item.type}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <a
+                    class="freebie-link link-card"
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${item.cta}: ${item.title}`}
+                    tabindex={isCopy ? -1 : undefined}
+                  >
+                    <span>{item.cta}</span>
+                    <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/*
+        `btn-grad` is the header's Enroll Now paint — same rose gradient, same
+        lift, same hover drift. Only the geometry is overridden below, into a
+        circle.
+      */}
+      <div class="freebies-nav">
+        <button
+          type="button"
+          class="btn-grad freebies-arrow freebies-arrow--prev"
+          data-freebies-prev
+          aria-label="Previous free resources"
+          hidden
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+        <button
+          type="button"
+          class="btn-grad freebies-arrow freebies-arrow--next"
+          data-freebies-next
+          aria-label="Next free resources"
+          hidden
+        >
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
 
+    {/*
+      Vanilla on purpose, to match the rest of this section and to keep the
+      carousel working if the Alpine bundle is slow or blocked. Inline so it
+      runs in place, before the reader reaches the arrows.
+
+      The track is a real scroll container with scroll snapping, so without any
+      of this it is still a swipeable row holding every resource — the script
+      only adds the arrows and the drift.
+    */}
+    <script is:inline>
+      (() => {
+        const root = document.currentScript.previousElementSibling;
+        const track = root && root.querySelector('[data-freebies-track]');
+        if (!track) return;
+
+        const prevButton = root.querySelector('[data-freebies-prev]');
+        const nextButton = root.querySelector('[data-freebies-next]');
+        const slides = Array.from(track.children);
+        /* The markup renders the set twice; this is one set. */
+        const SET = slides.length / 2;
+        const onePerPage = window.matchMedia('(max-width: 980px)');
+        const stillPreferred = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        const perPage = () => (onePerPage.matches ? 1 : 3);
+        const leftOf = (i) => slides[i].offsetLeft - slides[0].offsetLeft;
+
+        /* Kept in [0, SET) between moves; only ever leaves that range for the
+           instant the loop is being closed. */
+        let index = 0;
+        let animating = false;
+        let timer = null;
+        let settleTimer = null;
+
+        const jump = (i) => {
+          index = i;
+          track.scrollTo({ left: leftOf(i), behavior: "auto" });
+        };
+
+        /* Run once the scroll has landed — scrollend where it exists, a timer
+           everywhere else, whichever comes first. */
+        const afterScroll = (done) => {
+          let fired = false;
+          const finish = () => {
+            if (fired) return;
+            fired = true;
+            window.clearTimeout(settleTimer);
+            track.removeEventListener("scrollend", finish);
+            done();
+          };
+          track.addEventListener("scrollend", finish);
+          settleTimer = window.setTimeout(finish, 700);
+        };
+
+        const glide = (i, then) => {
+          animating = true;
+          index = i;
+          track.scrollTo({
+            left: leftOf(i),
+            behavior: stillPreferred.matches ? "auto" : "smooth",
+          });
+          afterScroll(() => {
+            animating = false;
+            if (then) then();
+          });
+        };
+
+        const rewind = () => {
+          if (index >= SET) jump(index - SET);
+        };
+
+        /* Forward keeps going forward: past the last card it runs into the
+           duplicate set, then hops back one set once it has settled. */
+        const next = () => {
+          rewind();
+          glide(index + perPage(), rewind);
+        };
+
+        /* Backward keeps going backward: from the first card it hops into the
+           duplicate set first, then slides back into the real one. */
+        const prev = () => {
+          rewind();
+          if (index - perPage() < 0) jump(index + SET);
+          glide(index - perPage());
+        };
+
+        const stop = () => {
+          if (timer) window.clearInterval(timer);
+          timer = null;
+        };
+
+        const start = () => {
+          stop();
+          if (stillPreferred.matches || SET <= perPage()) return;
+          timer = window.setInterval(next, 6000);
+        };
+
+        prevButton.addEventListener("click", () => { prev(); start(); });
+        nextButton.addEventListener("click", () => { next(); start(); });
+
+        /* Hands off while someone is reading, hovering, or swiping. */
+        root.addEventListener("pointerenter", stop);
+        root.addEventListener("pointerleave", start);
+        root.addEventListener("focusin", stop);
+        root.addEventListener("focusout", start);
+
+        /* A manual scroll or swipe wins: adopt whatever slide it settled on,
+           and let the next move put it back in range. */
+        let adopt = null;
+        track.addEventListener("scroll", () => {
+          if (animating) return;
+          window.clearTimeout(adopt);
+          adopt = window.setTimeout(() => {
+            let nearest = 0;
+            let best = Infinity;
+            slides.forEach((slide, i) => {
+              const distance = Math.abs(leftOf(i) - track.scrollLeft);
+              if (distance < best) { best = distance; nearest = i; }
+            });
+            index = nearest;
+          }, 120);
+        }, { passive: true });
+
+        /* Three-up and one-up have different page boundaries; re-align on both
+           a breakpoint change and an ordinary resize. */
+        const realign = () => {
+          rewind();
+          jump(Math.min(Math.round(index / perPage()) * perPage(), SET - perPage()));
+        };
+        onePerPage.addEventListener("change", realign);
+        window.addEventListener("resize", realign);
+
+        /* Nothing drifts while the section is off screen. */
+        new IntersectionObserver(
+          ([entry]) => (entry.isIntersecting ? start() : stop()),
+          { threshold: 0.2 },
+        ).observe(root);
+
+        prevButton.hidden = false;
+        nextButton.hidden = false;
+      })();
+    </script>
   </section>
 
   <PartnerModule />
@@ -197,19 +427,65 @@ const freebies = [
     text-wrap: balance;
   }
 
-  .freebies-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+  /* A real scroll container, not a transformed track: swipe, trackpad, and
+     keyboard all work for free, and the arrows are only a nicer way to do what
+     the reader could already do by dragging. */
+  .freebies-carousel {
+    --freebies-gap: 20px;
+    --freebies-per-page: 3;
+    --freebies-arrow-size: 44px;
+    --freebies-arrow-gap: 20px;
+    position: relative;
     max-width: var(--layout-max);
     margin: 52px auto 0;
-    padding: 0 var(--layout-gutter);
+    /* The side padding is the arrows' own column — they sit beside the rail,
+       never over a card. */
+    padding-inline: calc(var(--freebies-arrow-size) + var(--freebies-arrow-gap));
+  }
+
+  .freebies-track {
+    display: flex;
+    gap: var(--freebies-gap);
+    margin: 0;
+    /* A horizontal scroller clips vertically too, so the track has to carry
+       room for everything the card paints outside its own box, or the shadow
+       ends in a hard line across the section.
+
+       Top: 4px of hover lift + a 3px focus ring at a 3px offset = 10px.
+       Bottom: --shadow-card-hover is `0 34px 64px -30px`, which paints
+       34 + 64/2 - 30 = 36px below the card. */
+    padding: 12px 0 40px;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .freebies-track::-webkit-scrollbar {
+    display: none;
+  }
+  .freebies-track:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 6px;
+    border-radius: var(--radius-lg);
+  }
+
+  .freebie-slide {
+    flex: 0 0
+      calc(
+        (100% - (var(--freebies-per-page) - 1) * var(--freebies-gap)) /
+          var(--freebies-per-page)
+      );
+    min-width: 0;
+    scroll-snap-align: start;
   }
 
   .freebie-card {
+    position: relative;
     display: flex;
     min-height: 100%;
     flex-direction: column;
+    cursor: pointer;
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     background: var(--surface);
@@ -292,15 +568,91 @@ const freebies = [
     padding-top: 14px;
   }
 
+  /* Stretches the card's one link across the whole card. Sits above the image
+     tint (z-index 2) so the artwork is clickable too. */
+  .freebie-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: var(--radius-lg);
+  }
+
+  /* With the link stretched, the ring belongs on the card, not on the few
+     words at its foot. Guarded, so a browser without :has() keeps the link's
+     own ring rather than losing the focus indicator altogether. */
+  @supports selector(:has(*)) {
+    .freebie-link:focus-visible {
+      outline: none;
+    }
+    .freebie-card:has(.freebie-link:focus-visible) {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+  }
+
+  /* `display: contents` so the buttons position against the carousel itself.
+     At the narrow breakpoint this becomes a real row — see below. */
+  .freebies-nav {
+    display: contents;
+  }
+
+  /* Geometry only; the paint comes from `btn-grad`.
+
+     Centred on the card rather than on the track, whose padding is lopsided to
+     clear the shadow. `top` is set outright instead of with a translate, so the
+     variant's own -2px hover lift still reads.
+
+     They ship hidden and the script unhides them, so no-script readers are not
+     left with arrows that do nothing; they swipe the track instead. */
+  .freebies-arrow {
+    position: absolute;
+    z-index: 4;
+    top: calc(12px + (100% - 52px - var(--freebies-arrow-size)) / 2);
+    width: var(--freebies-arrow-size);
+    height: var(--freebies-arrow-size);
+    min-height: 0;
+    padding-inline: 0;
+    border-radius: 50%;
+    font-size: 15px;
+  }
+  .freebies-arrow[hidden] {
+    display: none;
+  }
+
+  .freebies-arrow--prev {
+    left: 0;
+  }
+  .freebies-arrow--next {
+    right: 0;
+  }
+
   .freebie-card:hover .freebie-link .arrow,
   .freebie-card:focus-within .freebie-link .arrow {
     transform: translateX(3px);
   }
 
+  /* One card to a page below 980px, matching the single column this section
+     used to drop to. There is no room for an arrow column at phone widths
+     without squeezing the card, so the pair drops into a centred row under the
+     rail — still never over a card. */
   @media (max-width: 980px) {
-    .freebies-grid {
-      grid-template-columns: 1fr;
+    .freebies-carousel {
+      --freebies-per-page: 1;
       max-width: 640px;
+      padding-inline: var(--layout-gutter);
+    }
+
+    .freebies-nav {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      /* The track already carries 40px below the cards for the shadow. */
+      margin-top: -14px;
+    }
+
+    .freebies-arrow {
+      position: static;
     }
 
     .freebie-copy h3,
@@ -326,8 +678,8 @@ const freebies = [
       padding: calc(var(--space-section-md) - 1rem) 0 var(--space-section-sm);
     }
 
-    .freebies-grid {
-      gap: 20px;
+    .freebies-carousel {
+      --freebies-gap: 16px;
     }
 
     .freebie-copy {

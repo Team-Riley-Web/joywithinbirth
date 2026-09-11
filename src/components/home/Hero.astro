@@ -256,8 +256,17 @@ const hasVideo = fs.existsSync(path.join(process.cwd(), 'public', heroVideo));
     .chip-modules { left: -8px; }
     .chip-proof { right: -8px; width: 250px; }
   }
-  @media (max-width: 560px) {
+  /* Phones: the stage is too narrow to carry floating chips — the modules chip
+     crowds the top of the arch and the proof card covers Hailey's face. Drop
+     the modules chip (that detail is repeated in the course section) and let
+     the proof card sit below the video as a normal block. */
+  @media (max-width: 767px) {
     .chip-modules { display: none; }
-    .chip-proof { position: static; width: auto; margin-top: 20px; backdrop-filter: none; }
+    .chip-proof {
+      position: static;
+      width: auto;
+      margin-top: 20px;
+      backdrop-filter: none;
+    }
   }
 </style>
