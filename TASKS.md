@@ -204,3 +204,84 @@ unchecked task unless you are starting it.
   Verified at 1440, 1024, and 390px: no overlap with any visible card, the arrow
   centre hit-tests as the arrow, no horizontal overflow, and the infinite loop
   still slides backwards correctly from page one at all three widths.
+- [x] On /resources: the digital guides feel less important than they should, even though they're the deeper resources — because the free resources cards are the same size, they compete visually. Make the free resources cards smaller so the digital guides read as more important.
+  Done 2026-09-17: src/pages/resources.astro. Free resources now sit
+  four-across on desktop (was 2x2, same card size as the guides) — each card
+  roughly half the width it was. Digital guides dropped the `max-width: 52rem`
+  constraint I'd given that grid originally, which had made it narrower than
+  the free resources grid — the opposite of what "more important" calls for.
+  It now spans the section's full width at 2 columns, so each guide card is
+  bigger than a free-resource card, not just less crowded.
+  Responsive: 4 cols above 1023px, 2 cols 641-1023px, 1 col at/below 640px for
+  free resources; guides stay 2 columns until they stack at 640px. No
+  ResourceCard.astro changes needed — the card is already fluid, so narrowing
+  its grid column was enough.
+  Verified at 1440, 1024, 800, and 390px: card text and the quick-training/
+  full-guide badge still fit and wrap cleanly at the narrowest width (~221px
+  at 1024px). astro check (0 errors) and astro build both pass.
+- [x] Make "joyful" in the /resources hero headline ("Helpful tools for a joyful birth") use the signature script font, like "Joy" elsewhere on the site
+  Done 2026-09-17: src/pages/resources.astro.
+  Not a one-line change: at 1.58em/line-height 0.8, "joyful" in the signature
+  script (Lindsey Signature) overflows its own line box by roughly 50px at
+  this heading's font-size — every other use of this class (enroll.astro,
+  about.astro) wraps a short word like "Joy" inline mid-sentence, never as the
+  first word of its own wrapped line, so this collision hadn't shown up
+  before. It first rendered with "joyful" overlapping "Helpful tools for a"
+  above it.
+  Fix: "joyful birth" (the whole second line) is wrapped in a `.joyful-line`
+  span, `display: inline-block; margin-top: 0.85em` — inline-block lets a
+  top margin actually push that line down, without touching the line above it
+  or the heading's own line-height. Em-based so it scales with the h1's
+  clamp() font-size across breakpoints.
+  Verified no overlap at 1440, 768, and 390px. astro check (0 errors) and
+  astro build both pass.
+- [x] On /resources hero lede: remove " — no email pitch, no price tag, just help." and add another sentence there instead
+  Done 2026-09-17: src/pages/resources.astro. New lede: "Free trainings and
+  guides to support you through fertility, pregnancy, birth, and beyond.
+  Start with a quick training or go deeper with a full guide — whatever fits
+  where you are today." The added sentence points at the page's own
+  quick-training/full-guide split below rather than repeating the old line's
+  "it's free, no catch" framing.
+  astro check (0 errors) and astro build both pass; no overlap with the
+  scripted "joyful" line above it at 1440px.
+- [x] Make all the free-resource/digital-guide CTA button labels the same, on both /resources and the homepage — use "Get the free guide"
+  Done 2026-09-17: src/data/resources.ts (6 cards: "Get the Free Guide",
+  "Download the Guide", "Access the Resource" -> all "Get the free guide")
+  and src/pages/index.astro (6 freebies: "Get the free ebook" x2, "Watch free
+  class" x3 -> all "Get the free guide"; one already matched).
+  Left the per-card `type` label on the homepage alone ("Ebook" / "Free
+  class" / "Free guide") - the task named the CTA button text specifically,
+  not that badge, and it's still accurate regardless of the button wording.
+  Verified all 6 rendered CTAs on /resources and all 12 (6 real + 6 carousel
+  duplicates) on the homepage read "Get the free guide". astro check
+  (0 errors) and astro build both pass.
+- [x] Don't use em dashes (—) in site copy — remove existing ones from visible page text and avoid them going forward
+  Done 2026-09-17: sitewide sweep, 85 em dashes found across src/, 17 were in
+  actual rendered copy (meta descriptions, og:title, alt text, page <title>,
+  paragraph/lede/sec-sub text, two `{t.num} — {t.stage}` templates). Each
+  rewritten with the punctuation that fit the sentence: comma, colon, or "·"
+  (already the site's own separator, used in enroll.astro's meta chips) for
+  the two label/value templates. Files: about.astro (4), testimonials.astro
+  (1), BaseLayout.astro (1), resources.astro (4), resources.ts (1),
+  index.astro (1), OptionF.astro (1), JourneySection.astro (1),
+  preview/index.astro (2), PreviewLayout.astro (1).
+  Left alone: the other 68 — all in `/**/`/`//` code comments, which is this
+  codebase's own doc-comment prose style, not site copy. Going forward: don't
+  reach for one in new copy either, use the alternatives above.
+  astro check (0 errors) and astro build both pass.
+- [x] Images on /resources should have the scroll parallax effect (like the homepage free-resources images)
+  Done 2026-09-17: ResourceCard.astro's cover image now carries
+  `data-scroll-scale-image` + the `scale(1.04)` no-JS baseline, and `.art`
+  swapped its static `transform: scale(1.015)` for `transition: transform
+  600ms ease` so the script's per-frame updates (up to scale(1.2)) are
+  smoothed instead of jumping.
+  Extracted the homepage's inline x-data/x-init (previously only on
+  `.freebies-section`) into `src/lib/scrollScale.ts` as a `reveal()`-style
+  helper, `{...scrollScale()}`, and pointed both index.astro and the new
+  free-resources section at it rather than keeping two copies of the same
+  handler. The query inside is document-wide, so one instance on the
+  free-resources section also drives the digital-guides images below it.
+  Verified: tracked scale climbs from 1.04 -> 1.165+ while scrolling through
+  /resources; homepage's own effect still fires exactly as before (same
+  values at the same scroll positions, re-tested through its full scroll
+  range). astro check (0 errors) and astro build both pass.

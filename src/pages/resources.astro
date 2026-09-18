@@ -1,0 +1,378 @@
+---
+/**
+ * Free Resources (was the /enroll "Pricing" nav item's content).
+ *
+ * The old page at this nav slot was pricing, tiers and a VIP upsell — none of
+ * that belongs beside a free download. This is a plain library: a cover, a
+ * title, one or two sentences, and a single CTA out to the matching Flodesk
+ * opt-in, repeated for every resource. No price anywhere on the page.
+ *
+ * /enroll itself (the $350 course + Skool signup) is untouched and still
+ * reachable from the header's "Enroll Now" button and the footer link — this
+ * page just stops being what "Pricing" in the main nav points to.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ResourceCard from '../components/ResourceCard.astro';
+import SectionCurve from '../components/SectionCurve.astro';
+import { Image } from 'astro:assets';
+import { reveal, stagger } from '../lib/reveal';
+import { scrollScale } from '../lib/scrollScale';
+
+// The actual Flodesk opt-in cover for "How to Use Essential Oils for Labor"
+// — the one designed graphic in the hero slot, on purpose: it reads as "here
+// is a real guide" rather than a lifestyle portrait. The matching resource
+// card below uses site photography instead (see resources.ts) so the two
+// don't compete for the same picture.
+import heroImage from '../assets/images/covers/essential-oils-cover.png';
+
+import { freeResources, digitalGuides } from '../data/resources';
+---
+
+<BaseLayout
+  title="Free Resources"
+  description="Free downloads and digital guides from Joy Within Birth to support you through fertility, pregnancy, birth, and beyond."
+>
+  <!-- ───────────────────────────── hero ───────────────────────────── -->
+  <section class="hero">
+    <div class="hero-wash" aria-hidden="true"></div>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" {...reveal()}>Free resources</p>
+
+        <h1 {...reveal(90)}>
+          Helpful tools for a<br />
+          <span class="joyful-line"><span class="signature-accent">joyful</span> birth</span>
+        </h1>
+
+        <p class="lede" {...reveal(180)}>
+          Free trainings and guides to support you through fertility, pregnancy, birth, and
+          beyond. Start with a quick training or go deeper with a full guide, whatever fits
+          where you are today.
+        </p>
+      </div>
+
+      <div class="stage" {...reveal(120)}>
+        <div class="halo" aria-hidden="true"></div>
+
+        <figure class="arch">
+          <span class="grade" aria-hidden="true"></span>
+          <Image
+            src={heroImage}
+            alt="How to Use Essential Oils for Labor: cover graphic showing a hand holding an oil bottle over a pregnant belly"
+            class="photo"
+            style="object-position: 50% 60%; transform: scale(1.04);"
+            data-scroll-scale-image
+            widths={[640, 960, 1280]}
+            sizes="(min-width: 1024px) 44vw, 90vw"
+            priority
+          />
+        </figure>
+      </div>
+    </div>
+
+    <SectionCurve from="#fcf5f1" to="var(--bg-soft)" />
+  </section>
+
+  <!-- ───────────────────────── free resources ───────────────────────── -->
+  <!-- One scrollScale() instance here covers the hero photo above and the
+       digital-guides section below, too — the query inside is document-wide.
+       max: 1.1 (vs the homepage's default 1.2) since this page's cards read
+       busier at the full zoom than the homepage's wider carousel slides do. -->
+  <section class="library" id="free-resources" {...scrollScale({ max: 1.1 })}>
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">Start here</p>
+        <h2>Free resources</h2>
+        <p class="sec-sub">
+          Quick trainings, five to ten minutes each: one idea or technique you can put to
+          use today. Tap any card to open it.
+        </p>
+      </div>
+
+      <div class="res-grid">
+        {
+          freeResources.map((resource, i) => (
+            <div {...reveal(stagger(i, 90))}>
+              <ResourceCard resource={resource} kind="Quick training" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────── digital guides ───────────────────────── -->
+  <section class="library library--guides" id="digital-guides">
+    <div class="wrap">
+      <div class="sec-head" {...reveal()}>
+        <p class="eyebrow">Go deeper</p>
+        <h2>Digital guides</h2>
+        <p class="sec-sub">
+          Full-length guides, not quick tips: the complete picture on fertility and on
+          supporting a birth as a doula.
+        </p>
+      </div>
+
+      <div class="res-grid res-grid--guides">
+        {
+          digitalGuides.map((resource, i) => (
+            <div {...reveal(stagger(i, 90))}>
+              <ResourceCard resource={resource} kind="Full guide" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    capFrom="var(--bg-page)"
+    heading="Want to go further?"
+    subheading="When you're ready for the full training, the course walks with you from mindset to birth day, at your own pace."
+    meta={null}
+  />
+</BaseLayout>
+
+<style>
+  /* ═══════════════════════════ hero ═══════════════════════════ */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fcf5f1;
+  }
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(86% 78% at 82% 4%, var(--rose-100) 0%, rgba(246, 227, 218, 0) 62%),
+      radial-gradient(58% 54% at 98% 58%, rgba(232, 207, 200, 0.8) 0%, rgba(232, 207, 200, 0) 68%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+    gap: clamp(44px, 5vw, 72px);
+    align-items: center;
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: var(--space-section-md) var(--layout-gutter) var(--space-section-lg);
+  }
+
+  h1 {
+    margin-top: 24px;
+    font-size: var(--type-display);
+    line-height: 0.75;
+  }
+
+  /*
+   * "joyful" in the signature script overflows well above and below its own
+   * line box — enough that at the class's default 1.58em it collided with
+   * "Helpful tools for a" above unless pushed down by ~0.85em of margin,
+   * which read as too much of a gap before "birth" on the same line.
+   * Scaling the script down to 1.2em here (still clearly an accent, just not
+   * at the size tuned for a 3-letter word like "Joy") shrinks that overflow
+   * enough that a much smaller margin clears it.
+   */
+  .joyful-line {
+    display: inline-block;
+    margin-top: 0.52em;
+  }
+  .joyful-line .signature-accent {
+    font-size: 1.2em;
+  }
+
+  .lede {
+    margin-top: 26px;
+    max-width: 32em;
+    font-size: var(--type-lead);
+    line-height: 1.78;
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════ the arch (shared treatment) ══════════════════ */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    justify-self: start;
+  }
+
+  .arch {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border-radius: 300px 300px var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 44px 96px -44px rgba(124, 76, 66, 0.5);
+  }
+  .arch :global(.photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 22%;
+    filter: saturate(0.72) contrast(1.02) brightness(1.03);
+    /* Smooths the scroll-scale script's per-frame updates (see scrollScale()
+       on the free-resources section below — its query covers this image too). */
+    transition: transform 600ms ease;
+  }
+  .arch .grade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--rose-400);
+    mix-blend-mode: color;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      var(--rose-300) 0%,
+      var(--rose-200) 14%,
+      rgba(232, 207, 200, 0.5) 28%,
+      rgba(232, 207, 200, 0) 46%
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .arch::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    z-index: 2;
+    border: 1px solid rgba(255, 253, 250, 0.72);
+    border-radius: 288px 288px 20px 20px;
+    pointer-events: none;
+  }
+  .halo {
+    position: absolute;
+    left: -5.5%;
+    right: -5.5%;
+    top: -2.5%;
+    bottom: 4%;
+    border: 1px solid var(--border-subtle);
+    border-radius: 320px 320px 26px 26px;
+    z-index: -1;
+  }
+
+  @media (max-width: 1023px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .stage {
+      max-width: 380px;
+      justify-self: center;
+      margin-top: 8px;
+    }
+    .eyebrow {
+      justify-content: center;
+    }
+    .eyebrow::before {
+      display: none;
+    }
+    .lede {
+      margin-inline: auto;
+    }
+  }
+
+  /* ══════════════════ shared eyebrow / section head ══════════════════ */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--type-label);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .sec-head {
+    max-width: 40em;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sec-head .eyebrow {
+    justify-content: center;
+  }
+  .sec-head .eyebrow::before {
+    display: none;
+  }
+  .sec-head h2 {
+    margin-top: 16px;
+    font-size: var(--type-section);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .sec-sub {
+    margin-top: 18px;
+    font-size: var(--type-lead);
+    line-height: 1.8;
+    color: var(--text-muted);
+    text-wrap: balance;
+  }
+
+  .wrap {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 0 var(--layout-gutter);
+  }
+
+  /* ═══════════════════════════ library grids ═══════════════════════════ */
+  .library {
+    background: var(--bg-soft);
+    padding: var(--space-section-lg) 0;
+  }
+  .library--guides {
+    background: var(--bg-page);
+  }
+
+  /*
+   * The free resources are the quick, five-minute trainings; the digital
+   * guides are the deeper, full-length ones. A 2x2 grid gave both sections
+   * the same card size, so the guides — the more substantial resources —
+   * ended up reading as the smaller, less important pair (their own grid was
+   * even narrower, at max-width: 52rem, which made it worse). Free resources
+   * now sit four-across at a smaller size; digital guides keep the larger
+   * card and the full section width, so size actually tracks depth.
+   */
+  .res-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .res-grid--guides {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  @media (max-width: 1023px) {
+    .res-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .res-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

@@ -30,7 +30,7 @@ const { title, description, ogTitle, image, imageAlt, type = 'website' } = Astro
    essential away from them, or drop in a 1200x630 export at the same path. */
 const DEFAULT_SHARE_IMAGE = {
   src: '/social-share.png',
-  alt: 'Joy Within Birth — faith-centered natural childbirth training with Hailey Joy Aliff',
+  alt: 'Joy Within Birth: faith-centered natural childbirth training with Hailey Joy Aliff',
   width: 1750,
   height: 1050,
 };
@@ -56,6 +56,9 @@ const shareImageUrl = new URL(shareImage.src, Astro.site).href;
     <title>{siteTitle}</title>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.png" type="image/png" />
+
+    {/* Pinterest site claim. */}
+    <meta name="p:domain_verify" content="d360c17d0a6182be2f42c7f857b0f06f" />
 
     {/* Open Graph — Facebook, iMessage, WhatsApp, Slack, Pinterest, LinkedIn. */}
     <meta property="og:type" content={type} />

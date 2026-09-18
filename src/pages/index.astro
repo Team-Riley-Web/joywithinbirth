@@ -11,6 +11,7 @@ import TestimonialCarousel from '../components/home/TestimonialCarousel.astro';
 import PartnerModule from '../components/home/PartnerModule.astro';
 import SectionCurve from '../components/SectionCurve.astro';
 import { reveal } from '../lib/reveal';
+import { scrollScale } from '../lib/scrollScale';
 import element6 from '../assets/images/elements/6.png';
 import fertilityImage from '../assets/images/imgi_26_689ec9cc5dc21c83efcd4588.jpg';
 import laborFlowImage from '../assets/images/imgi_11_689cede83b01e6b095436d26.jpg';
@@ -36,7 +37,7 @@ const freebies = [
     description:
       'A simple, hope-filled guide to prepare your heart and mind for a peaceful birth.',
     type: 'Ebook',
-    cta: 'Get the free ebook',
+    cta: 'Get the free guide',
     href: 'https://joywithinbirth.myflodesk.com/5keystojoywithinbirth',
   },
   {
@@ -46,7 +47,7 @@ const freebies = [
     description:
       'What to do in the final weeks to help your body soften, open, and get ready for labor.',
     type: 'Free class',
-    cta: 'Watch free class',
+    cta: 'Get the free guide',
     href: 'https://joywithinbirth.myflodesk.com/birthprep',
   },
   {
@@ -56,7 +57,7 @@ const freebies = [
     description:
       'Which oils to reach for at each stage of labor, and how to use them safely.',
     type: 'Free class',
-    cta: 'Watch free class',
+    cta: 'Get the free guide',
     href: 'https://joywithinbirth.myflodesk.com/oilsforpregnancy',
   },
   {
@@ -66,7 +67,7 @@ const freebies = [
     description:
       'Movement & mindset flow to reduce fear and build joy as you prepare for birth.',
     type: 'Free class',
-    cta: 'Watch free class',
+    cta: 'Get the free guide',
     href: 'https://joywithinbirth.myflodesk.com/joyfulflow',
   },
   {
@@ -86,7 +87,7 @@ const freebies = [
     description:
       'The nutrition, cycle, and whole-body groundwork Hailey gathered across seven years of waiting.',
     type: 'Ebook',
-    cta: 'Get the free ebook',
+    cta: 'Get the free guide',
     href: 'https://joywithinbirth.myflodesk.com/fertilityebook',
   },
 ];
@@ -96,7 +97,7 @@ const freebies = [
 
 <BaseLayout
   title="Home"
-  ogTitle="Joy Within Birth — Faith-Centered Natural Childbirth Training"
+  ogTitle="Joy Within Birth: Faith-Centered Natural Childbirth Training"
   description="A faith-centered natural childbirth training and community, built by a second-generation midwife, walking you from fertility through postpartum."
 >
   <Hero />
@@ -111,31 +112,7 @@ const freebies = [
 
   <BirthWithoutFear />
 
-  <section
-    class="freebies-section"
-    x-data="{
-      updateScrollScaleImages() {
-        const viewportHeight = window.innerHeight;
-
-        document.querySelectorAll('[data-scroll-scale-image]').forEach((image) => {
-          const frame = image.parentElement;
-          const rect = frame.getBoundingClientRect();
-
-          if (rect.bottom < 0 || rect.top > viewportHeight) return;
-
-          const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height)));
-          const scale = 1.04 + progress * 0.16;
-
-          image.style.transform = `scale(${scale})`;
-        });
-      }
-    }"
-    x-init="
-      updateScrollScaleImages();
-      window.addEventListener('scroll', () => requestAnimationFrame(() => updateScrollScaleImages()), { passive: true });
-      window.addEventListener('resize', () => requestAnimationFrame(() => updateScrollScaleImages()), { passive: true });
-    "
-  >
+  <section class="freebies-section" {...scrollScale()}>
     <Image src={element6} alt="" aria-hidden="true" class="freebies-flower" />
 
     <div class="freebies-head" {...reveal()}>
